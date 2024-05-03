@@ -17,7 +17,6 @@ const Form = styled.div`
     cursor: pointer;
     font-weight: 500;
     font-size: 18px;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
 `
 
@@ -34,7 +33,6 @@ const ScheduleFormComponent = () => {
     };
     const handleSelectedTimeAndDate = (timeAndDate) => {
       setSelectedDateTime(timeAndDate);
-      console.log("chamou")
     };
   
     const toSchedule = async () => {
@@ -46,7 +44,12 @@ const ScheduleFormComponent = () => {
           procedimentosId: [selectedService.id],
           data: selectedDateTime,
         };
+        console.log(body);
         // const response = await axios.post("/atendimento", body);
+
+        setSelectedService();
+        setSelectedBarber();
+        setSelectedDateTime();
       } catch (error) {
         console.error('Erro ao enviar dados:', error);
       }
@@ -76,7 +79,6 @@ const ScheduleFormComponent = () => {
             optionSelected={selectedDateTime}
           />
         )}
-        {/* {selectedDateTime != null && <ScheduleButtonComponent toSchedule={toSchedule} timeAndDate={selectedDateTime}>EFETUAR AGENDAMENTO</ScheduleButtonComponent>} */}
         {selectedDateTime != null && <button onClick={() => toSchedule()}>EFETUAR AGENDAMENTO</button>}
       </Form>
     );

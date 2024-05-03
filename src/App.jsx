@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import "./App.css";
 import GlobalStyles from "./components/GlobalStyles";
-import ScheduleFormComponent from "./components/ScheduleFormComponent";
+import Scheduling from "./pages/Scheduling";
 
 const BackgroundApp = styled.div`
   width: 100%;
@@ -14,11 +14,9 @@ const BackgroundApp = styled.div`
 function App() {
   return (
     <>
-      
       <BackgroundApp>
       <GlobalStyles />
-        <h1>Agendar</h1>
-        <ScheduleFormComponent/>
+        <Scheduling/>
       </BackgroundApp>
     </>
   );
