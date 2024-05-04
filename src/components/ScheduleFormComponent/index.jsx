@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SelectionCardContainer from "./SelectionCardContainer";
 import styled from "styled-components";
+import axios from "axios";
 
 const Form = styled.div`
   display: flex;
@@ -20,7 +21,7 @@ const Form = styled.div`
   }
 `
 
-const ScheduleFormComponent = () => {
+const ScheduleFormComponent = ({client}) => {
     const [selectedService, setSelectedService] = useState();
     const [selectedBarber, setSelectedBarber] = useState();
     const [selectedDateTime, setSelectedDateTime] = useState();
@@ -35,24 +36,23 @@ const ScheduleFormComponent = () => {
       setSelectedDateTime(timeAndDate);
     };
   
-    const toSchedule = async () => {
-  
-      try {
+    const toSchedule = () => {
         const body = {
-          clienteId: "1",
+          clienteId: client.id,
           agendaId: selectedBarber.id,
           procedimentosId: [selectedService.id],
           data: selectedDateTime,
         };
         console.log(body);
-        // const response = await axios.post("/atendimento", body);
+
+       axios.post('http://localhost:8080/atendimento', body)
+       .then((response) => alert(`Seu agendamento foi solicitado! Aguarde confirmação `))
+       .catch((error) => console.log(`Erro ao solicitar atendimento: ${error}`));
 
         setSelectedService();
         setSelectedBarber();
         setSelectedDateTime();
-      } catch (error) {
-        console.error('Erro ao enviar dados:', error);
-      }
+     
     };
   
     return (

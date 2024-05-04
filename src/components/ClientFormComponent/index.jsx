@@ -1,41 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import api from "../../service/api";
 
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  input {
+    border-radius: 5px;
+    border: solid 1px #000;
+  }
+
+  button {
+    height: 20px;
+    width: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border-radius: 5px;
+  }
 `;
 
 const ClientFormComponent = ({ changeSelectedMenu, handleClient }) => {
-  const mockClients = [
-    {
-      name: "Caio Junior",
-      phone: "41984206429",
-    },
-    {
-      name: "Pinto Caio",
-      phone: "41984206428",
-    },
-    {
-      name: "Jesus Vianeda",
-      phone: "41984206427",
-    },
-  ];
 
-  const [formData, setFormData] = useState({
-    phone: "",
-    name: "",
-  });
-
+  const [clients, setClients] = useState();
   const [createClient, setCreateClient] = useState(false);
+  const [formData, setFormData] = useState({telefone: "",nome: "",});
+
+  useEffect(() => {
+    api.get(`/clientes`).then((response) => (setClients(response.data)));
+  },[])
 
   const searchClient = (phone) => {
-    const findedClient = mockClients.filter(
-      (client) => client.phone === phone
+    const findedClient = clients.filter(
+      (client) => client.telefone === phone
     )[0];
 
     if (findedClient) {
-      alert(`Olá ${findedClient.name}, bem vindo de novo!`);
+      alert(`Olá ${findedClient.nome}, bem vindo de novo!`);
       changeSelectedMenu("ScheduleForm");
       handleClient(findedClient);
       return;
@@ -43,9 +52,17 @@ const ClientFormComponent = ({ changeSelectedMenu, handleClient }) => {
     setCreateClient(true);
   };
 
+  const createNewClient = () => {
+    api.post('/clientes', formData)
+    .then((response) => handleClient(response.data))
+    .catch((error) => {
+      console.log(error);
+    })
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    createClient ? handleClient(formData) : searchClient(formData.phone);
+    createClient ? createNewClient(formData) : searchClient(formData.telefone);
   };
 
   const handleChange = (e) => {
@@ -61,35 +78,35 @@ const ClientFormComponent = ({ changeSelectedMenu, handleClient }) => {
       {!createClient && (
         <form onSubmit={handleSubmit}>
           <input
-            type="number"
-            name="phone"
-            value={formData.phone}
+            type="text"
+            name="telefone"
+            value={formData.telefone}
             placeholder="Digite seu telefone"
             required
             onChange={handleChange}
           />
-          <button type="submit" />
+          <button type="submit">Enviar</button>
         </form>
       )}
       {createClient && (
         <form onSubmit={handleSubmit}>
           <input
-            type="number"
-            name="phone"
-            value={formData.phone}
+            type="text"
+            name="telefone"
+            value={formData.telefone}
             placeholder="Digite seu telefone"
             required
             onChange={handleChange}
           />
           <input
             type="text"
-            name="name"
-            value={formData.name}
+            name="nome"
+            value={formData.nome}
             placeholder="Digite seu nome"
             required
             onChange={handleChange}
           />
-          <button type="submit" />
+          <button type="submit">Enviar</button>
         </form>
       )}
     </FormContainer>

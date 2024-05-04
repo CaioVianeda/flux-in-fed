@@ -27,11 +27,10 @@ const Scheduling = () => {
 
   function handleClient(client){
     setClient(client);
-    
+    changeSelectedMenu("ScheduleForm");
   }
 
   function changeSelectedMenu(menu){
-    console.log(client);
     setActiveMenu(menu);
   }  
 
@@ -39,10 +38,10 @@ const Scheduling = () => {
     <>
       <Nav>
         <Title $active={activeMenu === "ClientForm"} onClick={() => changeSelectedMenu("ClientForm")}>Cliente</Title>
-        <Title $active={activeMenu === "ScheduleForm"} onClick={() =>  client ? changeSelectedMenu("ScheduleForm") : alert("Prencha o formulário!")}>Agendar</Title>
+        <Title $active={activeMenu === "ScheduleForm"} onClick={() =>  client ? changeSelectedMenu("ScheduleForm") : alert("Prencha o formulário!")} >Agendar</Title>
       </Nav>
-      {activeMenu === "ScheduleForm" && <ScheduleFormComponent />} 
       {activeMenu === "ClientForm" && <ClientFormComponent changeSelectedMenu={changeSelectedMenu} handleClient={handleClient}/>} 
+      {activeMenu === "ScheduleForm" && <ScheduleFormComponent client={client}/>} 
     </>
   );
 };

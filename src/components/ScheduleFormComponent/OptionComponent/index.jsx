@@ -28,35 +28,30 @@ const Price = styled.div`
 `;
 
 const OptionComponent = (props) => {
-  const backgroundImageUrl =
+  const backgroundImageUrl = props.option.nome ?
     "/images/" +
-    props.options.name
+    props.option.nome
       .toLowerCase()
       .replace(" e ", "-")
       .replace(" ", "-")
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "") +
-    ".jpg";
+    ".jpg"
+    :
+    '';
 
     return (
       <Service
         $backgroundImageUrl={backgroundImageUrl}
         onClick={() =>
-          props.typeSelection === "servico" 
-          ?
-          props.selectedService({
-            id: props.options.id,
-            name: props.options.name,
-          })
-          :
-          props.selectedBarber({
-            id: props.options.id,
-            name: props.options.name,
+          props.selected({
+            id: props.option.id,
+            nome: props.option.nome,
           })
         }
       >
-        <Name>{props.options.name}</Name>
-        {props.options.price && <Price>{`R$${props.options.price},00`}</Price>}
+        <Name>{props.option.nome}</Name>
+        {props.option.preco && <Price>{`R$${props.option.preco},00`}</Price>}
       </Service>
     );
 };

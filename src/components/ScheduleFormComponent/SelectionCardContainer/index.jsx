@@ -68,8 +68,7 @@ const SelectionCardContainer = (props) => {
       </Title>
       <OptionsContainer
         typeSelection={props.typeSelection}
-        selectedService={props.selectedService}
-        selectedBarber={props.selectedBarber}
+        selectedOption={props.typeSelection === "servico" ? props.selectedService : props.selectedBarber}
         selectedTimeAndDate={props.selectedTimeAndDate}
         handleSelectedTimeAndDateToShow={handleSelectedTimeAndDateToShow}
       />
@@ -87,7 +86,7 @@ const SelectionCardContainer = (props) => {
         <SelectedOptionTitle>
           <p>
             {props.typeSelection !== "horario"
-              ? props.optionSelected.name
+              ? props.optionSelected.nome
               : dateTimeSelected}
           </p>
           <small>{props.typeSelection}</small>
