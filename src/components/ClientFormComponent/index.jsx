@@ -30,7 +30,7 @@ const FormContainer = styled.div`
 
 const ClientFormComponent = ({ changeSelectedMenu, handleClient }) => {
 
-  const [clients, setClients] = useState();
+  const [clients, setClients] = useState([]);
   const [createClient, setCreateClient] = useState(false);
   const [formData, setFormData] = useState({telefone: "",nome: "",});
 
