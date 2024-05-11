@@ -47,7 +47,9 @@ const weekNames = [
 ];
 
 const OptionsContainer = ({typeSelection, handleSelectedTimeAndDateToShow}) => {
+
   let currentDate = new Date();
+  const { setSelectedDateTime } = useContext(ScheduleContext);
   const [schedules, setSchedules] = useState([]);
   const [selectedDate, setSelectedDate] = useState(
     `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(
@@ -70,9 +72,7 @@ const OptionsContainer = ({typeSelection, handleSelectedTimeAndDateToShow}) => {
       preco: 70.0,
     },
   ]);
-
-  const { setSelectedDateTime } = useContext(ScheduleContext);
-
+  
   useEffect(() => {
     api
       .get("/barbeiros")

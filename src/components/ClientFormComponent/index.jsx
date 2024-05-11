@@ -15,16 +15,19 @@ const FormContainer = styled.div`
   input {
     border-radius: 5px;
     border: solid 1px #000;
+    height: 25px;
+    padding: 10px;
   }
 
   button {
-    height: 20px;
-    width: 55px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: transparent;
-    border-radius: 5px;
+    background-color: #000;
+    color: #fff;
+    width: 120px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 18px;
   }
 `;
 
