@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import SelectionCardContainer from "./SelectionCardContainer";
 import styled from "styled-components";
 import axios from "axios";
+import { ScheduleContext } from "../../context/ScheduleContext";
 
 const Form = styled.div`
   display: flex;
@@ -22,19 +23,8 @@ const Form = styled.div`
 `
 
 const ScheduleFormComponent = ({client}) => {
-    const [selectedService, setSelectedService] = useState();
-    const [selectedBarber, setSelectedBarber] = useState();
-    const [selectedDateTime, setSelectedDateTime] = useState();
-  
-    const handleSelectedService = (service) => {
-      setSelectedService(service);
-    };
-    const handleSelectedBarber = (barber) => {
-      setSelectedBarber(barber);
-    };
-    const handleSelectedTimeAndDate = (timeAndDate) => {
-      setSelectedDateTime(timeAndDate);
-    };
+
+    const {selectedService, selectedBarber, selectedDateTime, setSelectedService, setSelectedBarber,setSelectedDateTime} = useContext(ScheduleContext);
   
     const toSchedule = () => {
         const body = {
@@ -60,14 +50,12 @@ const ScheduleFormComponent = ({client}) => {
         <SelectionCardContainer
           typeSelection={"servico"}
           title={`Selecione um serviço`}
-          selectedService={handleSelectedService}
           optionSelected={selectedService}
         />
         {selectedService != null && (
           <SelectionCardContainer
             typeSelection={"barbeiro"}
             title={`Selecione um barbeiro`}
-            selectedBarber={handleSelectedBarber}
             optionSelected={selectedBarber}
           />
         )}
@@ -75,7 +63,6 @@ const ScheduleFormComponent = ({client}) => {
           <SelectionCardContainer
             typeSelection={"horario"}
             title={`Selecione um horário`}
-            selectedTimeAndDate={handleSelectedTimeAndDate}
             optionSelected={selectedDateTime}
           />
         )}

@@ -10,10 +10,10 @@ const ScheduleOptionButton = styled.div`
     height: 30px;
     cursor: pointer;
 `
-const ScheduleOption = (props) => {
+const ScheduleOption = ({time, selectedTime}) => {
     return(
-        <ScheduleOptionButton onClick={() => props.selectedTime(props.time)}>
-            {props.time}
+        <ScheduleOptionButton onClick={() => selectedTime(time)}>
+            {time}
         </ScheduleOptionButton>
     );
 }

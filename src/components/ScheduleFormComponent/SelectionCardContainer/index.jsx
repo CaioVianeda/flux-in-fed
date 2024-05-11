@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import OptionsContainer from "../OptionsContainer";
 import styled from "styled-components";
+import { ScheduleContext } from "../../../context/ScheduleContext";
 
 const Card = styled.div`
   max-width: 700px;
@@ -44,32 +45,30 @@ const SelectedOptionTitle = styled.span`
   }
 `;
 
+const SelectionCardContainer = ({optionSelected, typeSelection, title, selectedTimeAndDate }) => {
+  const [dateTimeSelected, setDateTimeSelected] = useState("");
 
-const SelectionCardContainer = (props) => {
-  const [dateTimeSelected, setDateTimeSelect] = useState("");
-
-  const handleSelectedTimeAndDateToShow = (dateTimeTextFormat) => {
-    setDateTimeSelect(dateTimeTextFormat);
+  const handleSelectedTimeAndDateToShow = (dateAndTime) => {
+    setDateTimeSelected(dateAndTime)
   };
 
-  return props.optionSelected == null ? (
+  return optionSelected == null ? (
     <Card>
       <Title>
         <CircleIcon>
           <img
-            src={`/images/${props.typeSelection}.png`}
+            src={`/images/${typeSelection}.png`}
             width="30px"
-            alt={`Icone de ${props.typeSelection}`}
+            alt={`Icone de ${typeSelection}`}
           />
         </CircleIcon>
         <SelectedOptionTitle className="card__title__name">
-          <p>{props.title}:</p>
+          <p>{title}:</p>
         </SelectedOptionTitle>
       </Title>
       <OptionsContainer
-        typeSelection={props.typeSelection}
-        selectedOption={props.typeSelection === "servico" ? props.selectedService : props.selectedBarber}
-        selectedTimeAndDate={props.selectedTimeAndDate}
+        typeSelection={typeSelection}
+        selectedTimeAndDate={selectedTimeAndDate}
         handleSelectedTimeAndDateToShow={handleSelectedTimeAndDateToShow}
       />
     </Card>
@@ -78,18 +77,18 @@ const SelectionCardContainer = (props) => {
       <Title>
         <CircleIcon>
           <img
-            src={`/images/${props.typeSelection}.png`}
+            src={`/images/${typeSelection}.png`}
             width="30px"
-            alt={`Icone de ${props.typeSelection}`}
+            alt={`Icone de ${typeSelection}`}
           />
         </CircleIcon>
         <SelectedOptionTitle>
           <p>
-            {props.typeSelection !== "horario"
-              ? props.optionSelected.nome
+            {typeSelection !== "horario"
+              ? optionSelected.nome
               : dateTimeSelected}
           </p>
-          <small>{props.typeSelection}</small>
+          <small>{typeSelection}</small>
         </SelectedOptionTitle>
       </Title>
     </Card>

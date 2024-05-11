@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ScheduleOption from "../ScheduleOption";
 import OptionComponent from "../OptionComponent";
 import DatePicker from "../DatePicker";
 import api from "../../../service/api";
 import styled from "styled-components";
+import { ScheduleContext } from "../../../context/ScheduleContext";
 
 const Options = styled.div`
   display: flex;
@@ -45,7 +46,7 @@ const weekNames = [
   "Sábado",
 ];
 
-const OptionsContainer = (props) => {
+const OptionsContainer = ({typeSelection, handleSelectedTimeAndDateToShow}) => {
   let currentDate = new Date();
   const [schedules, setSchedules] = useState([]);
   const [selectedDate, setSelectedDate] = useState(
@@ -54,54 +55,59 @@ const OptionsContainer = (props) => {
       "0"
     )}-${String(currentDate.getDate()).padStart(2, "0")}`
   );
-  const [barbers, setBarbers] = useState([{
-    id: 0,
-    nome: "Sem Preferência",
-    telefone: "(41)984206429",
-    email: "email_do_barbeiro3@gmail.com",
-  }])
-  const [services, setServices] = useState([{
-    id: 3,
-    nome: "Corte e Barba",
-    preco: 70.0,
-  }])
+  const [barbers, setBarbers] = useState([
+    {
+      id: 0,
+      nome: "Sem Preferência",
+      telefone: "(41)984206429",
+      email: "email_do_barbeiro3@gmail.com",
+    },
+  ]);
+  const [services, setServices] = useState([
+    {
+      id: 3,
+      nome: "Corte e Barba",
+      preco: 70.0,
+    },
+  ]);
+
+  const { setSelectedDateTime } = useContext(ScheduleContext);
 
   useEffect(() => {
+    api
+      .get("/barbeiros")
+      .then((response) => {
+        setBarbers([...barbers, ...response.data]);
+      })
+      .catch((error) => {
+        console.log("Erro ao buscar barbeiros: " + error);
+      });
 
-    api.get('/barbeiros')
-    .then((response) => {
-      setBarbers([...barbers, ...response.data]);
-    })
-    .catch((error) => {
-      console.log("Erro ao buscar barbeiros: " + error);
-    })
-
-    api.get('/procedimentos')
-    .then((response) => {
-      setServices([...response.data, ...services]);
-    })
-    .catch((error) => {
-      console.log("Erro ao buscar barbeiros: " + error);
-    })
-  }, [])
+    api
+      .get("/procedimentos")
+      .then((response) => {
+        setServices([...response.data, ...services]);
+      })
+      .catch((error) => {
+        console.log("Erro ao buscar barbeiros: " + error);
+      });
+  }, []);
 
   const handleSelectedDate = (date) => {
     setSelectedDate(date);
   };
 
   const handleSelectedTime = (time) => {
-    props.selectedTimeAndDate(`${selectedDate}T${time}`);
-    const timeDate = new Date(`${selectedDate}T${time}`);
-    props.handleSelectedTimeAndDateToShow(
-      `${weekNames[timeDate.getDay()]}, ${String(timeDate.getDate()).padStart(
-        2,
-        "0"
-      )}/${String(timeDate.getMonth() + 1).padStart(
-        2,
-        "0"
-      )}/${timeDate.getFullYear()} às ${time}`
-    );
-  };  
+    setSelectedDateTime(`${selectedDate}T${time}`);
+    const timeDate = new Date(`${`${selectedDate}T${time}`}`);
+    handleSelectedTimeAndDateToShow(`${weekNames[timeDate.getDay()]}, ${String(timeDate.getDate()).padStart(
+      2,
+      "0"
+    )}/${String(timeDate.getMonth() + 1).padStart(
+      2,
+      "0"
+    )}/${timeDate.getFullYear()} às ${time}`);
+  };
 
   useEffect(() => {
     api
@@ -110,27 +116,21 @@ const OptionsContainer = (props) => {
   }, [selectedDate]);
 
   const renderOptions = (array) => {
-    return (
-      array.map((item) => (
-        <OptionComponent
-          selected={props.selectedOption}
-          key={item.id}
-          id={item.id}
-          option={item}  
-          typeSelection={props.typeSelection}
-        />
-      ))
-    )
-  }
+    return array.map((item) => (
+      <OptionComponent
+        key={item.id}
+        option={item}
+        typeSelection={typeSelection}
+      />
+    ));
+  };
 
-    return (
-      props.typeSelection !== "horario" 
-      ?
-      <Options>
-        {renderOptions(props.typeSelection === "servico" ? services : barbers)}
-      </Options>
-      :
-      <DateAndTimeSelect>
+  return typeSelection !== "horario" ? (
+    <Options>
+      {renderOptions(typeSelection === "servico" ? services : barbers)}
+    </Options>
+  ) : (
+    <DateAndTimeSelect>
       <DatePicker selectedDate={handleSelectedDate} />
       <div className="date__time">
         {schedules.map((item) => (
@@ -142,7 +142,7 @@ const OptionsContainer = (props) => {
         ))}
       </div>
     </DateAndTimeSelect>
-    );
+  );
 };
 
 export default OptionsContainer;

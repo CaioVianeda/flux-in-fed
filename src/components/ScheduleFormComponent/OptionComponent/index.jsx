@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import styled from "styled-components";
+import { ScheduleContext } from "../../../context/ScheduleContext";
 
 const Service = styled.div`
   width: 190px;
@@ -27,10 +29,13 @@ const Price = styled.div`
   font-weight: 400;
 `;
 
-const OptionComponent = (props) => {
-  const backgroundImageUrl = props.option.nome ?
+const OptionComponent = ({option, typeSelection}) => {
+
+  const {setSelectedService,setSelectedBarber} = useContext(ScheduleContext);
+
+  const backgroundImageUrl = option.nome ?
     "/images/" +
-    props.option.nome
+    option.nome
       .toLowerCase()
       .replace(" e ", "-")
       .replace(" ", "-")
@@ -40,18 +45,22 @@ const OptionComponent = (props) => {
     :
     '';
 
+    function selected(option){
+     typeSelection === 'servico' ? setSelectedService(option) : setSelectedBarber(option);
+    }
+
     return (
       <Service
         $backgroundImageUrl={backgroundImageUrl}
         onClick={() =>
-          props.selected({
-            id: props.option.id,
-            nome: props.option.nome,
+          selected({
+            id: option.id,
+            nome: option.nome,
           })
         }
       >
-        <Name>{props.option.nome}</Name>
-        {props.option.preco && <Price>{`R$${props.option.preco},00`}</Price>}
+        <Name>{option.nome}</Name>
+        {option.preco && <Price>{`R$${option.preco},00`}</Price>}
       </Service>
     );
 };

@@ -3,6 +3,7 @@ import "./App.css";
 import GlobalStyles from "./components/GlobalStyles";
 import Scheduling from "./pages/Scheduling";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ScheduleProvider from "./context/ScheduleContext";
 
 const BackgroundApp = styled.div`
   width: 100%;
@@ -17,10 +18,12 @@ function AppRoutes() {
     <BackgroundApp>
       <GlobalStyles />
       <BrowserRouter>
-        <Routes>
-          <Route path="/agendar" element={<Scheduling />} />
-          <Route path="*" element={<h1> Pagina não encontrada</h1>} />
-        </Routes>
+        <ScheduleProvider>
+          <Routes>
+            <Route path="/agendar" element={<Scheduling />} />
+            <Route path="*" element={<h1> Pagina não encontrada</h1>} />
+          </Routes>
+        </ScheduleProvider>
       </BrowserRouter>
     </BackgroundApp>
   );
