@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import styled from "styled-components";
 import api from "../../service/api";
+import { IClient } from "../../shared/interfaces/IClient";
 
 const FormContainer = styled.div`
   display: flex;
@@ -31,9 +32,14 @@ const FormContainer = styled.div`
   }
 `;
 
-const ClientFormComponent = ({ changeSelectedMenu, handleClient }) => {
+interface ClientFormComponentProps {
+  changeSelectedMenu: (menu: string) => void,
+  handleClient: (client: IClient) => void
+}
 
-  const [clients, setClients] = useState([]);
+const ClientFormComponent = ({ changeSelectedMenu, handleClient }: ClientFormComponentProps) => {
+
+  const [clients, setClients] = useState<IClient[]>([]);
   const [createClient, setCreateClient] = useState(false);
   const [formData, setFormData] = useState({telefone: "",nome: "",});
 
@@ -41,7 +47,7 @@ const ClientFormComponent = ({ changeSelectedMenu, handleClient }) => {
     api.get(`/clientes`).then((response) => (setClients(response.data)));
   },[])
 
-  const searchClient = (phone) => {
+  const searchClient = (phone: string) => {
     const findedClient = clients.filter(
       (client) => client.telefone === phone
     )[0];
@@ -63,12 +69,12 @@ const ClientFormComponent = ({ changeSelectedMenu, handleClient }) => {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createClient ? createNewClient(formData) : searchClient(formData.telefone);
+    createClient ? createNewClient() : searchClient(formData.telefone);
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,

@@ -1,8 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext} from "react";
 import SelectionCardContainer from "./SelectionCardContainer";
 import styled from "styled-components";
 import axios from "axios";
+//@ts-ignore
 import { ScheduleContext } from "../../context/ScheduleContext";
+import { IClient } from "../../shared/interfaces/IClient";
 
 const Form = styled.div`
   display: flex;
@@ -22,13 +24,19 @@ const Form = styled.div`
   }
 `
 
-const ScheduleFormComponent = ({client}) => {
+interface ScheduleFormComponentProps{
+  client: IClient 
+}
 
+const ScheduleFormComponent = ({client}: ScheduleFormComponentProps) => {
+
+
+    //@ts-ignore
     const {selectedService, selectedBarber, selectedDateTime, setSelectedService, setSelectedBarber,setSelectedDateTime} = useContext(ScheduleContext);
   
     const toSchedule = () => {
         const body = {
-          clienteId: client.id,
+          clienteId: client?.id,
           agendaId: selectedBarber.id,
           procedimentosId: [selectedService.id],
           data: selectedDateTime,

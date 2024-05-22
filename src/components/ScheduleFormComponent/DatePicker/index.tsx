@@ -1,6 +1,12 @@
-const DatePicker = ({selectedDate}) => {
+import { ChangeEvent } from "react";
 
-  const handleDateChange = (event) => {
+interface DatePickerProps{
+  selectedDate: (date: string) => void
+}
+
+const DatePicker = ({selectedDate}: DatePickerProps) => {
+
+  const handleDateChange = (event: ChangeEvent<HTMLSelectElement>) => {
     selectedDate(event.target.value)
   };
 
@@ -29,7 +35,7 @@ const DatePicker = ({selectedDate}) => {
     "Sábado",
   ];
 
-  const getNextDays = (numberOfDays) => {
+  const getNextDays = (numberOfDays: number) => {
   
     const dates = [];
   

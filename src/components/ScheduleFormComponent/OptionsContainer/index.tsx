@@ -4,7 +4,8 @@ import OptionComponent from "../OptionComponent";
 import DatePicker from "../DatePicker";
 import api from "../../../service/api";
 import styled from "styled-components";
-import { ScheduleContext } from "../../../context/ScheduleContext";
+// @ts-ignore
+import { ScheduleContext } from "../../../context/ScheduleContext.jsx"
 
 const Options = styled.div`
   display: flex;
@@ -46,10 +47,16 @@ const weekNames = [
   "Sábado",
 ];
 
-const OptionsContainer = ({typeSelection, handleSelectedTimeAndDateToShow}) => {
+interface OptionsContainerProps{
+  typeSelection: string,
+  handleSelectedTimeAndDateToShow: (dateAndTime: string) => void
+}
+
+const OptionsContainer = ({typeSelection, handleSelectedTimeAndDateToShow}: OptionsContainerProps) => {
 
   let currentDate = new Date();
-  const { setSelectedDateTime } = useContext(ScheduleContext);
+  // @ts-ignore
+  const { setSelectedDateTime} = useContext(ScheduleContext);
   const [schedules, setSchedules] = useState([]);
   const [selectedDate, setSelectedDate] = useState(
     `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(
@@ -57,19 +64,22 @@ const OptionsContainer = ({typeSelection, handleSelectedTimeAndDateToShow}) => {
       "0"
     )}-${String(currentDate.getDate()).padStart(2, "0")}`
   );
-  const [barbers, setBarbers] = useState([
+  const [barbers, setBarbers] = useState<IOption[]>([
     {
       id: 0,
       nome: "Sem Preferência",
       telefone: "(41)984206429",
       email: "email_do_barbeiro3@gmail.com",
+      preco: null
     },
   ]);
-  const [services, setServices] = useState([
+  const [services, setServices] = useState<IOption[]>([
     {
       id: 3,
       nome: "Corte e Barba",
-      preco: 70.0,
+      telefone:  null,
+      email: null,
+      preco: "70.0",
     },
   ]);
   
@@ -93,11 +103,11 @@ const OptionsContainer = ({typeSelection, handleSelectedTimeAndDateToShow}) => {
       });
   }, []);
 
-  const handleSelectedDate = (date) => {
+  const handleSelectedDate = (date: string) => {
     setSelectedDate(date);
   };
 
-  const handleSelectedTime = (time) => {
+  const handleSelectedTime = (time: string) => {
     setSelectedDateTime(`${selectedDate}T${time}`);
     const timeDate = new Date(`${`${selectedDate}T${time}`}`);
     handleSelectedTimeAndDateToShow(`${weekNames[timeDate.getDay()]}, ${String(timeDate.getDate()).padStart(
@@ -115,7 +125,7 @@ const OptionsContainer = ({typeSelection, handleSelectedTimeAndDateToShow}) => {
       .then((response) => setSchedules(response.data));
   }, [selectedDate]);
 
-  const renderOptions = (array) => {
+  const renderOptions = (array: IOption[]) => {
     return array.map((item) => (
       <OptionComponent
         key={item.id}

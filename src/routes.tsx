@@ -3,6 +3,7 @@ import "./App.css";
 import GlobalStyles from "./components/GlobalStyles";
 import Scheduling from "./pages/Scheduling";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+//@ts-ignore
 import ScheduleProvider from "./context/ScheduleContext";
 
 const BackgroundApp = styled.div`

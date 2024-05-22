@@ -1,7 +1,6 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import OptionsContainer from "../OptionsContainer";
 import styled from "styled-components";
-import { ScheduleContext } from "../../../context/ScheduleContext";
 
 const Card = styled.div`
   max-width: 700px;
@@ -45,10 +44,16 @@ const SelectedOptionTitle = styled.span`
   }
 `;
 
-const SelectionCardContainer = ({optionSelected, typeSelection, title, selectedTimeAndDate }) => {
+interface SelectionCardContainerProps{
+  optionSelected: IOption, 
+  typeSelection: string,
+  title: string, 
+}
+
+const SelectionCardContainer = ({optionSelected, typeSelection, title}: SelectionCardContainerProps) => {
   const [dateTimeSelected, setDateTimeSelected] = useState("");
 
-  const handleSelectedTimeAndDateToShow = (dateAndTime) => {
+  const handleSelectedTimeAndDateToShow = (dateAndTime: string) => {
     setDateTimeSelected(dateAndTime)
   };
 
@@ -68,7 +73,7 @@ const SelectionCardContainer = ({optionSelected, typeSelection, title, selectedT
       </Title>
       <OptionsContainer
         typeSelection={typeSelection}
-        selectedTimeAndDate={selectedTimeAndDate}
+        // selectedTimeAndDate={selectedTimeAndDate}
         handleSelectedTimeAndDateToShow={handleSelectedTimeAndDateToShow}
       />
     </Card>

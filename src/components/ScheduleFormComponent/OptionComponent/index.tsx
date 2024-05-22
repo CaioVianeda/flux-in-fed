@@ -29,7 +29,12 @@ const Price = styled.div`
   font-weight: 400;
 `;
 
-const OptionComponent = ({option, typeSelection}) => {
+interface OptionComponentProps{
+  option: IOption,
+  typeSelection: string
+}
+
+const OptionComponent = ({option, typeSelection}: OptionComponentProps) => {
 
   const {setSelectedService,setSelectedBarber} = useContext(ScheduleContext);
 
@@ -45,7 +50,7 @@ const OptionComponent = ({option, typeSelection}) => {
     :
     '';
 
-    function selected(option){
+    function selected(option: IOption){
      typeSelection === 'servico' ? setSelectedService(option) : setSelectedBarber(option);
     }
 
@@ -53,10 +58,7 @@ const OptionComponent = ({option, typeSelection}) => {
       <Service
         $backgroundImageUrl={backgroundImageUrl}
         onClick={() =>
-          selected({
-            id: option.id,
-            nome: option.nome,
-          })
+          selected(option)
         }
       >
         <Name>{option.nome}</Name>
