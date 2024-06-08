@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-const ScheduleOptionButton = styled.div`
+const TimeButton = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -11,16 +11,16 @@ const ScheduleOptionButton = styled.div`
     cursor: pointer;
 `
 
-interface ScheduleOptionProps {
+interface TimeProps {
     time: string,
     selectedTime: (time: string) => void
 }
 
-const ScheduleOption = ({time, selectedTime}: ScheduleOptionProps) => {
+const TimePicker = ({time, selectedTime}: TimeProps) => {
     return(
-        <ScheduleOptionButton onClick={() => selectedTime(time)}>
+        <TimeButton onClick={() => selectedTime(time)}>
             {time}
-        </ScheduleOptionButton>
+        </TimeButton>
     );
 }
-export default ScheduleOption;
+export default TimePicker;

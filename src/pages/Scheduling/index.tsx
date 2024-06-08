@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import ScheduleFormComponent from "../../components/ScheduleFormComponent"
 import { useState } from "react";
-import ClientFormComponent from "../../components/ClientFormComponent";
+import ClientFormComponent from "../../components/ClientForm";
 import { IClient } from "../../shared/interfaces/IClient";
 
 const Nav = styled.nav`
@@ -10,8 +10,8 @@ const Nav = styled.nav`
   margin: 25px;
   cursor: pointer;
   gap: 10px;
-
 `;
+
 const Title = styled.span`
   font-size: 20px;
     display:flex;
@@ -19,8 +19,6 @@ const Title = styled.span`
     justify-content: center;
     height: 100%;
 `
-/* ${(props)=> props.$active === true ? `border-bottom: solid 2px #000000` : ''} */
-
 
 const Scheduling = () => {
 
@@ -39,8 +37,8 @@ const Scheduling = () => {
   return (
     <>
       <Nav>
-        <Title  onClick={() => changeSelectedMenu("ClientForm")}>Cliente</Title>
-        <Title  onClick={() =>  client ? changeSelectedMenu("ScheduleForm") : alert("Prencha o formulário!")} >Agendar</Title>
+        <Title  onClick={() => changeSelectedMenu("ClientForm")} style={ { borderBottom: activeMenu === "ClientForm" ? 'solid 2px #000000' : ''}}>Cliente</Title>
+        <Title  onClick={() =>  client ? changeSelectedMenu("ScheduleForm") : alert("Prencha o formulário!")} style={ { borderBottom: activeMenu === "ScheduleForm" ? 'solid 2px #000000' : ''}}>Agendar</Title>
       </Nav>
       {activeMenu === "ClientForm" && <ClientFormComponent changeSelectedMenu={changeSelectedMenu} handleClient={handleClient}/>} 
       {activeMenu === "ScheduleForm" && <ScheduleFormComponent client={client!}/>} 

@@ -1,5 +1,5 @@
 import { useContext} from "react";
-import SelectionCardContainer from "./SelectionCardContainer";
+import SelectionCard from "./SelectionCard";
 import styled from "styled-components";
 import axios from "axios";
 //@ts-ignore
@@ -36,12 +36,11 @@ const ScheduleFormComponent = ({client}: ScheduleFormComponentProps) => {
   
     const toSchedule = () => {
         const body = {
-          clienteId: client?.id,
+          clienteId: client.id,
           agendaId: selectedBarber.id,
           procedimentosId: [selectedService.id],
           data: selectedDateTime,
         };
-        console.log(body);
 
        axios.post('http://localhost:8080/atendimento', body)
        .then((response) => alert(`Seu agendamento foi solicitado! Aguarde confirmação `))
@@ -55,20 +54,20 @@ const ScheduleFormComponent = ({client}: ScheduleFormComponentProps) => {
   
     return (
       <Form>
-        <SelectionCardContainer
+        <SelectionCard
           typeSelection={"servico"}
           title={`Selecione um serviço`}
           optionSelected={selectedService}
         />
         {selectedService != null && (
-          <SelectionCardContainer
+          <SelectionCard
             typeSelection={"barbeiro"}
             title={`Selecione um barbeiro`}
             optionSelected={selectedBarber}
           />
         )}
         {selectedBarber != null && (
-          <SelectionCardContainer
+          <SelectionCard
             typeSelection={"horario"}
             title={`Selecione um horário`}
             optionSelected={selectedDateTime}

@@ -32,12 +32,12 @@ const FormContainer = styled.div`
   }
 `;
 
-interface ClientFormComponentProps {
+interface ClientFormProps {
   changeSelectedMenu: (menu: string) => void,
   handleClient: (client: IClient) => void
 }
 
-const ClientFormComponent = ({ changeSelectedMenu, handleClient }: ClientFormComponentProps) => {
+const ClientForm = ({ changeSelectedMenu, handleClient }: ClientFormProps) => {
 
   const [clients, setClients] = useState<IClient[]>([]);
   const [createClient, setCreateClient] = useState(false);
@@ -48,9 +48,10 @@ const ClientFormComponent = ({ changeSelectedMenu, handleClient }: ClientFormCom
   },[])
 
   const searchClient = (phone: string) => {
-    const findedClient = clients.filter(
+    
+    const findedClient = clients.find(
       (client) => client.telefone === phone
-    )[0];
+    );
 
     if (findedClient) {
       alert(`Olá ${findedClient.nome}, bem vindo de novo!`);
@@ -84,7 +85,7 @@ const ClientFormComponent = ({ changeSelectedMenu, handleClient }: ClientFormCom
 
   return (
     <FormContainer>
-      {!createClient && (
+      {
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -94,32 +95,22 @@ const ClientFormComponent = ({ changeSelectedMenu, handleClient }: ClientFormCom
             required
             onChange={handleChange}
           />
+          {
+            createClient &&
+            <input
+              type="text"
+              name="nome"
+              value={formData.nome}
+              placeholder="Digite seu nome"
+              required
+              onChange={handleChange}
+            />
+          }
           <button type="submit">Enviar</button>
         </form>
-      )}
-      {createClient && (
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="telefone"
-            value={formData.telefone}
-            placeholder="Digite seu telefone"
-            required
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="nome"
-            value={formData.nome}
-            placeholder="Digite seu nome"
-            required
-            onChange={handleChange}
-          />
-          <button type="submit">Enviar</button>
-        </form>
-      )}
+      }
     </FormContainer>
   );
 };
 
-export default ClientFormComponent;
+export default ClientForm;

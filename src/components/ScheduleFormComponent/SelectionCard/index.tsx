@@ -1,5 +1,5 @@
 import { useState } from "react";
-import OptionsContainer from "../OptionsContainer";
+import Options from "./Options";
 import styled from "styled-components";
 
 const Card = styled.div`
@@ -39,25 +39,30 @@ const SelectedOptionTitle = styled.span`
   justify-content: center;
   font-size: 25px;
   font-weight: 500;
-  p{
-    margin: 0
+  p {
+    margin: 0;
   }
 `;
 
-interface SelectionCardContainerProps{
-  optionSelected: IOption, 
-  typeSelection: string,
-  title: string, 
+interface SelectionCardProps {
+  optionSelected: IOption;
+  typeSelection: string;
+  title: string;
 }
 
-const SelectionCardContainer = ({optionSelected, typeSelection, title}: SelectionCardContainerProps) => {
+const SelectionCard = ({
+  optionSelected,
+  typeSelection,
+  title,
+}: SelectionCardProps) => {
+  
   const [dateTimeSelected, setDateTimeSelected] = useState("");
 
   const handleSelectedTimeAndDateToShow = (dateAndTime: string) => {
-    setDateTimeSelected(dateAndTime)
+    setDateTimeSelected(dateAndTime);
   };
 
-  return optionSelected == null ? (
+  return (
     <Card>
       <Title>
         <CircleIcon>
@@ -67,37 +72,32 @@ const SelectionCardContainer = ({optionSelected, typeSelection, title}: Selectio
             alt={`Icone de ${typeSelection}`}
           />
         </CircleIcon>
-        <SelectedOptionTitle className="card__title__name">
-          <p>{title}:</p>
-        </SelectedOptionTitle>
+        {optionSelected == null ? (
+          <SelectedOptionTitle className="card__title__name">
+            <p>{title}:</p>
+          </SelectedOptionTitle>
+        ) 
+        : 
+        (
+          <SelectedOptionTitle>
+            <p>
+              {typeSelection !== "horario"
+                ? optionSelected.nome
+                : dateTimeSelected}
+            </p>
+            <small>{typeSelection}</small>
+          </SelectedOptionTitle>
+        )}
       </Title>
-      <OptionsContainer
-        typeSelection={typeSelection}
-        // selectedTimeAndDate={selectedTimeAndDate}
-        handleSelectedTimeAndDateToShow={handleSelectedTimeAndDateToShow}
-      />
-    </Card>
-  ) : (
-    <Card>
-      <Title>
-        <CircleIcon>
-          <img
-            src={`/images/${typeSelection}.png`}
-            width="30px"
-            alt={`Icone de ${typeSelection}`}
-          />
-        </CircleIcon>
-        <SelectedOptionTitle>
-          <p>
-            {typeSelection !== "horario"
-              ? optionSelected.nome
-              : dateTimeSelected}
-          </p>
-          <small>{typeSelection}</small>
-        </SelectedOptionTitle>
-      </Title>
+      {optionSelected == null && (
+        <Options
+          typeSelection={typeSelection}
+          handleSelectedTimeAndDateToShow={handleSelectedTimeAndDateToShow}
+        />
+      )}
     </Card>
   );
+  
 };
 
-export default SelectionCardContainer;
+export default SelectionCard;

@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
-import ScheduleOption from "../ScheduleOption";
-import OptionComponent from "../OptionComponent";
-import DatePicker from "../DatePicker";
-import api from "../../../service/api";
+import ScheduleOption from "./TimePicker/index.js";
+import OptionComponent from "./Option/index.js";
+import DatePicker from "./DatePicker/index.js";
+import api from "../../../../service/api.js";
 import styled from "styled-components";
 // @ts-ignore
-import { ScheduleContext } from "../../../context/ScheduleContext.jsx"
+import { ScheduleContext } from "../../../../context/ScheduleContext.jsx"
 
 const Options = styled.div`
   display: flex;
@@ -70,15 +70,12 @@ const OptionsContainer = ({typeSelection, handleSelectedTimeAndDateToShow}: Opti
       nome: "Sem Preferência",
       telefone: "(41)984206429",
       email: "email_do_barbeiro3@gmail.com",
-      preco: null
     },
   ]);
   const [services, setServices] = useState<IOption[]>([
     {
       id: 3,
       nome: "Corte e Barba",
-      telefone:  null,
-      email: null,
       preco: "70.0",
     },
   ]);
