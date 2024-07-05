@@ -10,6 +10,8 @@ const Nav = styled.nav`
   margin: 25px;
   cursor: pointer;
   gap: 10px;
+  width: 60px;
+  background-color: #f3f3
 `;
 
 const Title = styled.span`

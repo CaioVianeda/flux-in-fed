@@ -5,7 +5,7 @@ import Scheduling from "./pages/Scheduling";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 //@ts-ignore
 import ScheduleProvider from "./context/ScheduleContext";
-import Schedule from "./pages/Schedule";
+import Dashboard from "./pages/Dashboard";
 
 const BackgroundApp = styled.div`
   width: 100%;
@@ -23,7 +23,7 @@ function AppRoutes() {
         <ScheduleProvider>
           <Routes>
             <Route path="/agendar" element={<Scheduling />} />
-            <Route path="/agenda" element={<Schedule/>}/>
+            <Route path="/dashboard" element={<Dashboard/>}/>
             <Route path="*" element={<h1> Pagina não encontrada</h1>} />
           </Routes>
         </ScheduleProvider>

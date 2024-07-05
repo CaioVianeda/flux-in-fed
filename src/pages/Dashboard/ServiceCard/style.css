@@ -1,10 +1,4 @@
-.container__card-atendimento{
-    display: flex;
-    max-width: 500px;
-    flex-wrap: wrap;
-}
-
-.card-atendimento{
+.service-card{
     display: flex;
     flex-direction: column;
     background-color: aquamarine;
