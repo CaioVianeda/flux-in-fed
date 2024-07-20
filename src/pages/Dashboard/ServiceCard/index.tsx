@@ -1,17 +1,15 @@
-import { useState } from "react";
 import { ISchedule } from "../../../shared/interfaces/ISchedule";
 import "./style.css";
+import api from "../../../service/api";
 
 interface Props {
   schedule: ISchedule;
-  finishAppointment: (id: number) => void;
-  confirmAppointment: (id: number) => void;
+  setSchedules: React.Dispatch<React.SetStateAction<ISchedule[]>>;
 }
 
 const ServiceCard = ({
   schedule,
-  finishAppointment,
-  confirmAppointment,
+  setSchedules
 }: Props) => {
   function showDateOfSchedule(date: Date) {
     return `${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}/${
@@ -32,6 +30,26 @@ const ServiceCard = ({
   }
   if (!schedule.confirmado) {
     backgroundColor = "#bc0001";
+  }
+
+  async function finishAppointment(id: number) {
+    await api.put(`/atendimento/${id}/finalizar`).then((response) => {
+      setSchedules((schedules) =>
+        schedules.map((schedule) => {
+          return schedule.id === id ? response.data : schedule;
+        })
+      );
+    });
+  }
+
+  async function confirmAppointment(id: number) {
+    await api.put(`/atendimento/${id}/confirmar`).then((response) => {
+      setSchedules((schedules) =>
+        schedules.map((schedule) => {
+          return schedule.id === id ? response.data : schedule;
+        })
+      );
+    });
   }
 
   return (

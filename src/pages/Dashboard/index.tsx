@@ -51,26 +51,6 @@ const Dashboard = () => {
     } else return filterSchedulesByTopics(schedules);
   }
 
-  async function finishAppointment(id: number) {
-    await api.put(`/atendimento/${id}/finalizar`).then((response) => {
-      setSchedules((schedules) =>
-        schedules.map((schedule) => {
-          return schedule.id === id ? response.data : schedule;
-        })
-      );
-    });
-  }
-
-  async function confirmAppointment(id: number) {
-    await api.put(`/atendimento/${id}/confirmar`).then((response) => {
-      setSchedules((schedules) =>
-        schedules.map((schedule) => {
-          return schedule.id === id ? response.data : schedule;
-        })
-      );
-    });
-  }
-
   function showSchedulingTime(date: Date) {
     return `${date.getHours()}:${
       date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
@@ -78,29 +58,29 @@ const Dashboard = () => {
   }
 
   return (
-    <>
-      <main className="container-main">
-        <NavBar />
-        <div className="main">
-          <Header barber="Igor" barberShop="Silva's" pageName="Agenda" />
-          <div id="container">
-            <div id="container__services">
-              <div id="container__services__header">
-                <p> 04 - Junho (Sexta-Feira) </p>
-                <input type="text" />
-              </div>
-              <div id="container__services__card">
-                <table>
-                  {filterSchedulesByDate(schedules) &&
-                    filterSchedulesByDate(schedules)
-                      .sort((a, b) => {
-                        let dateA = new Date(a.data);
-                        let dateB = new Date(b.data);
-                        return dateA.getTime() - dateB.getTime();
-                      })
-                      .map((schedule) => {
-                        return (
-                          <tr>
+    <main className="container-main">
+      <NavBar />
+      <div className="main">
+        <Header barber="Igor" barberShop="Silva's" pageName="Agenda" />
+        <div id="container">
+          <div id="container__services">
+            <div id="container__services__header">
+              <p> 04 - Junho (Sexta-Feira) </p>
+              <input type="text" />
+            </div>
+            <div id="container__services__card">
+              <table>
+                {filterSchedulesByDate(schedules) &&
+                  filterSchedulesByDate(schedules)
+                    .sort((a, b) => {
+                      let dateA = new Date(a.data);
+                      let dateB = new Date(b.data);
+                      return dateA.getTime() - dateB.getTime();
+                    })
+                    .map((schedule) => {
+                      return (
+                        <tbody key={schedule.id}>
+                          <tr >
                             <td className="horario">
                               <p className="horario-text">
                                 {showSchedulingTime(new Date(schedule.data))}
@@ -110,25 +90,24 @@ const Dashboard = () => {
                               <ServiceCard
                                 key={schedule.id}
                                 schedule={schedule}
-                                finishAppointment={finishAppointment}
-                                confirmAppointment={confirmAppointment}
+                                setSchedules={setSchedules}
                               />
                             </td>
                           </tr>
-                        );
-                      })}
-                </table>
-              </div>
+                        </tbody>
+                      );
+                    })}
+              </table>
             </div>
-            <FilterMenu
-              filter={filter}
-              setFilter={setFilter}
-              setDateFilter={setDateFilter}
-            />
           </div>
+          <FilterMenu
+            filter={filter}
+            setFilter={setFilter}
+            setDateFilter={setDateFilter}
+          />
         </div>
-      </main>
-    </>
+      </div>
+    </main>
   );
 };
 
