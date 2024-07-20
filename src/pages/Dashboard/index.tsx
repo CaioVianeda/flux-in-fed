@@ -71,6 +71,12 @@ const Dashboard = () => {
     });
   }
 
+  function showSchedulingTime(date: Date) {
+    return `${date.getHours()}:${
+      date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
+    }h`;
+  }
+
   return (
     <>
       <main className="container-main">
@@ -83,39 +89,35 @@ const Dashboard = () => {
                 <p> 04 - Junho (Sexta-Feira) </p>
                 <input type="text" />
               </div>
-
               <div id="container__services__card">
                 <table>
-                {filterSchedulesByDate(schedules) &&
-                  filterSchedulesByDate(schedules).map((schedule) => {
-                    return (
-                      <tr>
-                    <td className="horario">07:00</td>
-                    <td className="atendimento">
-                    <ServiceCard
-                        key={schedule.id}
-                        schedule={schedule}
-                        finishAppointment={finishAppointment}
-                        confirmAppointment={confirmAppointment}
-                      />
-                    </td>
-                  </tr>
-                      
-                    );
-                  })}
-                  
+                  {filterSchedulesByDate(schedules) &&
+                    filterSchedulesByDate(schedules)
+                      .sort((a, b) => {
+                        let dateA = new Date(a.data);
+                        let dateB = new Date(b.data);
+                        return dateA.getTime() - dateB.getTime();
+                      })
+                      .map((schedule) => {
+                        return (
+                          <tr>
+                            <td className="horario">
+                              <p className="horario-text">
+                                {showSchedulingTime(new Date(schedule.data))}
+                              </p>
+                            </td>
+                            <td className="atendimento">
+                              <ServiceCard
+                                key={schedule.id}
+                                schedule={schedule}
+                                finishAppointment={finishAppointment}
+                                confirmAppointment={confirmAppointment}
+                              />
+                            </td>
+                          </tr>
+                        );
+                      })}
                 </table>
-                {/* {filterSchedulesByDate(schedules) &&
-                  filterSchedulesByDate(schedules).map((schedule) => {
-                    return (
-                      <ServiceCard
-                        key={schedule.id}
-                        schedule={schedule}
-                        finishAppointment={finishAppointment}
-                        confirmAppointment={confirmAppointment}
-                      />
-                    );
-                  })} */}
               </div>
             </div>
             <FilterMenu

@@ -38,20 +38,31 @@ input{
 #container__services__card{
     display: flex;
     flex-wrap: wrap;
-    background-color: aliceblue;
 }
 
 table{
     width: 100%;
+    background-color: #fff;
 }
 
 .horario{
     height: 70px;
-    background-color: bisque;
+    width: 100px;
+    background-color: #F3F3F3;
 }
 
 .atendimento{
     width: 100%;
+}
+
+.horario-text{
+    background-color: #fff;
+    height: 30%;
+    display: flex;
+    font-size: 12px;
+    align-items: center;
+    color: #494949;
+    font-weight: bold;
 }
 
 
