@@ -5,7 +5,7 @@ import Calendario from "../../../components/Calendar";
 interface Props {
   filter: string;
   setFilter: Dispatch<SetStateAction<string>>;
-  setDateFilter: Dispatch<SetStateAction<Date | undefined>>;
+  setDateFilter: Dispatch<SetStateAction<Date>>;
 }
 
 const FilterMenu = ({ filter, setFilter, setDateFilter }: Props) => {
@@ -53,7 +53,6 @@ const FilterMenu = ({ filter, setFilter, setDateFilter }: Props) => {
       </div>
 
       <button onClick={() => setDateFilter(new Date())}>Hoje</button>
-      <button onClick={() => setDateFilter(undefined)}>Todos</button>
     </div>
   );
 };

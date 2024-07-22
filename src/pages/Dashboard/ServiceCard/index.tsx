@@ -40,6 +40,7 @@ const ServiceCard = ({
         })
       );
     });
+
   }
 
   async function confirmAppointment(id: number) {

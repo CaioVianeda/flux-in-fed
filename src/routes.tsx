@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 //@ts-ignore
 import ScheduleProvider from "./context/ScheduleContext";
 import Dashboard from "./pages/Dashboard";
+import ServiceList from "./pages/Dashboard/ServiceList";
 
 const BackgroundApp = styled.div`
   width: 100%;
@@ -28,7 +29,7 @@ function AppRoutes() {
           </Routes>
         </ScheduleProvider>
       </BrowserRouter>
-    </BackgroundApp>
+    </BackgroundApp>  
   );
 }
 
