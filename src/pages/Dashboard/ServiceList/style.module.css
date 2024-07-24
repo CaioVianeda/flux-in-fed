@@ -1,0 +1,44 @@
+#container--services-list{
+    background-color: #eeeeee;    
+    display: flex;
+    flex-direction: column;
+    max-height: 700px;
+    overflow-y: scroll;
+}
+
+.row{ 
+    display: flex;
+    background-color: #ffffff;
+    margin-bottom: 3px;
+}
+
+.hour{
+    display: flex;
+    min-width: 50px;
+    background-color: #f6f6f6;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.container__service--card{
+   width: 100%;
+}
+
+p{
+    margin: 0;
+    padding: 0;
+}
+
+.hour-text{
+    background-color: #fff;
+    height: 30%;
+    width: 100%;
+    display: flex;
+    font-size: 12px;
+    align-items: center;
+    justify-content: center;
+    color: #494949;
+    font-weight: bold;
+    
+}

@@ -5,58 +5,91 @@ import {
   eachDayOfInterval,
   isSameMonth,
   isToday,
+  isSameDay,
 } from "date-fns";
-import "./styles.css";
+//@ts-ignore
+import style from "./styles.module.css";
+import { monthNames } from "../../utils/constants/constants";
+import {useState } from "react";
 
 interface Props {
   date: Date;
+  dateFilter: Date;
+  setDateFilter: React.Dispatch<React.SetStateAction<Date>>;
 }
 
-const mounths = [
-  "Janeiro",
-  "Fevereiro",
-  "Março",
-  "Abril",
-  "Maio",
-  "Junho",
-  "Julho",
-  "Agosto",
-  "Setembro",
-  "Outubro",
-  "Novembro",
-  "Dezembro",
-];
+const Calendar = ({ date, dateFilter, setDateFilter }: Props) => {
 
-const Calendario = ({ date }: Props) => {
-  const firstDayOfMonth = startOfMonth(date);
-  const lastDayOfMonth = endOfMonth(date);
+  const [calendarDate, setCalendarDate] = useState(new Date(date));
+  const firstDayOfMonth = startOfMonth(calendarDate);
+  const lastDayOfMonth = endOfMonth(calendarDate);
   const daysOfMonth = eachDayOfInterval({
-    start: firstDayOfMonth,
+    start: firstDayOfMonth, 
     end: lastDayOfMonth,
   });
+  const firstDayWeek = startOfMonth(calendarDate).getDay();
 
-  const today = new Date();
+  function createCalendarDays() {
 
-  function criaDiasDoCalendario() {
+    let daysOfAnotherMonth = []
+
     for (
       let i = 0;
-      i < new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+      i < firstDayWeek;
       i++
     ) {
-      return <th>0</th>;
+      daysOfAnotherMonth.push(<div key={i}> </div>);
     }
+
+    return daysOfAnotherMonth;
+  }
+
+  function changeMonth(value: number){
+    let newDate = new Date(calendarDate);
+    if(calendarDate.getMonth() + value > 12) {
+      newDate.setFullYear(calendarDate.getFullYear()+1);
+      newDate.setMonth(calendarDate.getMonth() + value);
+    }
+    else if(calendarDate.getMonth() + value < 0){
+      newDate.setFullYear(calendarDate.getFullYear()-1);
+      newDate.setMonth(11);
+    } 
+    else{
+    newDate.setMonth(calendarDate.getMonth() + value);
+  }
+    setCalendarDate(newDate);  
+  }
+
+  function changeDate(date: Date){
+    let newDate = new Date(calendarDate);
+    newDate.setDate(date.getDate());
+    setCalendarDate(newDate);
   }
 
   return (
-    <div className="calendario">
-      <div className="month-header">{format(date, "MMMM yyyy")}</div>
-      <div className="days">
+    <div className={style.calendar}>
+      <div className={style['month-header']}>
+        <button className={style["change-month"]} onClick={() => changeMonth(-1)}>{`<`}</button>
+        <span>{`${monthNames[calendarDate.getMonth()]} - ${calendarDate.getFullYear()}`}</span>
+        <button className={style["change-month"]} onClick={() => changeMonth(1)}>{`>`}</button>
+        <button onClick={() => {setDateFilter(new Date()); setCalendarDate(new Date())}}>Hoje</button>
+      </div>
+
+      <div className={style.days}>
+
+        <div className={style.week}>D</div>
+        <div className={style.week}>S</div>
+        <div className={style.week}>T</div>
+        <div className={style.week}>Q</div>
+        <div className={style.week}>Q</div>
+        <div className={style.week}>S</div>
+        <div className={style.week}>S</div>
+        {createCalendarDays()}
         {daysOfMonth.map((day) => (
           <div
+            onClick={() => {setDateFilter(day); changeDate(day)}}
             key={day.getTime()}
-            className={`day ${isToday(day) ? "today" : ""} ${
-              isSameMonth(day, date) ? "current-month" : "other-month"
-            }`}
+            className={`${style.day} ${isSameDay(day,dateFilter ) ? style["selected-day"] : undefined}` }
           >
             {format(day, "d")}
           </div>
@@ -66,4 +99,4 @@ const Calendario = ({ date }: Props) => {
   );
 };
 
-export default Calendario;
+export default Calendar;

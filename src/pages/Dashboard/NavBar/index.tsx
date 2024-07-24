@@ -6,7 +6,8 @@ import iconScheduleActive from "../../../assets/icon-schedule-active.png";
 import iconClient from "../../../assets/icon-clients.png";
 //@ts-ignore
 import iconClientActive from "../../../assets/icon-clients-active.png";
-import "./style.css";
+//@ts-ignore
+import style from "./style.module.css";
 import { useState } from "react";
 
 const NavBar = () => {
@@ -15,7 +16,7 @@ const NavBar = () => {
   return (
     <nav>
       <div
-        className="button__page-navigation"
+        className={style["button__page-navigation"]}
         style={
           menu === "agenda"
             ? { color: "rgb(255, 255, 255)", backgroundColor: "#00C1B0" }
@@ -30,7 +31,7 @@ const NavBar = () => {
         <div>Agenda</div>
       </div>
       <div
-        className="button__page-navigation"
+        className={style["button__page-navigation"]}
         style={
           menu === "clientes"
             ? { color: "rgb(255, 255, 255)", backgroundColor: "#00C1B0" }

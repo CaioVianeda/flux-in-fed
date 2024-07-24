@@ -1,4 +1,5 @@
-import "./style.css";
+//@ts-ignore
+import style from "./style.module.css";
 
 interface Props{
     barber: string,
@@ -9,11 +10,11 @@ interface Props{
 const Header = ({barber, barberShop, pageName}: Props) => {
   return (
     <header>
-      <div className="info">
-        <div className="icon"/>
-        <div className="name">
-          <div className="name__barber">{barber}</div>
-          <div className="name__barber-shop">{barberShop}</div>
+      <div className={style.info}>
+        <div className={style.icon}/>
+        <div className={style.name}>
+          <div className={style.name__barber}>{barber}</div>
+          <div className={style ["name__barber-shop"]}>{barberShop}</div>
         </div>
       </div>
       <div className="title">{pageName}</div>

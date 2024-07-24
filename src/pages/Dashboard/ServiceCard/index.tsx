@@ -1,5 +1,6 @@
 import { ISchedule } from "../../../shared/interfaces/ISchedule";
-import "./style.css";
+//@ts-ignore
+import style from "./style.module.css";
 import api from "../../../service/api";
 
 interface Props {
@@ -22,14 +23,18 @@ const ServiceCard = ({
   }
 
   let backgroundColor;
+  let backgroundColor2;
   if (schedule.finalizado) {
     backgroundColor = "#01c120";
+    backgroundColor2 = "#01c12165";
   }
   if (schedule.confirmado && !schedule.finalizado) {
     backgroundColor = "#fed545";
+    backgroundColor2 = "#fed54565";
   }
   if (!schedule.confirmado) {
     backgroundColor = "#bc0001";
+    backgroundColor2 = "#bc000065";
   }
 
   async function finishAppointment(id: number) {
@@ -56,12 +61,13 @@ const ServiceCard = ({
   return (
     <div
       key={schedule.id}
-      className="service-card"
-      style={{backgroundColor: backgroundColor}}
+      className={style["service-card"]}
+      style={{border: `5px solid ${backgroundColor}`, backgroundColor: backgroundColor2}}
     >
       <span>{schedule.nomeCliente}</span>
+      <span>{schedule.procedimentos.map((item)  => {return <span key={item.id}>{item.nome}</span>})}</span>
       <span>{showDateOfSchedule(new Date(schedule.data))}</span>
-      <div id="service-card__button-container">
+      <div id={style["service-card__button-container"]}>
         {schedule.confirmado && !schedule.finalizado && (
           <button onClick={() => confirmAppointment(schedule.id)}>
             cancelar

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { ISchedule } from "../../../shared/interfaces/ISchedule";
 import api from "../../../service/api";
 import ServiceCard from "../ServiceCard";
+//@ts-ignore
+import style from "./style.module.css";
 
 interface Props {
   filter: string;
@@ -37,8 +39,8 @@ const ServiceList = ({ filter, dateFilter = new Date() }: Props) => {
   useEffect(() => {
     //TODO ajustar api para não precisar carregar todos os atendimentos
     api.get("/barbeiros/1/atendimentos").then((response) => {
-        setSchedules(filterSchedulesByDate(response.data));
-      });
+      setSchedules(filterSchedulesByDate(response.data));
+    });
   }, [filter, dateFilter]);
 
   function filterSchedulesByTopics(schedules: ISchedule[]): ISchedule[] {
@@ -57,48 +59,57 @@ const ServiceList = ({ filter, dateFilter = new Date() }: Props) => {
   }
 
   function filterSchedulesByDate(schedules: ISchedule[]): ISchedule[] {
-      return filterSchedulesByTopics(schedules).filter((schedule) => {
-        const scheduleDate = new Date(schedule.data);
-        if (
-          scheduleDate.getDate() === dateFilter.getDate() &&
-          scheduleDate.getMonth() === dateFilter.getMonth() &&
-          scheduleDate.getFullYear() === dateFilter.getFullYear()
-        ) {
-          return schedule;
-        }
-      });
+    return filterSchedulesByTopics(schedules).filter((schedule) => {
+      const scheduleDate = new Date(schedule.data);
+      if (
+        scheduleDate.getDate() === dateFilter.getDate() &&
+        scheduleDate.getMonth() === dateFilter.getMonth() &&
+        scheduleDate.getFullYear() === dateFilter.getFullYear()
+      ) {
+        return schedule;
+      }
+    });
   }
 
   return (
-    <table>
-      <tbody>
-        {generateHalfHourInterval().map((hour) => {
-          return (
-            <tr key={hour.getTime()}>
-              <td className="horario">
-                <p className="horario-text">{`${hour.getHours()}:${
-                  hour.getMinutes() < 10
-                    ? "0" + hour.getMinutes()
-                    : hour.getMinutes()
-                }h`}</p>
-              </td>
+    <div id={style["container--services-list"]}>
+      {generateHalfHourInterval().map((hour) => {
+        return (
+          <div className={style.row} key={hour.getTime()}>
+            <div className={style.hour}>
+              <p className={style["hour-text"]}>{`${hour.getHours()}:${
+                hour.getMinutes() < 10
+                  ? "0" + hour.getMinutes()
+                  : hour.getMinutes()
+              }h`}</p>
+            </div>
 
-              <td className="atendimento">
-                {
-                    schedules.find((schedule) => new Date(schedule.data).getHours() === hour.getHours() && new Date(schedule.data).getMinutes() === hour.getMinutes()) 
-                    ?
-                     <ServiceCard
-                    schedule={schedules.find((schedule) => new Date(schedule.data).getHours() === hour.getHours() && new Date(schedule.data).getMinutes() === hour.getMinutes())!}
-                    setSchedules={setSchedules} />
-                    :
-                    <></>
-                }
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+            <div className={style["container__service--card"]}>
+              {schedules.find(
+                (schedule) =>
+                  new Date(schedule.data).getHours() === hour.getHours() &&
+                  new Date(schedule.data).getMinutes() === hour.getMinutes()
+              ) ? (
+                <ServiceCard
+                  schedule={
+                    schedules.find(
+                      (schedule) =>
+                        new Date(schedule.data).getHours() ===
+                          hour.getHours() &&
+                        new Date(schedule.data).getMinutes() ===
+                          hour.getMinutes()
+                    )!
+                  }
+                  setSchedules={setSchedules}
+                />
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
   );
 };
 

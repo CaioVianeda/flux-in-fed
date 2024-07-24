@@ -1,7 +1,8 @@
-.container-main{
+.container--main{
     height: 100vh;
     width: 100vw;
     display: flex;
+    overflow-x: hidden;
 }
 
 .main{
@@ -28,11 +29,31 @@
     justify-content: space-between;
     align-items: center;
     height: 80px;
+    margin: 0 25px;
 
 }
 
+p{  
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.input-container{
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
 input{
-    height: 30px;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 28px;
+}
+
+.icon{
+    position: absolute;
+    left: 6px; 
+    z-index: 1;
 }
 
 #container__services__card{
@@ -44,25 +65,3 @@ table{
     width: 100%;
     background-color: #fff;
 }
-
-.horario{
-    height: 70px;
-    width: 100px;
-    background-color: #F3F3F3;
-}
-
-.atendimento{
-    width: 100%;
-}
-
-.horario-text{
-    background-color: #fff;
-    height: 30%;
-    display: flex;
-    font-size: 12px;
-    align-items: center;
-    color: #494949;
-    font-weight: bold;
-}
-
-
