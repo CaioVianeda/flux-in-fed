@@ -1,37 +1,26 @@
 #container--services-list{
     background-color: #eeeeee;    
-    display: flex;
-    flex-direction: column;
-    max-height: 700px;
-    overflow-y: scroll;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 .row{ 
     display: flex;
     background-color: #ffffff;
     margin-bottom: 3px;
+    min-height: 50px;
 }
 
 .hour{
     display: flex;
-    min-width: 50px;
     background-color: #f6f6f6;
     align-items: center;
     justify-content: center;
+
     
 }
 
-.container__service--card{
-   width: 100%;
-}
-
-p{
-    margin: 0;
-    padding: 0;
-}
-
 .hour-text{
-    background-color: #fff;
     height: 30%;
     width: 100%;
     display: flex;
@@ -39,6 +28,16 @@ p{
     align-items: center;
     justify-content: center;
     color: #494949;
-    font-weight: bold;
-    
+    font-weight: bold;  
 }
+
+.container__service--card{
+   width: 100%;
+   /* display: flex; */
+}
+
+p{
+    margin: 0;
+    padding: 0;
+}
+

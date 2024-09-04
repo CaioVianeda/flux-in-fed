@@ -19,7 +19,7 @@ const NavBar = () => {
         className={style["button__page-navigation"]}
         style={
           menu === "agenda"
-            ? { color: "rgb(255, 255, 255)", backgroundColor: "#00C1B0" }
+            ? { color: "rgb(255, 255, 255)", backgroundColor: "#01C0B0" }
             : {}
         }
         onClick={() => setMenu("agenda")}
@@ -34,7 +34,7 @@ const NavBar = () => {
         className={style["button__page-navigation"]}
         style={
           menu === "clientes"
-            ? { color: "rgb(255, 255, 255)", backgroundColor: "#00C1B0" }
+            ? { color: "rgb(255, 255, 255)", backgroundColor: "#01C0B0" }
             : {}
         }
         onClick={() => setMenu("clientes")}

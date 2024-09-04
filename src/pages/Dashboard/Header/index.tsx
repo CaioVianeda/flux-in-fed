@@ -17,7 +17,7 @@ const Header = ({barber, barberShop, pageName}: Props) => {
           <div className={style ["name__barber-shop"]}>{barberShop}</div>
         </div>
       </div>
-      <div className="title">{pageName}</div>
+      <div className={style.title}>{pageName}</div>
     </header>
   );
 };

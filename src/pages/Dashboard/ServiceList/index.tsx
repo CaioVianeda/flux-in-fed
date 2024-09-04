@@ -30,7 +30,6 @@ const ServiceList = ({ filter, dateFilter = new Date() }: Props) => {
   }
 
   useEffect(() => {
-    generateHalfHourInterval();
     api.get("/barbeiros/1/atendimentos").then((response) => {
       setSchedules(filterSchedulesByDate(response.data));
     });
@@ -77,13 +76,12 @@ const ServiceList = ({ filter, dateFilter = new Date() }: Props) => {
         return (
           <div className={style.row} key={hour.getTime()}>
             <div className={style.hour}>
-              <p className={style["hour-text"]}>{`${hour.getHours()}:${
+              <p className={style["hour-text"]}>{`${hour.getHours() < 10 ? "0" + hour.getHours() : hour.getHours()}`}{`:${
                 hour.getMinutes() < 10
                   ? "0" + hour.getMinutes()
                   : hour.getMinutes()
               }h`}</p>
             </div>
-
             <div className={style["container__service--card"]}>
               {schedules.find(
                 (schedule) =>
