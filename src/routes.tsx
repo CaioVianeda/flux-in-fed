@@ -5,15 +5,13 @@ import Scheduling from "./pages/Scheduling";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 //@ts-ignore
 import ScheduleProvider from "./context/ScheduleContext";
-import Dashboard from "./pages/Dashboard";
-import ServiceList from "./pages/Dashboard/ServiceList";
+import Schedule from "./pages/Schedule";
+import Clients from "./pages/Clients";
+import Panel from "./pages/Panel";
 
 const BackgroundApp = styled.div`
   width: 100%;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 function AppRoutes() {
@@ -23,13 +21,16 @@ function AppRoutes() {
       <BrowserRouter>
         <ScheduleProvider>
           <Routes>
+            <Route path="/panel" element={<Panel />}>
+              <Route path="clients" element={<Clients />} />
+              <Route path="schedule" element={<Schedule />} />
+            </Route>
             <Route path="/agendar" element={<Scheduling />} />
-            <Route path="/dashboard" element={<Dashboard/>}/>
             <Route path="*" element={<h1> Pagina não encontrada</h1>} />
           </Routes>
         </ScheduleProvider>
       </BrowserRouter>
-    </BackgroundApp>  
+    </BackgroundApp>
   );
 }
 

@@ -1,21 +1,22 @@
 //@ts-ignore
-import iconSchedule from "../../../assets/icon-schedule.png";
+import iconSchedule from "../../assets/icon-schedule.png";
 //@ts-ignore
-import iconScheduleActive from "../../../assets/icon-schedule-active.png";
+import iconScheduleActive from "../../assets/icon-schedule-active.png";
 //@ts-ignore
-import iconClient from "../../../assets/icon-clients.png";
+import iconClient from "../../assets/icon-clients.png";
 //@ts-ignore
-import iconClientActive from "../../../assets/icon-clients-active.png";
+import iconClientActive from "../../assets/icon-clients-active.png";
 //@ts-ignore
 import style from "./style.module.css";
 import { useState } from "react";
+import {Link }from 'react-router-dom'
 
 const NavBar = () => {
   const [menu, setMenu] = useState<string>("agenda");
 
   return (
     <nav>
-      <div
+      <Link to={'schedule'}
         className={style["button__page-navigation"]}
         style={
           menu === "agenda"
@@ -29,8 +30,8 @@ const NavBar = () => {
           width={35}
         />
         <div>Agenda</div>
-      </div>
-      <div
+      </Link>
+      <Link to={'clients'}
         className={style["button__page-navigation"]}
         style={
           menu === "clientes"
@@ -44,7 +45,7 @@ const NavBar = () => {
           width={35}
         />
         <div>Clientes</div>
-      </div>
+      </Link>
     </nav>
   );
 };

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { ISchedule } from "../../../shared/interfaces/ISchedule";
-import api from "../../../service/api";
+import { ISchedule } from "../../shared/interfaces/ISchedule";
+import api from "../../service/api";
 import ServiceCard from "../ServiceCard";
 //@ts-ignore
 import style from "./style.module.css";

@@ -2,10 +2,8 @@ import { useState } from "react";
 import { IBarber } from "../../shared/interfaces/IBarber";
 //@ts-ignore
 import style from "./style.module.css";
-import Header from "./Header";
-import NavBar from "./NavBar";
-import FilterMenu from "./FilterMenu";
-import ServiceList from "./ServiceList";
+import FilterMenu from "../../components/FilterMenu";
+import ServiceList from "../../components/ServiceList";
 import { dayNames, monthNames } from "../../utils/constants/constants";
 //@ts-ignore
 import Lupa from '../../assets/lupa.png'
@@ -16,10 +14,6 @@ const Dashboard = () => {
   const [dateFilter, setDateFilter] = useState<Date>(new Date());
 
   return (
-    <main className={style["container--main"]}>
-      <NavBar />
-      <div className={style.main}>
-        <Header barber="Igor" barberShop="Silva's" pageName="Calendário" />
         <div id={style.container}>
           <div id={style.container__services}>
             <div id={style.container__services__header}>
@@ -44,8 +38,7 @@ const Dashboard = () => {
             setDateFilter={setDateFilter}
           />
         </div>
-      </div>
-    </main>
+  
   );
 };
 

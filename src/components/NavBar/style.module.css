@@ -1,3 +1,12 @@
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+a:visited{
+
+}
+
 nav{
     display: flex;
     flex-direction: column;

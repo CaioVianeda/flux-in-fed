@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 //@ts-ignore
 import style from "./style.module.css";
-import Calendar from "../../../components/Calendar";
+import Calendar from "../Calendar";
 
 interface Props {
   filter: string;
