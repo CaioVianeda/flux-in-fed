@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 //@ts-ignore
 import style from "./style.module.css";
 
@@ -18,6 +19,7 @@ const Header = ({barber, barberShop, pageName}: Props) => {
         </div>
       </div>
       <div className={style.title}>{pageName}</div>
+      <Link to={'/configure'}> <button>Config</button> </Link>
     </header>
   );
 };

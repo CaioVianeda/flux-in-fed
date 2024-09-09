@@ -8,6 +8,7 @@ import ScheduleProvider from "./context/ScheduleContext";
 import Schedule from "./pages/Schedule";
 import Clients from "./pages/Clients";
 import Panel from "./pages/Panel";
+import Configuration from "./pages/Configuration";
 
 const BackgroundApp = styled.div`
   width: 100%;
@@ -26,6 +27,7 @@ function AppRoutes() {
               <Route path="schedule" element={<Schedule />} />
             </Route>
             <Route path="/agendar" element={<Scheduling />} />
+            <Route path="/configure" element={<Configuration/>}/>
             <Route path="*" element={<h1> Pagina não encontrada</h1>} />
           </Routes>
         </ScheduleProvider>
