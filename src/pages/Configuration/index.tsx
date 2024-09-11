@@ -1,21 +1,32 @@
+import { Link, Outlet, useLocation } from "react-router-dom";
 //@ts-ignore
-import style from "./style.module.css";
+import styles from "./style.module.css";
+import PerfilCard from "../../components/PerfilCard";
 
 const Configuration = () => {
-  return (
-    <div id={style.container}>
-      <div id={style.menu}>
-        <section>
-          <div id={style.perfil}>
-          </div>
-        </section>
-        <section>
-          <p className={style["section__title"]}>Configurações de Conta</p>
-          <p className={style["section__option"]}>Minha Conta</p>
-        </section>
 
+  const location = useLocation();
+  return (
+    <div id={styles["container-menu"]}>
+      <div id={styles.menu}>
+        <section>
+          <PerfilCard barber="Camila" barberShop="Bichozen Pet Store"/>
+        </section>
+        <section>
+          <p className={styles["section__title"]}>Configurações da Conta</p>
+          <Link to={'my-account'}><p className={`${styles["section__option"]} ${location.pathname === '/configure/my-account' && styles["section__option-active"]}`}>Minha Conta</p></Link>
+        </section>
+        <section>
+          <p className={styles["section__title"]}>Sistema</p>
+          <Link to={'customize'}><p className={`${styles["section__option"]} ${location.pathname === '/configure/customize' && styles["section__option-active"]}`}>Configurações Gerais</p></Link>
+        </section>
+        <section>
+          <Link to={'/panel'}><p className={`${styles["section__option"]} ${styles["exit"]}`}>Sair</p></Link>
+        </section>
       </div>
-      <div id={style.configurations}>Configurações</div>
+      <div id={styles.configurations}>
+        <Outlet/>
+      </div>
     </div>
   );
 };

@@ -27,7 +27,10 @@ function AppRoutes() {
               <Route path="schedule" element={<Schedule />} />
             </Route>
             <Route path="/agendar" element={<Scheduling />} />
-            <Route path="/configure" element={<Configuration/>}/>
+            <Route path="/configure" element={<Configuration/>}>
+              <Route path="my-account" element={<>Minha conta</>}/>
+              <Route path="customize" element={<>Configurações Gerais</>}/>
+            </Route>
             <Route path="*" element={<h1> Pagina não encontrada</h1>} />
           </Routes>
         </ScheduleProvider>

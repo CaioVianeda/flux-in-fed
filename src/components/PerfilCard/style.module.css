@@ -1,0 +1,30 @@
+.info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .icon {
+    border: 2px solid black ;
+    min-width: 45px;
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .name{
+    width: 100%;
+  }
+  
+  .title{
+      padding-left: 50px;
+      color: #494949;
+      font-weight: bold;
+  }
+
+  .name__barber-shop{
+    color:#aaaaaa;
+    font-size: 14px;
+  }

@@ -1,25 +1,27 @@
 import { Link } from "react-router-dom";
 //@ts-ignore
 import style from "./style.module.css";
+import PerfilCard from "../PerfilCard";
+import SettingsIcon from "@mui/icons-material/Settings";
 
-interface Props{
-    barber: string,
-    barberShop: string,
-    pageName: string
+interface Props {
+  barber: string;
+  barberShop: string;
+  pageName: string;
 }
 
-const Header = ({barber, barberShop, pageName}: Props) => {
+const Header = ({ barber, barberShop, pageName }: Props) => {
   return (
     <header>
-      <div className={style.info}>
-        <div className={style.icon}/>
-        <div className={style.name}>
-          <div className={style.name__barber}>{barber}</div>
-          <div className={style ["name__barber-shop"]}>{barberShop}</div>
-        </div>
-      </div>
+      <PerfilCard barber={barber} barberShop={barberShop} />
       <div className={style.title}>{pageName}</div>
-      <Link to={'/configure'}> <button>Config</button> </Link>
+      <div className={style.options}>
+        <Link to={"/configure"}>
+          <span className={style["button-inner"]}>
+            <SettingsIcon />
+          </span>
+        </Link>
+      </div>
     </header>
   );
 };

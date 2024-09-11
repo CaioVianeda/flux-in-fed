@@ -1,4 +1,4 @@
-#container{
+#container-menu{
     display: flex;
     height: 100vh;
     background-color: aquamarine;
@@ -6,12 +6,44 @@
 
 #menu{
     flex:1;
-    width: 100%;
-    background-color: antiquewhite;
-    /* padding: 14px 0 0 22%; */
+    background-color: #fff;
+    padding: 14px 0 0 22%;
 }
 
 #configurations{
-    flex: 1;
-    width: 100%;
+    flex: 5;
+    background-color: #f3f3f3;
 }
+
+section{
+    margin-right: 25px;
+    padding: 28px 0;
+    border-bottom: 1px solid #dedede;
+    min-width: 230px;
+}
+
+.section__title{
+    font-size: 14px;
+    font-weight:500;
+    color: #aaaaaa;
+    margin-bottom: 15px;
+}
+
+.section__option{
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.section__option-active{
+   color: #00c1af;
+}
+
+.section__option:hover{
+    color: #f29f3b;
+}
+
+.exit{
+    color: #f25b5b
+}
+
