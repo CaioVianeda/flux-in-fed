@@ -1,3 +1,4 @@
+import { Avatar } from "@mui/material";
 //@ts-ignore
 import style from "./style.module.css";
 
@@ -9,7 +10,7 @@ interface Props{
 const PerfilCard = ({barber,barberShop}: Props) => {
   return (
     <div className={style.info}>
-      <div className={style.icon} />
+      <Avatar alt="Nome" sx={{width: 40, height: 40 }}/>
       <div className={style.name}>
         <div className={style["name__barber"]}>{barber}</div>
         <div className={style["name__barber-shop"]}>{barberShop}</div>

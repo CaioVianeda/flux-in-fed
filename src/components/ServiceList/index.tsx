@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ISchedule } from "../../shared/interfaces/ISchedule";
-import api from "../../service/api";
+import http from "../../service/http";
 import ServiceCard from "../ServiceCard";
 //@ts-ignore
 import style from "./style.module.css";
@@ -30,14 +30,14 @@ const ServiceList = ({ filter, dateFilter = new Date() }: Props) => {
   }
 
   useEffect(() => {
-    api.get("/barbeiros/1/atendimentos").then((response) => {
+    http.get("/barbeiros/1/atendimentos").then((response) => {
       setSchedules(filterSchedulesByDate(response.data));
     });
   }, []);
 
   useEffect(() => {
     //TODO ajustar api para não precisar carregar todos os atendimentos
-    api.get("/barbeiros/1/atendimentos").then((response) => {
+    http.get("/barbeiros/1/atendimentos").then((response) => {
       setSchedules(filterSchedulesByDate(response.data));
     });
   }, [filter, dateFilter]);

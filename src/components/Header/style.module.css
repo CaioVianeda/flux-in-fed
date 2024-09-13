@@ -2,9 +2,9 @@ header {
   display: flex;
   align-items: center;
   font-size: 18px;
-  height: 48px;
+  height: 38px;
   background-color: #f3f3f3;
-  padding: 10px;
+  padding: 14px;
   border: 1px solid #d5d5d5;
 }
 

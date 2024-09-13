@@ -1,0 +1,17 @@
+.input-container{
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+input{
+    border: none;
+    border-radius: 8px;
+    padding: 10px 40px;
+}
+
+.icon{
+    position: absolute;
+    left: 6px; 
+    z-index: 1;
+}

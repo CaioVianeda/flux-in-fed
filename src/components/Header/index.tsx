@@ -18,7 +18,7 @@ const Header = ({ barber, barberShop, pageName }: Props) => {
       <div className={style.options}>
         <Link to={"/configure"}>
           <span className={style["button-inner"]}>
-            <SettingsIcon />
+            <SettingsIcon/>
           </span>
         </Link>
       </div>

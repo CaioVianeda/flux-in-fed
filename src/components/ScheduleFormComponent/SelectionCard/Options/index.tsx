@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import ScheduleOption from "./TimePicker/index.js";
 import OptionComponent from "./Option/index.js";
 import DatePicker from "./DatePicker/index.js";
-import api from "../../../../service/api.js";
+import api from "../../../../service/http.js";
 import styled from "styled-components";
 // @ts-ignore
 import { ScheduleContext } from "../../../../context/ScheduleContext.jsx"

@@ -1,14 +1,15 @@
 import Header from "../../components/Header";
 import NavBar from "../../components/NavBar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 //@ts-ignore
 import style from "./style.module.css";
 import { useEffect, useState } from "react";
-import api from "../../service/api";
+import api from "../../service/http";
 import { IBarberShop } from "../../shared/interfaces/IBarberShop";
 import { IBarber } from "../../shared/interfaces/IBarber";
 
 const Panel = () => {
+  const location = useLocation();
   const [barber, setBarber] = useState<IBarber>();
   const [barberShop, setBarberShop] = useState<IBarberShop>();
 
@@ -33,7 +34,7 @@ const Panel = () => {
         <Header
           barber={`${barber?.nome}`}
           barberShop={`${barberShop?.nome}`}
-          pageName="Calendário"
+          pageName= {location.pathname === '/panel/schedule' ? 'Calendario' : 'Clientes'}
         />
         <Outlet />
       </div>

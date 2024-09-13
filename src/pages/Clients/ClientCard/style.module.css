@@ -1,0 +1,44 @@
+.card{
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    max-width: 1190px;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+p{
+    font-size: 15px;
+}
+
+.name{
+    flex:1;
+    display: flex;
+    align-items: center;
+    gap: 14px
+}
+
+.telephone{
+    flex:1;
+    justify-content: center;
+}
+
+.button__more{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F3F3F3;
+    height: 40px;
+    width: 40px;
+    border-radius: 10px;
+}
+
+.button__more:hover{
+    background-color: #F3F3F5;
+}
+
+.more{
+    display: flex;
+    flex:1;
+    justify-content: flex-end;
+}

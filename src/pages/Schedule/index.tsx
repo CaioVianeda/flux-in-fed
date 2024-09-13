@@ -5,8 +5,7 @@ import style from "./style.module.css";
 import FilterMenu from "../../components/FilterMenu";
 import ServiceList from "../../components/ServiceList";
 import { dayNames, monthNames } from "../../utils/constants/constants";
-//@ts-ignore
-import Lupa from '../../assets/lupa.png'
+import SearchText from "../../components/SeachText";
 
 const Dashboard = () => {
   const [barber, setBarber] = useState<IBarber>();
@@ -24,10 +23,7 @@ const Dashboard = () => {
               } - ${monthNames[dateFilter.getMonth()]} (${
                 dayNames[dateFilter.getDay()]
               })`}</p>
-              <div className={style["input-container"]}>
-                <input type="text" placeholder="Buscar" />
-                <img className={style.icon} src={Lupa} alt="lupa" width={18}/>
-              </div>
+              <SearchText/>
             </div>
             <ServiceList filter={filter} dateFilter={dateFilter} />
           </div>

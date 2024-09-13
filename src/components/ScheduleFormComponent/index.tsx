@@ -1,10 +1,10 @@
 import { useContext} from "react";
 import SelectionCard from "./SelectionCard";
 import styled from "styled-components";
-import axios from "axios";
 //@ts-ignore
 import { ScheduleContext } from "../../context/ScheduleContext";
 import { IClient } from "../../shared/interfaces/IClient";
+import http from "../../service/http";
 
 const Form = styled.div`
   display: flex;
@@ -42,8 +42,8 @@ const ScheduleFormComponent = ({client}: ScheduleFormComponentProps) => {
           data: selectedDateTime,
         };
 
-       axios.post('http://localhost:8080/atendimento', body)
-       .then((response) => alert(`Seu agendamento foi solicitado! Aguarde confirmação `))
+       http.post('atendimento', body)
+       .then(() => alert(`Seu agendamento foi solicitado! Aguarde confirmação `))
        .catch((error) => console.log(`Erro ao solicitar atendimento: ${error}`));
 
         setSelectedService();

@@ -8,40 +8,39 @@ import iconClient from "../../assets/icon-clients.png";
 import iconClientActive from "../../assets/icon-clients-active.png";
 //@ts-ignore
 import style from "./style.module.css";
-import { useState } from "react";
-import {Link }from 'react-router-dom'
+import { Link, useLocation } from "react-router-dom";
 
 const NavBar = () => {
-  const [menu, setMenu] = useState<string>("agenda");
+  const location = useLocation();
 
   return (
     <nav>
-      <Link to={'schedule'}
+      <Link
+        to={"schedule"}
         className={style["button__page-navigation"]}
-        style={
-          menu === "agenda"
-            ? { color: "rgb(255, 255, 255)", backgroundColor: "#01C0B0" }
-            : {}
-        }
-        onClick={() => setMenu("agenda")}
+        style={{
+          color: location.pathname === "/panel/schedule" ? "#fff" : "#000",
+          backgroundColor:
+            location.pathname === "/panel/schedule" ? "#01C0B0" : "#F3F3F3",
+        }}
       >
         <img
-          src={menu === "agenda" ? iconScheduleActive : iconSchedule}
+          src={ location.pathname === "/panel/schedule" ? iconScheduleActive : iconSchedule}
           width={35}
         />
         <div>Agenda</div>
       </Link>
-      <Link to={'clients'}
+      <Link
+        to={"clients"}
         className={style["button__page-navigation"]}
-        style={
-          menu === "clientes"
-            ? { color: "rgb(255, 255, 255)", backgroundColor: "#01C0B0" }
-            : {}
-        }
-        onClick={() => setMenu("clientes")}
+        style={{
+          color: location.pathname === "/panel/clients" ? "#fff" : "#000",
+          backgroundColor:
+            location.pathname === "/panel/clients" ? "#01C0B0" : "#F3F3F3",
+        }}
       >
         <img
-          src={menu === "clientes" ? iconClientActive : iconClient}
+          src={location.pathname === "/panel/clients" ? iconClientActive : iconClient}
           width={35}
         />
         <div>Clientes</div>

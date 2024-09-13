@@ -1,7 +1,7 @@
 import { ISchedule } from "../../shared/interfaces/ISchedule";
 //@ts-ignore
 import style from "./style.module.css";
-import api from "../../service/api";
+import api from "../../service/http";
 
 interface Props {
   schedule: ISchedule;

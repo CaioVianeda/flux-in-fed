@@ -1,17 +1,8 @@
 .info {
     display: flex;
     align-items: center;
+    padding-left: 8px;
     gap: 8px;
-  }
-  
-  .icon {
-    border: 2px solid black ;
-    min-width: 45px;
-    min-height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
   }
 
   .name{

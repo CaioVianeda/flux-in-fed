@@ -8,7 +8,6 @@ nav{
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 100px;
     gap: 10px;
     padding: 10px;
     border-right: 1px solid #D5D5D5;
@@ -17,8 +16,8 @@ nav{
 .button__page-navigation{
     background-color: #F3F3F3;
     border-radius: 8px;
-    width: 90px;
-    height: 90px;
+    width: 70px;
+    height: 70px;
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -1,6 +1,6 @@
 import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import styled from "styled-components";
-import api from "../../service/api";
+import api from "../../service/http";
 import { IClient } from "../../shared/interfaces/IClient";
 
 const FormContainer = styled.div`
