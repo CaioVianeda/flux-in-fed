@@ -1,0 +1,11 @@
+#select-barber{
+  width: 430px;
+  padding: 15px;  
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.title {
+    color: #999999;
+    margin-bottom: 10px;
+  }

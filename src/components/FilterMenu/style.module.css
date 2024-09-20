@@ -42,7 +42,7 @@ input[type=checkbox]{
 }
 
 input[type="checkbox"]:checked {
-    
+    content: '✓';
     background-color: #00bfb2; /* Cor de fundo quando marcado */
     border-color: #46d3cb; /* Cor da borda quando marcado */
     

@@ -7,7 +7,7 @@ const SearchText = () => {
   return (
     <div className={style["input-container"]}>
       <input type="text" placeholder="Buscar" />
-      <img className={style.icon} src={Lupa} alt="lupa" width={18} />
+      {/* <img className={style.icon} src={Lupa} alt="lupa" width={18} /> */}
     </div>
   );
 };

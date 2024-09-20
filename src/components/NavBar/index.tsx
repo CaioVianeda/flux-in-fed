@@ -26,9 +26,9 @@ const NavBar = () => {
       >
         <img
           src={ location.pathname === "/panel/schedule" ? iconScheduleActive : iconSchedule}
-          width={35}
+          width={30}
         />
-        <div>Agenda</div>
+        <p className={style.title}>Agenda</p>
       </Link>
       <Link
         to={"clients"}
@@ -41,9 +41,9 @@ const NavBar = () => {
       >
         <img
           src={location.pathname === "/panel/clients" ? iconClientActive : iconClient}
-          width={35}
+          width={30}
         />
-        <div>Clientes</div>
+        <p className={style.title}>Clientes</p>
       </Link>
     </nav>
   );

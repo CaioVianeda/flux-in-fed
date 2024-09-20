@@ -30,14 +30,14 @@ const ServiceList = ({ filter, dateFilter = new Date() }: Props) => {
   }
 
   useEffect(() => {
-    http.get("/barbeiros/1/atendimentos").then((response) => {
+    http.get("/barbeiros/3/atendimentos").then((response) => {
       setSchedules(filterSchedulesByDate(response.data));
     });
   }, []);
 
   useEffect(() => {
     //TODO ajustar api para não precisar carregar todos os atendimentos
-    http.get("/barbeiros/1/atendimentos").then((response) => {
+    http.get("/barbeiros/3/atendimentos").then((response) => {
       setSchedules(filterSchedulesByDate(response.data));
     });
   }, [filter, dateFilter]);

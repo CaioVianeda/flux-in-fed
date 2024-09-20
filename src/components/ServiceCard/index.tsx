@@ -2,39 +2,37 @@ import { ISchedule } from "../../shared/interfaces/ISchedule";
 //@ts-ignore
 import style from "./style.module.css";
 import api from "../../service/http";
+import { Avatar, Tooltip } from "@mui/material";
+import { Cancel, CheckCircle, Close, DoneAll } from "@mui/icons-material";
+import Modal from "../SchedulerBarber";
+import SchedulerBarber from "../SchedulerBarber";
+import { useState } from "react";
 
 interface Props {
   schedule: ISchedule;
   setSchedules: React.Dispatch<React.SetStateAction<ISchedule[]>>;
 }
 
-const ServiceCard = ({
-  schedule,
-  setSchedules
-}: Props) => {
-  function showDateOfSchedule(date: Date) {
-    return `${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}/${
-      date.getMonth() + 1 < 10
-        ? "0" + (date.getMonth() + 1)
-        : date.getMonth() + 1
-    }/${date.getFullYear()}  ${date.getHours()}:${
-      date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
-    }h`;
+const ServiceCard = ({ schedule, setSchedules }: Props) => {
+
+  const [openModal, setOpenModal] = useState<Boolean>(false);
+
+  function selectBackgroundColor(schedule: ISchedule): String{
+    if (schedule.finalizado) {
+      return "#00c120";
+    }
+    if (schedule.confirmado && !schedule.finalizado) {
+      return "#ffd447";
+    }
+    if (!schedule.confirmado) {
+      return "#BB0000";
+    } else return '#fff'
   }
 
-  let backgroundColor;
-  let backgroundColor2;
-  if (schedule.finalizado) {
-    backgroundColor = "#01c120";
-    backgroundColor2 = "#01c12165";
-  }
-  if (schedule.confirmado && !schedule.finalizado) {
-    backgroundColor = "#fed545";
-    backgroundColor2 = "#fed54565";
-  }
-  if (!schedule.confirmado) {
-    backgroundColor = "#bc0001";
-    backgroundColor2 = "#bc000065";
+  function showDateOfSchedule(date: Date) {
+    return `${date.getHours()}:${
+      date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
+    }h`;
   }
 
   async function finishAppointment(id: number) {
@@ -45,7 +43,6 @@ const ServiceCard = ({
         })
       );
     });
-
   }
 
   async function confirmAppointment(id: number) {
@@ -62,26 +59,52 @@ const ServiceCard = ({
     <div
       key={schedule.id}
       className={style["service-card"]}
-      style={{border: `5px solid ${backgroundColor}`, backgroundColor: backgroundColor2}}
+      style={{ backgroundColor: `${selectBackgroundColor(schedule)}`  }}
+      onClick={() => setOpenModal(true)}
     >
-      <span>{schedule.nomeCliente}</span>
-      <span>{schedule.procedimentos.map((item)  => {return <span key={item.id}>{item.nome}</span>})}</span>
-      <span>{showDateOfSchedule(new Date(schedule.data))}</span>
+      {
+        openModal &&  <SchedulerBarber/>
+      }
+     
+      <div className={style.info}>
+        <Avatar />
+        <div>
+          <p style={{ fontWeight: 300 }}>
+            {showDateOfSchedule(new Date(schedule.data))}
+          </p>
+          <p style={{ fontWeight: 700 }}>{schedule.nomeCliente}</p>
+        </div>
+      </div>
       <div id={style["service-card__button-container"]}>
         {schedule.confirmado && !schedule.finalizado && (
-          <button onClick={() => confirmAppointment(schedule.id)}>
-            cancelar
-          </button>
+          <Tooltip title="Cancelar">
+            <span
+              className={style.buttons}
+              onClick={() => confirmAppointment(schedule.id)}
+            >
+              <Close />
+            </span>
+          </Tooltip>
         )}
         {!schedule.confirmado && (
-          <button onClick={() => confirmAppointment(schedule.id)}>
-            confirmar
-          </button>
+          <Tooltip title="Confirmar">
+            <span
+              className={style.buttons}
+              onClick={() => confirmAppointment(schedule.id)}
+            >
+              <CheckCircle />
+            </span>
+          </Tooltip>
         )}
         {!schedule.finalizado && schedule.confirmado && (
-          <button onClick={() => finishAppointment(schedule.id)}>
-            finalizar
-          </button>
+          <Tooltip title="Finalizar">
+            <span
+              className={style.buttons}
+              onClick={() => finishAppointment(schedule.id)}
+            >
+              <DoneAll />
+            </span>
+          </Tooltip>
         )}
       </div>
     </div>

@@ -3,6 +3,10 @@ a{
     color: inherit;
 }
 
+.title{
+    font-size: 12px;
+    font-weight: 500;
+}
 
 nav{
     display: flex;
@@ -16,12 +20,16 @@ nav{
 .button__page-navigation{
     background-color: #F3F3F3;
     border-radius: 8px;
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     font-size: 15px;
     cursor: pointer;
+}
+
+.button__page-navigation:hover{
+    background-color: #00c1af;
 }

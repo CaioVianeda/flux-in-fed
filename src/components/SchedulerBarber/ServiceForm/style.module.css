@@ -1,0 +1,28 @@
+.title{
+    color: #999999;
+    margin: 10px;
+}
+
+.select_service__options-container{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 25px;
+    width: 450px;
+}
+
+
+.select_service__option{
+    display: flex;
+    height: 22px;
+    gap: 5px;
+    padding: 8px;
+    border-bottom: 1px solid #f3f3f3;
+}
+
+.select_service__option_info{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
