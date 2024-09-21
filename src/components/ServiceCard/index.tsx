@@ -4,9 +4,6 @@ import style from "./style.module.css";
 import api from "../../service/http";
 import { Avatar, Tooltip } from "@mui/material";
 import { Cancel, CheckCircle, Close, DoneAll } from "@mui/icons-material";
-import Modal from "../SchedulerBarber";
-import SchedulerBarber from "../SchedulerBarber";
-import { useState } from "react";
 
 interface Props {
   schedule: ISchedule;
@@ -14,8 +11,6 @@ interface Props {
 }
 
 const ServiceCard = ({ schedule, setSchedules }: Props) => {
-
-  const [openModal, setOpenModal] = useState<Boolean>(false);
 
   function selectBackgroundColor(schedule: ISchedule): String{
     if (schedule.finalizado) {
@@ -60,12 +55,8 @@ const ServiceCard = ({ schedule, setSchedules }: Props) => {
       key={schedule.id}
       className={style["service-card"]}
       style={{ backgroundColor: `${selectBackgroundColor(schedule)}`  }}
-      onClick={() => setOpenModal(true)}
-    >
-      {
-        openModal &&  <SchedulerBarber/>
-      }
      
+    >
       <div className={style.info}>
         <Avatar />
         <div>

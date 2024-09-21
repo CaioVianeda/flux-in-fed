@@ -1,0 +1,14 @@
+#container {
+    display: flex;
+    justify-content: flex-start;
+    width: 430px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    flex-direction: column;
+  }
+
+  .title {
+    color: #999999;
+    margin-bottom: 10px;
+  }

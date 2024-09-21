@@ -4,18 +4,23 @@ import http from "../../service/http";
 import ServiceCard from "../ServiceCard";
 //@ts-ignore
 import style from "./style.module.css";
+import SchedulerBarber from "../SchedulerBarber";
+import { IBarber } from "../../shared/interfaces/IBarber";
 
 interface Props {
   filter: string;
   dateFilter: Date;
+  employee: IBarber;
 }
 
-const ServiceList = ({ filter, dateFilter = new Date() }: Props) => {
+const ServiceList = ({ filter, dateFilter = new Date(), employee }: Props) => {
   const [schedules, setSchedules] = useState<ISchedule[]>([]);
+  const [selectedHour, setSelectedHour] = useState<Date | null>(null);
+  const [openModal, setOpenModal] = useState<Boolean>(false);
 
-  function generateHalfHourInterval() {
+  function generateHalfHourInterval(date: Date) {
     let timeSlot = [];
-    let current = new Date();
+    let current = new Date(date);
     current.setHours(8, 0, 0, 0);
 
     let finalTime = new Date();
@@ -30,17 +35,16 @@ const ServiceList = ({ filter, dateFilter = new Date() }: Props) => {
   }
 
   useEffect(() => {
-    http.get("/barbeiros/3/atendimentos").then((response) => {
-      setSchedules(filterSchedulesByDate(response.data));
-    });
-  }, []);
-
-  useEffect(() => {
     //TODO ajustar api para não precisar carregar todos os atendimentos
-    http.get("/barbeiros/3/atendimentos").then((response) => {
+    http.get(`/barbeiros/${employee.id}/atendimentos`).then((response) => {
       setSchedules(filterSchedulesByDate(response.data));
     });
   }, [filter, dateFilter]);
+
+  function handleOpenModal(hour: Date) {
+    setSelectedHour(hour);
+    setOpenModal(true);
+  }
 
   function filterSchedulesByTopics(schedules: ISchedule[]): ISchedule[] {
     switch (filter) {
@@ -72,17 +76,25 @@ const ServiceList = ({ filter, dateFilter = new Date() }: Props) => {
 
   return (
     <div id={style["container--services-list"]}>
-      {generateHalfHourInterval().map((hour) => {
+      {generateHalfHourInterval(dateFilter).map((hour) => {
         return (
           <div className={style.row} key={hour.getTime()}>
             <div className={style.hour}>
-              <p className={style["hour-text"]}>{`${hour.getHours() < 10 ? "0" + hour.getHours() : hour.getHours()}`}{`:${
-                hour.getMinutes() < 10
-                  ? "0" + hour.getMinutes()
-                  : hour.getMinutes()
-              }h`}</p>
+              <p className={style["hour-text"]}>
+                {`${
+                  hour.getHours() < 10 ? "0" + hour.getHours() : hour.getHours()
+                }`}
+                {`:${
+                  hour.getMinutes() < 10
+                    ? "0" + hour.getMinutes()
+                    : hour.getMinutes()
+                }h`}
+              </p>
             </div>
-            <div className={style["container__service--card"]}>
+            <div
+              className={style["container__service--card"]}
+              onClick={() => handleOpenModal(hour)}
+            >
               {schedules.find(
                 (schedule) =>
                   new Date(schedule.data).getHours() === hour.getHours() &&
@@ -107,6 +119,10 @@ const ServiceList = ({ filter, dateFilter = new Date() }: Props) => {
           </div>
         );
       })}
+
+      {openModal && selectedHour && (
+        <SchedulerBarber dateSelected={selectedHour} employee={employee}/>
+      )}
     </div>
   );
 };

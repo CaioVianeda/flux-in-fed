@@ -1,23 +1,24 @@
 //@ts-ignore
 import style from "./style.module.css";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { Close } from "@mui/icons-material";
 import ServiceForm from "./ServiceForm";
 import SelectBarber from "./SelectBarber";
 import ClientForm from "./ClientForm";
+import TimeForm from "./TimeForm";
+import { IBarber } from "../../shared/interfaces/IBarber";
 
 interface Props {
-  isOpen: Boolean;
-  onClose: Dispatch<SetStateAction<Boolean>>;
+  employee: IBarber;
+  dateSelected: Date;
 }
 
-const SchedulerBarber = () => {
-
-  const [selectedServices, setSelectedServices] = useState<String[]>([])
+const SchedulerBarber = ({ employee, dateSelected }: Props) => {
+  const [selectedServices, setSelectedServices] = useState<String[]>([]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log('Opções Selecionadas:', selectedServices);
+    console.log("Opções Selecionadas:", selectedServices);
   };
 
   return (
@@ -32,9 +33,12 @@ const SchedulerBarber = () => {
           <div className={style.header__status}>Agendado</div>
         </div>
         <div className={style.body}>
-          <SelectBarber/>
-          <ClientForm/>
-          <ServiceForm setSelectedServices={setSelectedServices}/>  
+          <SelectBarber employee={employee} />
+          <ClientForm />
+          <ServiceForm setSelectedServices={setSelectedServices} />
+          {selectedServices.length !== 0 && (
+            <TimeForm dateSelected={dateSelected} services={selectedServices} />
+          )}
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 export interface IBarber{
-    nome: string,
+    id: string
     idBarbearia: number,
+    nome: string,
     telefone:string,
     email: string
 }

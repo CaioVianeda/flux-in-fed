@@ -4,7 +4,7 @@ import { Outlet, useLocation } from "react-router-dom";
 //@ts-ignore
 import style from "./style.module.css";
 import { useEffect, useState } from "react";
-import api from "../../service/http";
+import http from "../../service/http";
 import { IBarberShop } from "../../shared/interfaces/IBarberShop";
 import { IBarber } from "../../shared/interfaces/IBarber";
 
@@ -14,14 +14,14 @@ const Panel = () => {
   const [barberShop, setBarberShop] = useState<IBarberShop>();
 
   useEffect(() => {
-    api.get("/barbeiros/3").then((response) => {
+    http.get("/barbeiros/3").then((response) => {
       setBarber(response.data);
     });
   }, []);
 
   useEffect(() => {
     if (barber) {
-      api.get(`/barbearias/${barber?.idBarbearia}`).then((response) => {
+      http.get(`/barbearias/${barber?.idBarbearia}`).then((response) => {
         setBarberShop(response.data);
       });
     }
@@ -36,7 +36,7 @@ const Panel = () => {
           barberShop={`${barberShop?.nome}`}
           pageName= {location.pathname === '/panel/schedule' ? 'Calendario' : 'Clientes'}
         />
-        <Outlet />
+        <Outlet/>
       </div>
     </main>
   );
