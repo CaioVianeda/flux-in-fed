@@ -5,6 +5,8 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Autocomplete } from "@mui/material";
 import http from "../../../service/http";
 import { IClient } from "../../../shared/interfaces/IClient";
+import PerfilCard from "../../PerfilCard";
+import { Close } from "@mui/icons-material";
 
 const ClientForm = () => {
   const [clients, setClients] = useState<IClient[]>([]);
@@ -23,37 +25,17 @@ const ClientForm = () => {
   });
 
   const handleChangeName = (e: ChangeEvent<HTMLInputElement>) => {
-    if (client.id !== "") {
-      setClient((prevState) => ({
-        ...prevState,
-        nome: e.target.value,
-        id: '',
-        telefone: ''
-      }));
-    } else {
-      setClient((prevState) => ({
-        ...prevState,
-        nome: e.target.value,
-      }));
-    }
+    setClient((prevState) => ({
+      ...prevState,
+      nome: e.target.value,
+    }));
   };
 
   const handleChangeTelephone = (e: ChangeEvent<HTMLInputElement>) => {
-    if(client.id !== ''){
-      setClient((prevState) => ({
-        ...prevState,
-        id: '',
-        telefone: e.target.value,
-        nome: ''
-      }));
-    }
-    else {
-      setClient((prevState) => ({
-        ...prevState,
-        telefone: e.target.value,
-      }));
-    }
-   
+    setClient((prevState) => ({
+      ...prevState,
+      telefone: e.target.value,
+    }));
 
     if (e.target.value.length === 13) {
       const clientFinded = clients.find((client) => {
@@ -61,9 +43,8 @@ const ClientForm = () => {
       });
 
       if (clientFinded) {
-        setClient(clientFinded); // Atualiza o cliente encontrado
+        setClient(clientFinded);
       } else {
-        // Limpar o nome se nenhum cliente for encontrado
         setClient((prevState) => ({
           ...prevState,
           nome: "",
@@ -71,7 +52,7 @@ const ClientForm = () => {
       }
     }
   };
-  console.log(client);
+
   useEffect(() => {
     http
       .get<IClient[]>("/clientes")
@@ -83,90 +64,113 @@ const ClientForm = () => {
       });
   }, []);
 
-  return (
-    <div id={style.container}>
-      <p className={style.title}>Cliente</p>
-      <form className={style["container-form"]}>
-        <TextField
-          id="standard-required"
-          label="Telefone"
-          variant="standard"
-          type="tel"
-          value={client.telefone}
-          name="telefone"
-          size="small"
-          slotProps={{
-            input: { style: { width: "300px" } },
-            inputLabel: { style: { fontFamily: "nunito", fontSize: "14px" } },
-          }}
-          onChange={handleChangeTelephone}
-        />
-        {client.id === "" ? (
-          <Autocomplete
-            sx={{ width: "300px" }}
-            options={options.sort(
-              (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
-            )}
-            groupBy={(option) => option.firstLetter}
-            getOptionLabel={(option) =>
-              typeof option === "string" ? option : option.nome
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                id="standard-required"
-                label="Nome"
-                variant="standard"
-                type="text"
-                value={client.nome}
-                name="nome"
-                size="small"
-                slotProps={{
-                  inputLabel: {
-                    style: { fontFamily: "nunito", fontSize: "14px" },
-                  },
-                }}
-                onChange={handleChangeName}
-              />
-            )}
-            onChange={(event, value) => {
-              console.log(value);
-              if (value && typeof value !== "string") {
-                setClient({
-                  id: value.id,
-                  nome: value.nome,
-                  telefone: value.telefone,
-                });
-              }
-            }}
-            renderOption={(props, option) => (
-              <li {...props} key={`${option.id}`}>
-                {option.nome}
-              </li>
-            )}
-            freeSolo
-          />
-        ) : (
+  if (client.id === "") {
+    return (
+      <div id={style.container}>
+        <p className={style.title}>Cliente</p>
+        <form className={style["container-form"]}>
           <TextField
             id="standard-required"
-            label="Nome"
+            label="Telefone"
             variant="standard"
-            type="text"
-            value={client.nome}
-            name="nome"
+            type="tel"
+            value={client.telefone}
+            name="telefone"
             size="small"
             slotProps={{
               input: { style: { width: "300px" } },
-              inputLabel: {
-                style: { fontFamily: "nunito", fontSize: "14px" },
-              },
+              inputLabel: { style: { fontFamily: "nunito", fontSize: "14px" } },
             }}
-            onChange={handleChangeName}
+            onChange={handleChangeTelephone}
           />
-        )}
-      </form>
-    </div>
-  );
+          {client.id === "" ? (
+            <Autocomplete
+              sx={{ width: "300px" }}
+              options={options.sort(
+                (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
+              )}
+              groupBy={(option) => option.firstLetter}
+              getOptionLabel={(option) =>
+                typeof option === "string" ? option : option.nome
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  id="standard-required"
+                  label="Nome"
+                  variant="standard"
+                  type="text"
+                  value={client.nome}
+                  name="nome"
+                  size="small"
+                  slotProps={{
+                    inputLabel: {
+                      style: { fontFamily: "nunito", fontSize: "14px" },
+                    },
+                  }}
+                  onChange={handleChangeName}
+                />
+              )}
+              onChange={(event, value) => {
+                console.log(value);
+                if (value && typeof value !== "string") {
+                  setClient({
+                    id: value.id,
+                    nome: value.nome,
+                    telefone: value.telefone,
+                  });
+                }
+              }}
+              renderOption={(props, option) => (
+                <li {...props} key={`${option.id}`}>
+                  {option.nome}
+                </li>
+              )}
+              freeSolo
+            />
+          ) : (
+            <TextField
+              id="standard-required"
+              label="Nome"
+              variant="standard"
+              type="text"
+              value={client.nome}
+              name="nome"
+              size="small"
+              slotProps={{
+                input: { style: { width: "300px" } },
+                inputLabel: {
+                  style: { fontFamily: "nunito", fontSize: "14px" },
+                },
+              }}
+              onChange={handleChangeName}
+            />
+          )}
+        </form>
+      </div>
+    );
+  } else {
+    return (
+      <div id={style.container}>
+        <p className={style.title}>Cliente</p>
+        <div className={style["container__client-card"]}>
+          <PerfilCard barber={client.nome} barberShop={client.telefone} />
+          <div
+            className={style.button}
+            onClick={() => {
+              setClient({
+                id: "",
+                nome: "",
+                telefone: "",
+              });
+            }}
+          >
+            <Close color="action" sx={{ width: "18px" }} />
+          </div>
+        </div>
+      </div>
+    );
+  }
 };
 
 export default ClientForm;

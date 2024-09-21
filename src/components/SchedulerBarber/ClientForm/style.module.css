@@ -8,6 +8,24 @@
   flex-direction: column;
 }
 
+.container__client-card{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.button{
+  background-color: #00000015;
+  display: flex;
+  width: 35px;
+  height: 35px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer ;
+}
+
+
 .title {
   color: #999999;
   margin-bottom: 10px;
