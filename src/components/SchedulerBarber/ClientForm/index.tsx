@@ -23,17 +23,37 @@ const ClientForm = () => {
   });
 
   const handleChangeName = (e: ChangeEvent<HTMLInputElement>) => {
-    setClient((prevState) => ({
-      ...prevState,
-      nome: e.target.value,
-    }));
+    if (client.id !== "") {
+      setClient((prevState) => ({
+        ...prevState,
+        nome: e.target.value,
+        id: '',
+        telefone: ''
+      }));
+    } else {
+      setClient((prevState) => ({
+        ...prevState,
+        nome: e.target.value,
+      }));
+    }
   };
 
   const handleChangeTelephone = (e: ChangeEvent<HTMLInputElement>) => {
-    setClient((prevState) => ({
-      ...prevState,
-      telefone: e.target.value,
-    }));
+    if(client.id !== ''){
+      setClient((prevState) => ({
+        ...prevState,
+        id: '',
+        telefone: e.target.value,
+        nome: ''
+      }));
+    }
+    else {
+      setClient((prevState) => ({
+        ...prevState,
+        telefone: e.target.value,
+      }));
+    }
+   
 
     if (e.target.value.length === 13) {
       const clientFinded = clients.find((client) => {

@@ -14,7 +14,7 @@ const Panel = () => {
   const [barberShop, setBarberShop] = useState<IBarberShop>();
 
   useEffect(() => {
-    api.get("/barbeiros/4").then((response) => {
+    api.get("/barbeiros/3").then((response) => {
       setBarber(response.data);
     });
   }, []);
