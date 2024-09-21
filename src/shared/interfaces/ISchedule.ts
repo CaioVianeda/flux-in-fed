@@ -1,10 +1,11 @@
+import { IService } from "./IService";
 
 export interface ISchedule {
   id: number;
   clienteId: number;
   nomeCliente: string;
   nomeBarbeiro: string;
-  procedimentos: procedimento[];
+  procedimentos: IService[];
   total: number;
   data: string;
   duracao: string;
@@ -12,8 +13,3 @@ export interface ISchedule {
   confirmado: boolean;
 }
 
-interface procedimento {
-    id: number;
-    nome: string;
-    preco: number;
-}

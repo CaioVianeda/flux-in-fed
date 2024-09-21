@@ -30,7 +30,6 @@ const ServiceList = ({ filter, dateFilter = new Date(), employee }: Props) => {
       timeSlot.push(new Date(current));
       current.setMinutes(current.getMinutes() + 30);
     }
-
     return timeSlot;
   }
 
@@ -100,6 +99,7 @@ const ServiceList = ({ filter, dateFilter = new Date(), employee }: Props) => {
                   new Date(schedule.data).getHours() === hour.getHours() &&
                   new Date(schedule.data).getMinutes() === hour.getMinutes()
               ) ? (
+                
                 <ServiceCard
                   schedule={
                     schedules.find(
@@ -121,7 +121,7 @@ const ServiceList = ({ filter, dateFilter = new Date(), employee }: Props) => {
       })}
 
       {openModal && selectedHour && (
-        <SchedulerBarber dateSelected={selectedHour} employee={employee}/>
+        <SchedulerBarber selectedDate={selectedHour} selectedEmployee={employee} setOpenModal={setOpenModal}/>
       )}
     </div>
   );

@@ -4,12 +4,13 @@ import style from "./style.module.css";
 import http from "../../../service/http";
 import { IService } from "../../../shared/interfaces/IService";
 interface Props {
-  setSelectedServices: Dispatch<SetStateAction<String[]>>;
+  setSelectedServices: Dispatch<SetStateAction<IService[]>>;
 }
 
 const ServiceForm = ({ setSelectedServices }: Props) => {
   
   const [services, setServices] = useState<IService[]>([]);
+  
   useEffect(() => {
     http.get<IService[]>("/procedimentos").then((response) => {
      setServices(response.data);
@@ -18,12 +19,11 @@ const ServiceForm = ({ setSelectedServices }: Props) => {
 
   const handleServicesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = event.target;
-
     setSelectedServices((prev) => {
       if (checked) {
-        return [...prev, value];
+        return [...prev, JSON.parse(value)];
       } else {
-        return prev.filter((option) => option !== value);
+        return prev.filter((option) => option.id !== JSON.parse(value).id);
       }
     });
   };
@@ -46,7 +46,7 @@ const ServiceForm = ({ setSelectedServices }: Props) => {
                 <input
                   id={`${service.nome}`}
                   type="checkbox"
-                  value={service.id}
+                  value={JSON.stringify(service)}
                   onChange={handleServicesChange}
                 />
                 <div className={style.select_service__option_info}>

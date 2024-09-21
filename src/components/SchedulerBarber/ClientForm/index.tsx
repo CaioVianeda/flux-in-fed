@@ -8,7 +8,11 @@ import { IClient } from "../../../shared/interfaces/IClient";
 import PerfilCard from "../../PerfilCard";
 import { Close } from "@mui/icons-material";
 
-const ClientForm = () => {
+interface Props{
+  setSelectedClient:  React.Dispatch<React.SetStateAction<IClient | undefined>>;
+}
+
+const ClientForm = ({setSelectedClient}: Props) => {
   const [clients, setClients] = useState<IClient[]>([]);
   const [client, setClient] = useState<IClient>({
     id: "",
@@ -44,6 +48,7 @@ const ClientForm = () => {
 
       if (clientFinded) {
         setClient(clientFinded);
+        setSelectedClient(clientFinded);
       } else {
         setClient((prevState) => ({
           ...prevState,
@@ -112,9 +117,13 @@ const ClientForm = () => {
                 />
               )}
               onChange={(event, value) => {
-                console.log(value);
                 if (value && typeof value !== "string") {
                   setClient({
+                    id: value.id,
+                    nome: value.nome,
+                    telefone: value.telefone,
+                  });
+                  setSelectedClient({
                     id: value.id,
                     nome: value.nome,
                     telefone: value.telefone,

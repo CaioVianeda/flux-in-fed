@@ -1,14 +1,15 @@
+import { IService } from "../../../shared/interfaces/IService";
 //@ts-ignore
 import style from "./style.module.css";
 
 interface Props {
   dateSelected: Date;
-  services: String[];
+  services: IService[];
 }
 
 const TimeForm = ({ dateSelected, services }: Props) => {
     
-  function serviceTimeCalculator(time: Date, services: String[]): Date {
+  function serviceTimeCalculator(time: Date, services: IService[]): Date {
     const aux = new Date(time);
     aux.setMinutes(aux.getMinutes() + 30 * services.length);
     return aux;
