@@ -19,11 +19,11 @@ const ServiceList = ({ filter, dateFilter = new Date(), employee }: Props) => {
   const [openModal, setOpenModal] = useState<Boolean>(false);
 
   function generateHalfHourInterval(date: Date) {
-    let timeSlot = [];
+    const timeSlot = [];
     let current = new Date(date);
     current.setHours(8, 0, 0, 0);
 
-    let finalTime = new Date();
+    let finalTime = new Date(date);
     finalTime.setHours(18, 0, 0, 0);
 
     while (current <= finalTime) {
@@ -88,7 +88,7 @@ const ServiceList = ({ filter, dateFilter = new Date(), employee }: Props) => {
       }
     });
   }
-
+  console.log(generateHalfHourInterval(dateFilter));
   return (
     <div id={style["container--services-list"]}>
       {generateHalfHourInterval(dateFilter).map((hour) => {
