@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 //@ts-ignore
 import style from "./style.module.css";
-import http from "../../../../service/http";
-import { IService } from "../../../../shared/interfaces/IService";
+import http from "../../../../../service/http";
+import { IService } from "../../../../../shared/interfaces/IService";
 interface Props {
   setSelectedServices: Dispatch<SetStateAction<IService[]>>;
 }

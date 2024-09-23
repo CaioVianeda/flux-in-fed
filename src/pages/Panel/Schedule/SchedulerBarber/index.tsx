@@ -6,11 +6,11 @@ import ServiceForm from "./ServiceForm";
 import SelectBarber from "./SelectBarber";
 import ClientForm from "./ClientForm";
 import TimeForm from "./TimeForm";
-import { IBarber } from "../../../shared/interfaces/IBarber";
-import { IService } from "../../../shared/interfaces/IService";
-import { IClient } from "../../../shared/interfaces/IClient";
-import { IToSchedule } from "../../../shared/interfaces/IToSchedule";
-import http from "../../../service/http";
+import { IBarber } from "../../../../shared/interfaces/IBarber";
+import { IService } from "../../../../shared/interfaces/IService";
+import { IClient } from "../../../../shared/interfaces/IClient";
+import { IToSchedule } from "../../../../shared/interfaces/IToSchedule";
+import http from "../../../../service/http";
 
 interface Props {
   selectedEmployee: IBarber;

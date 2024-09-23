@@ -4,6 +4,14 @@
     overflow-y: auto;
 }
 
+.header{
+    display: flex;
+    background-color: #ffffff;
+    margin-bottom: 3px;
+    padding: 10px 20px;
+    min-height: 50px;
+}
+
 .row{ 
     display: flex;
     background-color: #ffffff;
@@ -13,11 +21,10 @@
 
 .hour{
     display: flex;
-    background-color: #f6f6f6;
+    background-color: #f3f3f3;
     align-items: center;
     justify-content: center;
-
-    
+    padding: 0 5px;
 }
 
 .hour-text{
@@ -33,11 +40,11 @@
 
 .container__service--card{
    width: 100%;
-   /* display: flex; */
 }
 
-p{
-    margin: 0;
-    padding: 0;
+.card{
+    height: 100%;
+    width: 100%;
 }
+
 

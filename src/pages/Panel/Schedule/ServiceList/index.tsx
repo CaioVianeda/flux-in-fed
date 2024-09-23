@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { ISchedule } from "../../shared/interfaces/ISchedule";
-import http from "../../service/http";
-import ServiceCard from "../ServiceCard";
+import { ISchedule } from "../../../../shared/interfaces/ISchedule";
+import http from "../../../../service/http";
+import ServiceCard from "../../../../components/ServiceCard";
 //@ts-ignore
 import style from "./style.module.css";
-import SchedulerBarber from "../../pages/Panel/Schedule/SchedulerBarber";
-import { IBarber } from "../../shared/interfaces/IBarber";
+import SchedulerBarber from "../SchedulerBarber";
+import { IBarber } from "../../../../shared/interfaces/IBarber";
+import PerfilCard from "../../../../components/PerfilCard";
 
 interface Props {
   filter: string;
@@ -97,61 +98,71 @@ const ServiceList = ({ filter, dateFilter = new Date(), employee }: Props) => {
       }
     });
   }
-  console.log(generateHalfHourInterval(dateFilter));
-  return (
-    <div id={style["container--services-list"]}>
-      {generateHalfHourInterval(dateFilter).map((hour) => {
-        return (
-          <div className={style.row} key={hour.getTime()}>
-            <div className={style.hour}>
-              <p className={style["hour-text"]}>
-                {`${
-                  hour.getHours() < 10 ? "0" + hour.getHours() : hour.getHours()
-                }`}
-                {`:${
-                  hour.getMinutes() < 10
-                    ? "0" + hour.getMinutes()
-                    : hour.getMinutes()
-                }h`}
-              </p>
-            </div>
-            <div
-              className={style["container__service--card"]}
-            >
-              {schedules.find(
-                (schedule) =>
-                  new Date(schedule.data).getHours() === hour.getHours() &&
-                  new Date(schedule.data).getMinutes() === hour.getMinutes()
-              ) ? (
-                //TODO ajustar carregamento
-                <ServiceCard
-                  schedule={
-                    schedules.find(
-                      (schedule) =>
-                        new Date(schedule.data).getHours() ===
-                          hour.getHours() &&
-                        new Date(schedule.data).getMinutes() ===
-                          hour.getMinutes()
-                    )!
-                  }
-                  setSchedules={setSchedules}
-                />
-              ) : (
-                <div className={style.card} onClick={() => isFutureDate(hour) && handleOpenModal(hour)}></div>
-              )}
-            </div>
-          </div>
-        );
-      })}
 
-      {openModal && selectedHour && (
-        <SchedulerBarber
-          selectedDate={selectedHour}
-          selectedEmployee={employee}
-          setOpenModal={setOpenModal}
-        />
-      )}
-    </div>
+  return (
+    <>
+      <div className={style.header}>
+        {/*TODO ajustar api para trazer nome do estabelecimento */}
+        <PerfilCard barber={employee.nome} barberShop={"Silva's"}/>
+      </div>
+      <div id={style["container--services-list"]}>
+        
+        {generateHalfHourInterval(dateFilter).map((hour) => {
+          return (
+            <div className={style.row} key={hour.getTime()}>
+              <div className={style.hour}>
+                <p className={style["hour-text"]}>
+                  {`${
+                    hour.getHours() < 10
+                      ? "0" + hour.getHours()
+                      : hour.getHours()
+                  }`}
+                  {`:${
+                    hour.getMinutes() < 10
+                      ? "0" + hour.getMinutes()
+                      : hour.getMinutes()
+                  }h`}
+                </p>
+              </div>
+              <div className={style["container__service--card"]}>
+                {schedules.find(
+                  (schedule) =>
+                    new Date(schedule.data).getHours() === hour.getHours() &&
+                    new Date(schedule.data).getMinutes() === hour.getMinutes()
+                ) ? (
+                  //TODO ajustar carregamento
+                  <ServiceCard
+                    schedule={
+                      schedules.find(
+                        (schedule) =>
+                          new Date(schedule.data).getHours() ===
+                            hour.getHours() &&
+                          new Date(schedule.data).getMinutes() ===
+                            hour.getMinutes()
+                      )!
+                    }
+                    setSchedules={setSchedules}
+                  />
+                ) : (
+                  <div
+                    className={style.card}
+                    onClick={() => isFutureDate(hour) && handleOpenModal(hour)}
+                  ></div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+
+        {openModal && selectedHour && (
+          <SchedulerBarber
+            selectedDate={selectedHour}
+            selectedEmployee={employee}
+            setOpenModal={setOpenModal}
+          />
+        )}
+      </div>
+    </>
   );
 };
 

@@ -5,8 +5,8 @@ import Scheduling from "./pages/Scheduling";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 //@ts-ignore
 import ScheduleProvider from "./context/ScheduleContext";
-import Schedule from "./pages/Schedule";
-import Clients from "./pages/Clients";
+import Schedule from "./pages/Panel/Schedule";
+import Clients from "./pages/Panel/Clients";
 import Panel from "./pages/Panel";
 import Configuration from "./pages/Configuration";
 

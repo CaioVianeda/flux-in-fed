@@ -14,8 +14,10 @@
     align-items: center;
 }
 
-p{
+.text-info{
     font-size: 12px;
+    margin: 5px;
+    color: #FFF;
 }
 
 #service-card__button-container{

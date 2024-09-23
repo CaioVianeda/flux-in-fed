@@ -3,9 +3,9 @@ import ClientCard from "./ClientCard";
 //@ts-ignore
 import style from "./style.module.css";
 import { useEffect, useState } from "react";
-import { IClient } from "../../shared/interfaces/IClient";
-import http from "../../service/http";
-import SearchText from "../../components/SeachText";
+import http from "../../../service/http";
+import { IClient } from "../../../shared/interfaces/IClient";
+import SearchText from "../../../components/SeachText";
 
 const Clients = () => {
 

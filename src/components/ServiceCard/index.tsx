@@ -3,7 +3,7 @@ import { ISchedule } from "../../shared/interfaces/ISchedule";
 import style from "./style.module.css";
 import api from "../../service/http";
 import { Avatar, Tooltip } from "@mui/material";
-import { Cancel, CheckCircle, Close, DoneAll } from "@mui/icons-material";
+import { Check, Close, DoneAll } from "@mui/icons-material";
 
 interface Props {
   schedule: ISchedule;
@@ -60,10 +60,10 @@ const ServiceCard = ({ schedule, setSchedules }: Props) => {
       <div className={style.info}>
         <Avatar />
         <div>
-          <p style={{ fontWeight: 300 }}>
+          <p style={{ fontWeight: 300 }} className={style["text-info"]}>
             {showDateOfSchedule(new Date(schedule.data))}
           </p>
-          <p style={{ fontWeight: 700 }}>{schedule.nomeCliente}</p>
+          <p style={{ fontWeight: 700 }} className={style["text-info"]}>{schedule.nomeCliente}</p>
         </div>
       </div>
       <div id={style["service-card__button-container"]}>
@@ -83,7 +83,7 @@ const ServiceCard = ({ schedule, setSchedules }: Props) => {
               className={style.buttons}
               onClick={() => confirmAppointment(schedule.id)}
             >
-              <CheckCircle />
+              <Check />
             </span>
           </Tooltip>
         )}

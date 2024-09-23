@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
-import { IBarber } from "../../shared/interfaces/IBarber";
+import { IBarber } from "../../../shared/interfaces/IBarber";
 //@ts-ignore
 import style from "./style.module.css";
-import FilterMenu from "../../components/FilterMenu";
-import ServiceList from "../../components/ServiceList";
-import { dayNames, monthNames } from "../../utils/constants/constants";
-import SearchText from "../../components/SeachText";
-import http from "../../service/http";
+import FilterMenu from "../../../components/FilterMenu";
+import ServiceList from "./ServiceList";
+import { dayNames, monthNames } from "../../../utils/constants/constants";
+import SearchText from "../../../components/SeachText";
+import http from "../../../service/http";
 
 const Schedule = () => {
-  const [barber, setBarber] = useState<IBarber>();
+  const [employee, setemployee] = useState<IBarber>();
   const [filter, setFilter] = useState<string>("");
   const [dateFilter, setDateFilter] = useState<Date>(new Date());
 
   useEffect(() => {
-    http.get("/barbeiros/3").then((response) => {
-      setBarber(response.data);
+    http.get(`/barbeiros/3`).then((response) => {
+      setemployee(response.data);
     });
   }, []);
 
@@ -32,7 +32,7 @@ const Schedule = () => {
               })`}</p>
               <SearchText/>
             </div>
-            {barber && <ServiceList filter={filter} dateFilter={dateFilter} employee={barber}/>}
+            {employee && <ServiceList filter={filter} dateFilter={dateFilter} employee={employee}/>}
           </div>
           <FilterMenu
             filter={filter}

@@ -3,9 +3,9 @@ import TextField from "@mui/material/TextField";
 import style from "./style.module.css";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Autocomplete } from "@mui/material";
-import http from "../../../../service/http";
-import { IClient } from "../../../../shared/interfaces/IClient";
-import PerfilCard from "../../../../components/PerfilCard";
+import http from "../../../../../service/http";
+import { IClient } from "../../../../../shared/interfaces/IClient";
+import PerfilCard from "../../../../../components/PerfilCard";
 import { Close } from "@mui/icons-material";
 
 interface Props{
