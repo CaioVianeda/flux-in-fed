@@ -8,7 +8,7 @@ import { dayNames, monthNames } from "../../utils/constants/constants";
 import SearchText from "../../components/SeachText";
 import http from "../../service/http";
 
-const Dashboard = () => {
+const Schedule = () => {
   const [barber, setBarber] = useState<IBarber>();
   const [filter, setFilter] = useState<string>("");
   const [dateFilter, setDateFilter] = useState<Date>(new Date());
@@ -45,4 +45,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Schedule;

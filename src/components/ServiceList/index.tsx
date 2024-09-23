@@ -33,11 +33,27 @@ const ServiceList = ({ filter, dateFilter = new Date(), employee }: Props) => {
     return timeSlot;
   }
 
+  function formatDateToLocalDateTime(date: Date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+}
+
   useEffect(() => {
-    //TODO ajustar api para não precisar carregar todos os atendimentos
-    http.get(`/barbeiros/${employee.id}/atendimentos`).then((response) => {
+
+    const endOfDay = new Date(dateFilter);
+    endOfDay.setHours(23, 59, 59, 999);
+    const body = {dataInicial:formatDateToLocalDateTime(new Date(dateFilter)), dataFinal: formatDateToLocalDateTime(endOfDay)}
+    http.post(`/atendimento/${employee.id}/filtrar`, body).then((response) => {
       setSchedules(filterSchedulesByDate(response.data));
-    });
+    })
+    .catch((erro) => {
+      console.log(erro);
+    }) ;
   }, [filter, dateFilter]);
 
   function handleOpenModal(hour: Date) {
