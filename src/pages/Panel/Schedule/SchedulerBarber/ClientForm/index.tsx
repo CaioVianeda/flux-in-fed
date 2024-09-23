@@ -8,11 +8,11 @@ import { IClient } from "../../../../../shared/interfaces/IClient";
 import PerfilCard from "../../../../../components/PerfilCard";
 import { Close } from "@mui/icons-material";
 
-interface Props{
-  setSelectedClient:  React.Dispatch<React.SetStateAction<IClient | undefined>>;
+interface Props {
+  setSelectedClient: React.Dispatch<React.SetStateAction<IClient | undefined>>;
 }
 
-const ClientForm = ({setSelectedClient}: Props) => {
+const ClientForm = ({ setSelectedClient }: Props) => {
   const [clients, setClients] = useState<IClient[]>([]);
   const [client, setClient] = useState<IClient>({
     id: "",
@@ -35,15 +35,25 @@ const ClientForm = ({setSelectedClient}: Props) => {
     }));
   };
 
+  const formatPhoneNumber = (input:String) => {
+    const cleaned = input.replace(/\D/g, '');
+    const match = cleaned.match(/^(\d{2})(\d)?(\d{4})(\d{4})$/);
+    if (match) {
+      return `(${match[1]}) ${match[2] || ''} ${match[3]}-${match[4]}`;
+    }
+    return cleaned;
+  };
+
   const handleChangeTelephone = (e: ChangeEvent<HTMLInputElement>) => {
     setClient((prevState) => ({
       ...prevState,
-      telefone: e.target.value,
+      telefone: formatPhoneNumber(e.target.value),
     }));
 
-    if (e.target.value.length === 13) {
+    if (e.target.value.length === 16) {
+      //TODO ajustar para buscar na API
       const clientFinded = clients.find((client) => {
-        return client.telefone === e.target.value;
+        return client.telefone === e.target.value.replace(/\D/g, '');
       });
 
       if (clientFinded) {
@@ -76,7 +86,7 @@ const ClientForm = ({setSelectedClient}: Props) => {
         <form className={style["container-form"]}>
           <TextField
             id="standard-required"
-            label="Telefone"
+            label="Telefone*"
             variant="standard"
             type="tel"
             value={client.telefone}
@@ -84,7 +94,9 @@ const ClientForm = ({setSelectedClient}: Props) => {
             size="small"
             slotProps={{
               input: { style: { width: "300px" } },
-              inputLabel: { style: { fontFamily: "nunito", fontSize: "14px" } },
+              inputLabel: {
+                style: { fontFamily: "nunito", fontSize: "14px" },
+              },
             }}
             onChange={handleChangeTelephone}
           />
@@ -102,7 +114,7 @@ const ClientForm = ({setSelectedClient}: Props) => {
                 <TextField
                   {...params}
                   id="standard-required"
-                  label="Nome"
+                  label="Nome*"
                   variant="standard"
                   type="text"
                   value={client.nome}
@@ -163,7 +175,7 @@ const ClientForm = ({setSelectedClient}: Props) => {
       <div id={style.container}>
         <p className={style.title}>Cliente</p>
         <div className={style["container__client-card"]}>
-          <PerfilCard barber={client.nome} barberShop={client.telefone} />
+          <PerfilCard barber={client.nome} barberShop={formatPhoneNumber(client.telefone)} />
           <div
             className={style.button}
             onClick={() => {

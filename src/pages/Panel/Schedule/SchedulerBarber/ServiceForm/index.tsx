@@ -4,10 +4,11 @@ import style from "./style.module.css";
 import http from "../../../../../service/http";
 import { IService } from "../../../../../shared/interfaces/IService";
 interface Props {
+  selectedServices: IService[],
   setSelectedServices: Dispatch<SetStateAction<IService[]>>;
 }
 
-const ServiceForm = ({ setSelectedServices }: Props) => {
+const ServiceForm = ({ selectedServices,setSelectedServices }: Props) => {
   
   const [services, setServices] = useState<IService[]>([]);
   
@@ -27,6 +28,14 @@ const ServiceForm = ({ setSelectedServices }: Props) => {
       }
     });
   };
+
+  const totalPriceServices =(services: IService[]): Number =>{
+    let total = 0;
+     services.forEach ((service) =>{
+        total += service.preco;
+     })
+     return total;
+  }
 
   return (
     <div className={style.select_services}>
@@ -56,6 +65,9 @@ const ServiceForm = ({ setSelectedServices }: Props) => {
               </label>
             );
           })}
+          <div className={style["card-total"]}>
+          <p>Total</p>
+          <p>{`R$${totalPriceServices(selectedServices)},00`}</p></div>
         </div>
       </form>
     </div>

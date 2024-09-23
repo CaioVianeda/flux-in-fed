@@ -11,6 +11,7 @@ import {
 import style from "./styles.module.css";
 import { monthNames } from "../../utils/constants/constants";
 import {useState } from "react";
+import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 
 interface Props {
   date: Date;
@@ -67,12 +68,12 @@ const Calendar = ({ date, dateFilter, setDateFilter }: Props) => {
   }
 
   return (
-    <div className={style.calendar}>
-      <div className={style['month-header']}>
-        <button className={style["change-month"]} onClick={() => changeMonth(-1)}>{`<`}</button>
+    <div id={style.calendar}>
+      <div id={style['month-header']}>
+        <div className={style["change-month"]} onClick={() => changeMonth(-1)}><ArrowBackIosNew fontSize="small"/></div>
         <span>{`${monthNames[calendarDate.getMonth()]} - ${calendarDate.getFullYear()}`}</span>
-        <button className={style["change-month"]} onClick={() => changeMonth(1)}>{`>`}</button>
-        <button onClick={() => {setDateFilter(new Date()); setCalendarDate(new Date())}}>Hoje</button>
+        <div className={style["change-month"]} onClick={() => changeMonth(1)}><ArrowForwardIos fontSize="small"/></div>
+        <div id={style["today-button"]} onClick={() => {setDateFilter(new Date()); setCalendarDate(new Date())}}>Hoje</div>
       </div>
 
       <div className={style.days}>
@@ -89,7 +90,7 @@ const Calendar = ({ date, dateFilter, setDateFilter }: Props) => {
           <div
             onClick={() => {setDateFilter(day); changeDate(day)}}
             key={day.getTime()}
-            className={`${style.day} ${isSameDay(day,dateFilter ) ? style["selected-day"] : undefined}` }
+            className={`${style.day} ${isSameDay(day,dateFilter ) && style["selected-day"]}` }
           >
             {format(day, "d")}
           </div>

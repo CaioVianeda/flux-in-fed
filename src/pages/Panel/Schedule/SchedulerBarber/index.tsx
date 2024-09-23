@@ -1,6 +1,6 @@
 //@ts-ignore
 import style from "./style.module.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Close } from "@mui/icons-material";
 import ServiceForm from "./ServiceForm";
 import SelectBarber from "./SelectBarber";
@@ -47,16 +47,19 @@ const SchedulerBarber = ({
         data: selectedDate,
       };
 
-      http.post('atendimento', body)
-       .then(() => alert(`Agendamento feito!`))
-       .catch((error) => console.log(`Erro ao solicitar atendimento: ${error}`));
+      http
+        .post("atendimento", body)
+        .then(() => alert(`Agendamento feito!`))
+        .catch((error) =>
+          console.log(`Erro ao solicitar atendimento: ${error}`)
+        );
+
+      setOpenModal(false);
     }
     console.log("servicos Selecionadas:", selectedServices);
     console.log("Funcionario Selecionadas:", selectedEmployee);
     console.log("Cliente Selecionadas:", selectedClient);
     console.log("Data Selecionadas:", selectedDate);
-
-    setOpenModal(false);
   };
 
   return (
@@ -73,7 +76,10 @@ const SchedulerBarber = ({
         <div className={style.body}>
           <SelectBarber employee={selectedEmployee} />
           <ClientForm setSelectedClient={setSelectedClient} />
-          <ServiceForm setSelectedServices={setSelectedServices} />
+          <ServiceForm
+            selectedServices={selectedServices}
+            setSelectedServices={setSelectedServices}
+          />
           {selectedServices.length !== 0 && (
             <TimeForm dateSelected={selectedDate} services={selectedServices} />
           )}

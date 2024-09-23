@@ -3,7 +3,7 @@ import { ISchedule } from "../../../../shared/interfaces/ISchedule";
 import http from "../../../../service/http";
 import ServiceCard from "../../../../components/ServiceCard";
 //@ts-ignore
-import style from "./style.module.css";
+import style from "./style.module.css"
 import SchedulerBarber from "../SchedulerBarber";
 import { IBarber } from "../../../../shared/interfaces/IBarber";
 import PerfilCard from "../../../../components/PerfilCard";
@@ -146,6 +146,7 @@ const ServiceList = ({ filter, dateFilter = new Date(), employee }: Props) => {
                 ) : (
                   <div
                     className={style.card}
+                    style={ {cursor: isFutureDate(hour) ? "pointer" : "default"}}
                     onClick={() => isFutureDate(hour) && handleOpenModal(hour)}
                   ></div>
                 )}

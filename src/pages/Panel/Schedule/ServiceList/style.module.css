@@ -1,6 +1,6 @@
 #container--services-list{
     background-color: #eeeeee;    
-    max-height: 80vh;
+    max-height: 75vh;
     overflow-y: auto;
 }
 

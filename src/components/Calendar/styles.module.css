@@ -1,4 +1,4 @@
-.calendar {
+#calendar {
     font-family: Arial, sans-serif;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -6,9 +6,10 @@
     width: 300px;
     margin-top: 20px;
     background-color: #fafafa;
+    font-family: 'nunito';
   }
   
-  .month-header {
+  #month-header {
     display: flex;
     font-size: 20px;
     font-weight: bold;
@@ -23,18 +24,30 @@
     display: flex;
     align-items: center;
     justify-items: center;
+    cursor: pointer;
+  }
+
+  #today-button{
+    cursor: pointer;
+  }
+  #today-button:hover{
+    color: #00c0b5;
   }
   
   .days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
   }
   
   .day {
     text-align: center;
     padding: 10px;
     cursor: pointer;
+  }
+
+  .day:hover{
+    border-radius: 50%;
+    background-color: #dad6d6;
   }
 
   .week {
