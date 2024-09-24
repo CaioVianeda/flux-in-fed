@@ -9,6 +9,7 @@ import Schedule from "./pages/Panel/Schedule";
 import Clients from "./pages/Panel/Clients";
 import Panel from "./pages/Panel";
 import Configuration from "./pages/Configuration";
+import ManageServices from "./pages/Configuration/ManageServices";
 
 const BackgroundApp = styled.div`
   width: 100%;
@@ -30,6 +31,7 @@ function AppRoutes() {
             <Route path="/configure" element={<Configuration/>}>
               <Route path="my-account" element={<>Minha conta</>}/>
               <Route path="customize" element={<>Configurações Gerais</>}/>
+              <Route path="manage-services" element={<ManageServices/>}/>
             </Route>
             <Route path="*" element={<h1> Pagina não encontrada</h1>} />
           </Routes>

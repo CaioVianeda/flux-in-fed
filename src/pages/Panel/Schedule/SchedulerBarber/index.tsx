@@ -56,10 +56,6 @@ const SchedulerBarber = ({
 
       setOpenModal(false);
     }
-    console.log("servicos Selecionadas:", selectedServices);
-    console.log("Funcionario Selecionadas:", selectedEmployee);
-    console.log("Cliente Selecionadas:", selectedClient);
-    console.log("Data Selecionadas:", selectedDate);
   };
 
   return (

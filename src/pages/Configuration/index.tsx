@@ -10,11 +10,16 @@ const Configuration = () => {
     <div id={styles["container-menu"]}>
       <div id={styles.menu}>
         <section>
-          <PerfilCard barber="Camila" barberShop="Bichozen Pet Store"/>
+          <PerfilCard barber="Barbeiro2" barberShop="Bichozen Pet Store"/>
         </section>
         <section>
           <p className={styles["section__title"]}>Configurações da Conta</p>
           <Link to={'my-account'}><p className={`${styles["section__option"]} ${location.pathname === '/configure/my-account' && styles["section__option-active"]}`}>Minha Conta</p></Link>
+    
+        </section>
+        <section>
+          <p className={styles["section__title"]}>Administração</p>
+          <Link to={'manage-services'}><p className={`${styles["section__option"]} ${location.pathname === '/configure/manage-services' && styles["section__option-active"]}`}>Atendimentos</p></Link>
         </section>
         <section>
           <p className={styles["section__title"]}>Sistema</p>
