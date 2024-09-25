@@ -7,6 +7,8 @@ import style from "./style.module.css"
 import SchedulerBarber from "../SchedulerBarber";
 import { IBarber } from "../../../../shared/interfaces/IBarber";
 import PerfilCard from "../../../../components/PerfilCard";
+import { useRecoilValue } from "recoil";
+import { employeeState } from "../../../../state/atom";
 
 interface Props {
   filter: string;
@@ -14,7 +16,9 @@ interface Props {
   employee: IBarber;
 }
 
-const ServiceList = ({ filter, dateFilter = new Date(), employee }: Props) => {
+const ServiceList = ({ filter, dateFilter = new Date() }: Props) => {
+
+  const employee = useRecoilValue(employeeState);
   const [schedules, setSchedules] = useState<ISchedule[]>([]);
   const [selectedHour, setSelectedHour] = useState<Date | null>(null);
   const [openModal, setOpenModal] = useState<Boolean>(false);

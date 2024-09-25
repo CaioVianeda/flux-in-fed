@@ -1,26 +1,22 @@
 import { Dispatch, SetStateAction } from "react";
 import style from "./style.module.css";
 import Calendar from "../Calendar";
+import { useRecoilState } from "recoil";
+import { filterDateState } from "../../state/atom";
 
 interface Props {
   filter: string;
   setFilter: Dispatch<SetStateAction<string>>;
-  dateFilter: Date;
-  setDateFilter: Dispatch<SetStateAction<Date>>;
 }
 
 const FilterMenu = ({
   filter,
   setFilter,
-  dateFilter,
-  setDateFilter,
 }: Props) => {
+
   return (
     <div id={style["filter-menu"]}>
       <Calendar
-        date={new Date()}
-        dateFilter={dateFilter}
-        setDateFilter={setDateFilter}
       />
       <div className={style.filter}>
         <p className={style.filter__title}>Titulo</p>

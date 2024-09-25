@@ -6,37 +6,51 @@ import style from "./style.module.css";
 import { useEffect, useState } from "react";
 import http from "../../service/http";
 import { IBarberShop } from "../../shared/interfaces/IBarberShop";
-import { IBarber } from "../../shared/interfaces/IBarber";
+import { useRecoilState } from "recoil";
+import { employeeState, establishmentState } from "../../state/atom";
 
 const Panel = () => {
   const location = useLocation();
-  const [barber, setBarber] = useState<IBarber>();
-  const [barberShop, setBarberShop] = useState<IBarberShop>();
+  const [loading, setLoading] = useState(true);
+  const [employee, setEmployee] = useRecoilState(employeeState);
+  const [establishment, setEstablishment] = useRecoilState(establishmentState);
 
   useEffect(() => {
-    http.get("/barbeiros/3").then((response) => {
-      setBarber(response.data);
-    });
+    setLoading(true);
+    http
+      .get("/barbeiros/3")
+      .then((response) => {
+        setEmployee(response.data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   useEffect(() => {
-    if (barber) {
-      http.get(`/barbearias/${barber?.idBarbearia}`).then((response) => {
-        setBarberShop(response.data);
+    if (employee.id!=='0') {
+      http.get<IBarberShop>(`/barbearias/${employee.idBarbearia}`).then((response) => {
+        setEstablishment(response.data);
       });
     }
-  }, [barber]);
+  }, [employee]);
 
+  if (loading) {
+    //TODO Criar Tela de Carregamento
+    return <div>Carregando...</div>;
+  }
   return (
     <main id={style["container__main"]}>
       <NavBar />
       <div className={style["container__section"]}>
         <Header
-          barber={`${barber?.nome}`}
-          barberShop={`${barberShop?.nome}`}
-          pageName= {location.pathname === '/panel/schedule' ? 'Calendario' : 'Clientes'}
+          barber={`${employee.nome}`}
+          barberShop={`${establishment.nome}`}
+          pageName={
+            location.pathname === "/panel/schedule" ? "Calendario" : "Clientes"
+          }
         />
-        <Outlet/>
+        <Outlet />
       </div>
     </main>
   );

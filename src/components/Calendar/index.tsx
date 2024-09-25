@@ -3,24 +3,20 @@ import {
   startOfMonth,
   endOfMonth,
   eachDayOfInterval,
-  isSameMonth,
-  isToday,
   isSameDay,
 } from "date-fns";
 import style from "./styles.module.css";
 import { monthNames } from "../../utils/constants/constants";
 import {useState } from "react";
 import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
+import { useRecoilState } from "recoil";
+import { filterDateState } from "../../state/atom";
 
-interface Props {
-  date: Date;
-  dateFilter: Date;
-  setDateFilter: React.Dispatch<React.SetStateAction<Date>>;
-}
+const Calendar = () => {
 
-const Calendar = ({ date, dateFilter, setDateFilter }: Props) => {
+  const [filterDate, setFilterDate ]= useRecoilState(filterDateState);
 
-  const [calendarDate, setCalendarDate] = useState(new Date(date));
+  const [calendarDate, setCalendarDate] = useState(new Date());
   const firstDayOfMonth = startOfMonth(calendarDate);
   const lastDayOfMonth = endOfMonth(calendarDate);
   const daysOfMonth = eachDayOfInterval({
@@ -72,7 +68,7 @@ const Calendar = ({ date, dateFilter, setDateFilter }: Props) => {
         <div className={style["change-month"]} onClick={() => changeMonth(-1)}><ArrowBackIosNew fontSize="small"/></div>
         <span>{`${monthNames[calendarDate.getMonth()]} - ${calendarDate.getFullYear()}`}</span>
         <div className={style["change-month"]} onClick={() => changeMonth(1)}><ArrowForwardIos fontSize="small"/></div>
-        <div id={style["today-button"]} onClick={() => {setDateFilter(new Date()); setCalendarDate(new Date())}}>Hoje</div>
+        <div id={style["today-button"]} onClick={() => {setFilterDate(new Date()); setCalendarDate(new Date())}}>Hoje</div>
       </div>
 
       <div className={style.days}>
@@ -87,9 +83,9 @@ const Calendar = ({ date, dateFilter, setDateFilter }: Props) => {
         {createCalendarDays()}
         {daysOfMonth.map((day) => (
           <div
-            onClick={() => {setDateFilter(day); changeDate(day)}}
+            onClick={() => {setFilterDate(day); changeDate(day)}}
             key={day.getTime()}
-            className={`${style.day} ${isSameDay(day,dateFilter ) && style["selected-day"]}` }
+            className={`${style.day} ${isSameDay(day,filterDate ) && style["selected-day"]}` }
           >
             {format(day, "d")}
           </div>
