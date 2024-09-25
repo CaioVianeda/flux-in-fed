@@ -3,13 +3,14 @@ import "./App.css";
 import GlobalStyles from "./components/GlobalStyles";
 import Scheduling from "./pages/Scheduling";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-//@ts-ignore
+
 import ScheduleProvider from "./context/ScheduleContext";
 import Schedule from "./pages/Panel/Schedule";
 import Clients from "./pages/Panel/Clients";
 import Panel from "./pages/Panel";
 import Configuration from "./pages/Configuration";
 import ManageServices from "./pages/Configuration/ManageServices";
+import ManageEmployees from "./pages/Configuration/ManageEmployees";
 
 const BackgroundApp = styled.div`
   width: 100%;
@@ -32,6 +33,7 @@ function AppRoutes() {
               <Route path="my-account" element={<>Minha conta</>}/>
               <Route path="customize" element={<>Configurações Gerais</>}/>
               <Route path="manage-services" element={<ManageServices/>}/>
+              <Route path="manage-employees" element={<ManageEmployees/>}/>
             </Route>
             <Route path="*" element={<h1> Pagina não encontrada</h1>} />
           </Routes>

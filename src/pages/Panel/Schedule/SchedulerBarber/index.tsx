@@ -1,4 +1,4 @@
-//@ts-ignore
+
 import style from "./style.module.css";
 import { useState } from "react";
 import { Close } from "@mui/icons-material";

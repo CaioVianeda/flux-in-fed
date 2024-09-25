@@ -1,8 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
-//@ts-ignore
 import style from "./style.module.css";
 import Calendar from "../Calendar";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 interface Props {
   filter: string;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-//@ts-ignore
+
 import style from "./style.module.css";
 import http from "../../../service/http";
 import { IService } from "../../../shared/interfaces/IService";
@@ -159,7 +159,7 @@ const ManageServices = () => {
                 value={newService.nome}
                 onChange={handleChangeNewServiceName}
                 variant="standard"
-                size="small"
+                size="medium"
                 sx={{ width: "120px" }}
                 slotProps={{
                   input: {

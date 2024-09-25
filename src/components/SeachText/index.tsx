@@ -1,6 +1,6 @@
-//@ts-ignore
+
 import style from "./style.module.css";
-//@ts-ignore
+
 import Lupa from '../../assets/lupa.png'
 
 const SearchText = () => {

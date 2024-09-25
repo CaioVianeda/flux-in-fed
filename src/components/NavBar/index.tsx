@@ -1,12 +1,8 @@
-//@ts-ignore
+
 import iconSchedule from "../../assets/icon-schedule.png";
-//@ts-ignore
 import iconScheduleActive from "../../assets/icon-schedule-active.png";
-//@ts-ignore
 import iconClient from "../../assets/icon-clients.png";
-//@ts-ignore
 import iconClientActive from "../../assets/icon-clients-active.png";
-//@ts-ignore
 import style from "./style.module.css";
 import { Link, useLocation } from "react-router-dom";
 

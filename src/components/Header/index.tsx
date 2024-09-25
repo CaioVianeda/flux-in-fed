@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-//@ts-ignore
 import style from "./style.module.css";
 import PerfilCard from "../PerfilCard";
 import SettingsIcon from "@mui/icons-material/Settings";

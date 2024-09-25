@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import styled from "styled-components";
-//@ts-ignore
+
 import { ScheduleContext } from "../../../../../context/ScheduleContext";
 
 const Service = styled.div`
@@ -35,7 +35,7 @@ interface OptionProps {
 }
 
 const Option = ({ option, typeSelection }: OptionProps) => {
-  //@ts-ignore
+  
   const { setSelectedService, setSelectedBarber } = useContext(ScheduleContext);
 
   const backgroundImageUrl = option.nome

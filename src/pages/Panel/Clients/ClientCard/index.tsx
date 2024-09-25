@@ -1,5 +1,5 @@
 import { Avatar } from "@mui/material";
-//@ts-ignore
+
 import style from "./style.module.css";
 import { MoreVert } from "@mui/icons-material";
 import { IClient } from "../../../shared/interfaces/IClient";

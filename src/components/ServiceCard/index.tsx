@@ -1,5 +1,5 @@
 import { ISchedule } from "../../shared/interfaces/ISchedule";
-//@ts-ignore
+
 import style from "./style.module.css";
 import api from "../../service/http";
 import { Avatar, Tooltip } from "@mui/material";

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ISchedule } from "../../../../shared/interfaces/ISchedule";
 import http from "../../../../service/http";
 import ServiceCard from "../../../../components/ServiceCard";
-//@ts-ignore
+
 import style from "./style.module.css"
 import SchedulerBarber from "../SchedulerBarber";
 import { IBarber } from "../../../../shared/interfaces/IBarber";

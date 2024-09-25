@@ -1,6 +1,6 @@
 import { IBarber } from "../../../../shared/interfaces/IBarber";
 import PerfilCard from "../../../../components/PerfilCard";
-//@ts-ignore
+
 import style from "./style.module.css";
 
 interface Props {

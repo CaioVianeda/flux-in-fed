@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-//@ts-ignore
+
 import styles from "./style.module.css";
 import PerfilCard from "../../components/PerfilCard";
 
@@ -20,6 +20,7 @@ const Configuration = () => {
         <section>
           <p className={styles["section__title"]}>Administração</p>
           <Link to={'manage-services'}><p className={`${styles["section__option"]} ${location.pathname === '/configure/manage-services' && styles["section__option-active"]}`}>Atendimentos</p></Link>
+          <Link to={'manage-employees'}><p className={`${styles["section__option"]} ${location.pathname === '/configure/manage-employees' && styles["section__option-active"]}`}>Funcionários</p></Link>
         </section>
         <section>
           <p className={styles["section__title"]}>Sistema</p>

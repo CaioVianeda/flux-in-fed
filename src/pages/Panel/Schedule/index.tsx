@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IBarber } from "../../../shared/interfaces/IBarber";
-//@ts-ignore
+
 import style from "./style.module.css";
 import FilterMenu from "../../../components/FilterMenu";
 import ServiceList from "./ServiceList";

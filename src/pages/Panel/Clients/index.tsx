@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 import ClientCard from "./ClientCard";
-//@ts-ignore
+
 import style from "./style.module.css";
 import { useEffect, useState } from "react";
 import http from "../../../service/http";

@@ -7,7 +7,6 @@ import {
   isToday,
   isSameDay,
 } from "date-fns";
-//@ts-ignore
 import style from "./styles.module.css";
 import { monthNames } from "../../utils/constants/constants";
 import {useState } from "react";

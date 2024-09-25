@@ -1,5 +1,5 @@
 import { IService } from "../../../../shared/interfaces/IService";
-//@ts-ignore
+
 import style from "./style.module.css";
 
 interface Props {

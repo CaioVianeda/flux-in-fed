@@ -1,7 +1,7 @@
 import Header from "../../components/Header";
 import NavBar from "../../components/NavBar";
 import { Outlet, useLocation } from "react-router-dom";
-//@ts-ignore
+
 import style from "./style.module.css";
 import { useEffect, useState } from "react";
 import http from "../../service/http";

@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-//@ts-ignore
+
 import style from "./style.module.css";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Autocomplete } from "@mui/material";
