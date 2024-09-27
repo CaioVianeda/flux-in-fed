@@ -1,24 +1,16 @@
 import { useEffect, useState } from "react";
 import { ISchedule } from "../../../../shared/interfaces/ISchedule";
 import http from "../../../../service/http";
-import ServiceCard from "../../../../components/ServiceCard";
-
-import style from "./style.module.css"
+import ServiceCard from "./ServiceCard";
+import style from "./style.module.css";
 import SchedulerBarber from "../SchedulerBarber";
-import { IBarber } from "../../../../shared/interfaces/IBarber";
 import PerfilCard from "../../../../components/PerfilCard";
 import { useRecoilValue } from "recoil";
-import { employeeState } from "../../../../state/atom";
+import { employeeState, serviceFilterState } from "../../../../state/atom";
 
-interface Props {
-  filter: string;
-  dateFilter: Date;
-  employee: IBarber;
-}
-
-const ServiceList = ({ filter, dateFilter = new Date() }: Props) => {
-
+const ServiceList = () => {
   const employee = useRecoilValue(employeeState);
+  const filter = useRecoilValue(serviceFilterState);
   const [schedules, setSchedules] = useState<ISchedule[]>([]);
   const [selectedHour, setSelectedHour] = useState<Date | null>(null);
   const [openModal, setOpenModal] = useState<Boolean>(false);
@@ -54,21 +46,26 @@ const ServiceList = ({ filter, dateFilter = new Date() }: Props) => {
   }
 
   useEffect(() => {
-    const endOfDay = new Date(dateFilter);
+    const startOfDay = new Date(filter.date);
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(filter.date);
     endOfDay.setHours(23, 59, 59, 999);
+
     const body = {
-      dataInicial: formatDateToLocalDateTime(new Date(dateFilter)),
+      dataInicial: formatDateToLocalDateTime(startOfDay),
       dataFinal: formatDateToLocalDateTime(endOfDay),
     };
+
     http
       .post(`/atendimento/${employee.id}/filtrar`, body)
       .then((response) => {
-        setSchedules(filterSchedulesByDate(response.data));
+        setSchedules(response.data);
       })
       .catch((erro) => {
         console.log(erro);
       });
-  }, [filter, dateFilter]);
+
+  }, [filter.date]);
 
   function handleOpenModal(hour: Date) {
     setSelectedHour(hour);
@@ -76,7 +73,7 @@ const ServiceList = ({ filter, dateFilter = new Date() }: Props) => {
   }
 
   function filterSchedulesByTopics(schedules: ISchedule[]): ISchedule[] {
-    switch (filter) {
+    switch (filter.status) {
       case "confirmed":
         return schedules.filter((schedule) => schedule.confirmado);
       case "waitingConfirmation":
@@ -90,28 +87,17 @@ const ServiceList = ({ filter, dateFilter = new Date() }: Props) => {
     }
   }
 
-  function filterSchedulesByDate(schedules: ISchedule[]): ISchedule[] {
-    return filterSchedulesByTopics(schedules).filter((schedule) => {
-      const scheduleDate = new Date(schedule.data);
-      if (
-        scheduleDate.getDate() === dateFilter.getDate() &&
-        scheduleDate.getMonth() === dateFilter.getMonth() &&
-        scheduleDate.getFullYear() === dateFilter.getFullYear()
-      ) {
-        return schedule;
-      }
-    });
-  }
-
   return (
     <>
       <div className={style.header}>
         {/*TODO ajustar api para trazer nome do estabelecimento */}
-        <PerfilCard barber={employee.nome} barberShop={"Silva's"}/>
+        <PerfilCard
+          mainInformation={employee.nome}
+          secondInformation={"Silva's"}
+        />
       </div>
       <div id={style["container--services-list"]}>
-        
-        {generateHalfHourInterval(dateFilter).map((hour) => {
+        {generateHalfHourInterval(filter.date).map((hour) => {
           return (
             <div className={style.row} key={hour.getTime()}>
               <div className={style.hour}>
@@ -129,7 +115,7 @@ const ServiceList = ({ filter, dateFilter = new Date() }: Props) => {
                 </p>
               </div>
               <div className={style["container__service--card"]}>
-                {schedules.find(
+                {filterSchedulesByTopics(schedules).find(
                   (schedule) =>
                     new Date(schedule.data).getHours() === hour.getHours() &&
                     new Date(schedule.data).getMinutes() === hour.getMinutes()
@@ -150,7 +136,9 @@ const ServiceList = ({ filter, dateFilter = new Date() }: Props) => {
                 ) : (
                   <div
                     className={style.card}
-                    style={ {cursor: isFutureDate(hour) ? "pointer" : "default"}}
+                    style={{
+                      cursor: isFutureDate(hour) ? "pointer" : "default",
+                    }}
                     onClick={() => isFutureDate(hour) && handleOpenModal(hour)}
                   ></div>
                 )}

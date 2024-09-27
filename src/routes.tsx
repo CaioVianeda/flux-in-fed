@@ -12,6 +12,7 @@ import Configuration from "./pages/Configuration";
 import ManageServices from "./pages/Configuration/ManageServices";
 import ManageEmployees from "./pages/Configuration/ManageEmployees";
 import { RecoilRoot } from "recoil";
+import { CssBaseline } from "@mui/material";
 
 const BackgroundApp = styled.div`
   width: 100%;
@@ -21,7 +22,7 @@ const BackgroundApp = styled.div`
 function AppRoutes() {
   return (
     <BackgroundApp>
-      <GlobalStyles />
+      <GlobalStyles/>
       <RecoilRoot>
         <BrowserRouter>
           <ScheduleProvider>

@@ -1,6 +1,4 @@
-
 import style from "./style.module.css";
-
 import Lupa from '../../assets/lupa.png'
 
 const SearchText = () => {

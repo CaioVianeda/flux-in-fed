@@ -1,14 +1,12 @@
 import { Container } from "@mui/material";
 import ClientCard from "./ClientCard";
-
-import style from "./style.module.css";
 import { useEffect, useState } from "react";
 import http from "../../../service/http";
 import { IClient } from "../../../shared/interfaces/IClient";
 import SearchText from "../../../components/SeachText";
 
 const Clients = () => {
-
+  
   const [clients, setClients] = useState<IClient[]>();
 
   useEffect(()=>{

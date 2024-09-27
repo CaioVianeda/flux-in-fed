@@ -3,17 +3,17 @@ import { Avatar } from "@mui/material";
 import style from "./style.module.css";
 
 interface Props{
-    barber: string;
-    barberShop: String
+    mainInformation: string;
+    secondInformation: string
 }
 
-const PerfilCard = ({barber,barberShop}: Props) => {
+const PerfilCard = ({mainInformation,secondInformation}: Props) => {
   return (
     <div className={style.info}>
       <Avatar alt="Foto Barbeiro" sx={{width: 40, height: 40 }}/>
       <div className={style.name}>
-        <div className={style["name__barber"]}>{barber}</div>
-        <div className={style["name__barber-shop"]}>{barberShop}</div>
+        <div className={style["main__information"]}>{mainInformation}</div>
+        <div className={style["second__information"]}>{secondInformation}</div>
       </div>
     </div>
   );

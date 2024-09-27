@@ -2,7 +2,7 @@ import { Avatar } from "@mui/material";
 
 import style from "./style.module.css";
 import { MoreVert } from "@mui/icons-material";
-import { IClient } from "../../../shared/interfaces/IClient";
+import { IClient } from "../../../../shared/interfaces/IClient";
 
 interface Props{
     client: IClient

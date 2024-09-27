@@ -8,14 +8,9 @@
   .name{
     width: 100%;
   }
-  
-  .title{
-      padding-left: 50px;
-      color: #494949;
-      font-weight: bold;
-  }
 
-  .name__barber-shop{
+
+  .second__information{
     color:#aaaaaa;
     font-size: 14px;
   }

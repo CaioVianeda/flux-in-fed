@@ -1,7 +1,7 @@
-import { ISchedule } from "../../shared/interfaces/ISchedule";
+import { ISchedule } from "../../../../../shared/interfaces/ISchedule";
 
 import style from "./style.module.css";
-import api from "../../service/http";
+import http from "../../../../../service/http";
 import { Avatar, Tooltip } from "@mui/material";
 import { Check, Close, DoneAll } from "@mui/icons-material";
 
@@ -31,7 +31,7 @@ const ServiceCard = ({ schedule, setSchedules }: Props) => {
   }
 
   async function finishAppointment(id: number) {
-    await api.put(`/atendimento/${id}/finalizar`).then((response) => {
+    await http.put(`/atendimento/${id}/finalizar`).then((response) => {
       setSchedules((schedules) =>
         schedules.map((schedule) => {
           return schedule.id === id ? response.data : schedule;
@@ -41,7 +41,7 @@ const ServiceCard = ({ schedule, setSchedules }: Props) => {
   }
 
   async function confirmAppointment(id: number) {
-    await api.put(`/atendimento/${id}/confirmar`).then((response) => {
+    await http.put(`/atendimento/${id}/confirmar`).then((response) => {
       setSchedules((schedules) =>
         schedules.map((schedule) => {
           return schedule.id === id ? response.data : schedule;

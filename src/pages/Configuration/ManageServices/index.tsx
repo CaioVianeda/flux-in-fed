@@ -42,8 +42,6 @@ const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
 
 const ManageServices = () => {
   const [services, setServices] = useState<IService[]>([]);
-  const [newServiceName, setNewServiceName] = useState<string>();
-  const [newServicePrice, setNewServicePrice] = useState<Number>();
   const [newService, setNewService] = useState<IService>({
     id: 0,
     nome: "",
@@ -59,7 +57,6 @@ const ManageServices = () => {
   const handleChangeNewServiceName = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    // setNewServiceName(event.target.value);
     setNewService((prevState) => ({
       ...prevState,
       nome: event.target.value,
@@ -69,7 +66,6 @@ const ManageServices = () => {
   const handleChangeNewServicePrice = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    // setNewServicePrice(Number(event.target.value));
     setNewService((prevState) => ({
       ...prevState,
       preco: Number(event.target.value),

@@ -2,17 +2,23 @@ import { Link } from "react-router-dom";
 import style from "./style.module.css";
 import PerfilCard from "../PerfilCard";
 import SettingsIcon from "@mui/icons-material/Settings";
+import { useRecoilValue } from "recoil";
+import { employeeState, establishmentState } from "../../state/atom";
 
 interface Props {
-  barber: string;
-  barberShop: string;
+  employee: string;
+  establishment: string;
   pageName: string;
 }
 
-const Header = ({ barber, barberShop, pageName }: Props) => {
+const Header = ({ pageName }: Props) => {
+  
+  const employee = useRecoilValue(employeeState);
+  const establishment = useRecoilValue(establishmentState);
+
   return (
     <header>
-      <PerfilCard barber={barber} barberShop={barberShop} />
+      <PerfilCard mainInformation={employee.nome} secondInformation={establishment.nome} />
       <div className={style.title}>{pageName}</div>
       <div className={style.options}>
         <Link to={"/configure"}>

@@ -2,15 +2,20 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 
 import styles from "./style.module.css";
 import PerfilCard from "../../components/PerfilCard";
+import { useRecoilValue } from "recoil";
+import { employeeState, establishmentState } from "../../state/atom";
 
 const Configuration = () => {
 
   const location = useLocation();
+  const employee = useRecoilValue(employeeState);
+  const establishment = useRecoilValue(establishmentState)
+
   return (
     <div id={styles["container-menu"]}>
       <div id={styles.menu}>
         <section>
-          <PerfilCard barber="Barbeiro2" barberShop="Bichozen Pet Store"/>
+          <PerfilCard mainInformation={employee.nome} secondInformation={establishment.nome}/>
         </section>
         <section>
           <p className={styles["section__title"]}>Configurações da Conta</p>

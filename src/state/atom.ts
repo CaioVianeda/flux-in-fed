@@ -1,6 +1,8 @@
 import { atom } from "recoil";
 import { IBarber } from "../shared/interfaces/IBarber";
 import { IBarberShop } from "../shared/interfaces/IBarberShop";
+import { IServiceFilter } from "../shared/interfaces/IServiceFilter";
+import { IClient } from "../shared/interfaces/IClient";
 
 export const employeeState = atom<IBarber>({
   key: "employeeState",
@@ -22,7 +24,12 @@ export const establishmentState = atom<IBarberShop>({
   },
 });
 
-export const filterDateState = atom<Date>({
-    key: "filterDate",
-    default: new Date(),
+export const serviceFilterState = atom<IServiceFilter>({
+  key: 'serviceFilterState',
+  default: {date: new Date(), status: null}
+})
+
+export const clientsState = atom<IClient[]>({
+  key: 'clientsState',
+  default: []
 })
