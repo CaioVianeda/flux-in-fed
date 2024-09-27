@@ -15,7 +15,6 @@ import { monthNames } from "../../../../../utils/constants/constants";
 const Calendar = () => {
 
   const [filter, setFilter] = useRecoilState(serviceFilterState);
-
   const [calendarDate, setCalendarDate] = useState(new Date());
   const firstDayOfMonth = startOfMonth(calendarDate);
   const lastDayOfMonth = endOfMonth(calendarDate);
@@ -57,10 +56,8 @@ const Calendar = () => {
   }
 
   function changeDate(date: Date){
-    let newDate = new Date(calendarDate);
-    newDate.setDate(date.getDate());
-    setFilter(prevState => ({date: newDate, status: prevState.status}));
-    setCalendarDate(newDate);
+    setFilter(prevState => ({date: date, status: prevState.status}));
+    setCalendarDate(date);
   }
 
   return (
