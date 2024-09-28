@@ -69,7 +69,7 @@ const SchedulerBarber = ({
           <div className={style.header__status}>Agendado</div>
         </div>
         <div className={style.body}>
-          <SelectBarber employee={selectedEmployee} />
+          <SelectBarber/>
           <ClientForm setSelectedClient={setSelectedClient} />
           <ServiceForm
             selectedServices={selectedServices}

@@ -2,16 +2,16 @@ import { IBarber } from "../../../../../shared/interfaces/IBarber";
 import PerfilCard from "../../../../../components/PerfilCard";
 
 import style from "./style.module.css";
+import { useRecoilValue } from "recoil";
+import { employeeState } from "../../../../../state/atom";
 
-interface Props {
-  employee: IBarber
-}
 
-const SelectBarber = ({ employee }: Props) => {
+const SelectBarber = () => {
+  const employee = useRecoilValue(employeeState);
   return (
     <div id={style["select-barber"]}>
       <p className={style.title}>Responsável</p>
-      <PerfilCard barber={employee.nome} barberShop={"Silva's"} />
+      <PerfilCard mainInformation={employee.nome} secondInformation={"Silva's"} />
     </div>
   );
 };

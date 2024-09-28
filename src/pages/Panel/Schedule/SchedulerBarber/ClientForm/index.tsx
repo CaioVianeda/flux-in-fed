@@ -175,7 +175,7 @@ const ClientForm = ({ setSelectedClient }: Props) => {
       <div id={style.container}>
         <p className={style.title}>Cliente</p>
         <div className={style["container__client-card"]}>
-          <PerfilCard barber={client.nome} barberShop={formatPhoneNumber(client.telefone)} />
+          <PerfilCard mainInformation={client.nome} secondInformation={formatPhoneNumber(client.telefone)} />
           <div
             className={style.button}
             onClick={() => {
