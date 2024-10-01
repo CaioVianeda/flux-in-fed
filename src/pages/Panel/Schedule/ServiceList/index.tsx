@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
-import { ISchedule } from "../../../../shared/interfaces/ISchedule";
 import http from "../../../../service/http";
 import ServiceCard from "./ServiceCard";
 import style from "./style.module.css";
 import SchedulerBarber from "../SchedulerBarber";
 import PerfilCard from "../../../../components/PerfilCard";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { employeeState, schedulesFilterState, schedulesState } from "../../../../state/atom";
 import useSchedules from "../../../../state/hooks/useSchedules";
+import useLoadSchedules from "../../../../state/hooks/useLoadSchedules";
 
 const ServiceList = () => {
   const employee = useRecoilValue(employeeState);
   const filter = useRecoilValue(schedulesFilterState);
   const schedules = useSchedules();
-  const setSchedules = useSetRecoilState(schedulesState);
+  const loadSchedules = useLoadSchedules();
   const [selectedHour, setSelectedHour] = useState<Date | null>(null);
   const [openModal, setOpenModal] = useState<Boolean>(false);
 
@@ -61,7 +61,7 @@ const ServiceList = () => {
     http
       .post(`/atendimento/${employee.id}/filtrar`, body)
       .then((response) => {
-        setSchedules(response.data);
+        loadSchedules(response.data);
       })
       .catch((erro) => {
         console.log(erro);

@@ -10,6 +10,8 @@ import { IService } from "../../../../shared/interfaces/IService";
 import { IClient } from "../../../../shared/interfaces/IClient";
 import { IToSchedule } from "../../../../shared/interfaces/IToSchedule";
 import http from "../../../../service/http";
+import useAddSchedule from "../../../../state/hooks/useAddSchedule";
+import { ISchedule } from "../../../../shared/interfaces/ISchedule";
 
 interface Props {
   selectedEmployee: IBarber;
@@ -24,6 +26,7 @@ const SchedulerBarber = ({
 }: Props) => {
   const [selectedClient, setSelectedClient] = useState<IClient>();
   const [selectedServices, setSelectedServices] = useState<IService[]>([]);
+  const addSchedule = useAddSchedule();
 
   const checkFields = (): boolean => {
     if (!selectedClient) {
@@ -47,8 +50,11 @@ const SchedulerBarber = ({
       };
 
       http
-        .post("atendimento", body)
-        .then(() => alert(`Agendamento feito!`))
+        .post<ISchedule>("atendimento", body)
+        .then((response) => {
+          alert(`Agendamento feito!`);
+          addSchedule(response.data);
+        })
         .catch((error) =>
           console.log(`Erro ao solicitar atendimento: ${error}`)
         );
@@ -69,7 +75,7 @@ const SchedulerBarber = ({
           <div className={style.header__status}>Agendado</div>
         </div>
         <div className={style.body}>
-          <SelectBarber/>
+          <SelectBarber />
           <ClientForm setSelectedClient={setSelectedClient} />
           <ServiceForm
             selectedServices={selectedServices}
