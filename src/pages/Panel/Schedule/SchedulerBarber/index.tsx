@@ -12,6 +12,7 @@ import { IToSchedule } from "../../../../shared/interfaces/IToSchedule";
 import http from "../../../../service/http";
 import useAddSchedule from "../../../../state/hooks/useAddSchedule";
 import { ISchedule } from "../../../../shared/interfaces/ISchedule";
+import { format } from "date-fns";
 
 interface Props {
   selectedEmployee: IBarber;
@@ -39,6 +40,11 @@ const SchedulerBarber = ({
     return true;
   };
 
+  const convertDateToString = (date: Date) => {
+    const selectedDate = new Date(date);
+    return format(selectedDate, "yyyy-MM-dd'T'HH:mm:ss");
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (checkFields() && selectedClient) {
@@ -46,9 +52,8 @@ const SchedulerBarber = ({
         clienteId: Number(selectedClient.id),
         agendaId: Number(selectedEmployee.id),
         procedimentosId: selectedServices.map((service) => service.id),
-        data: selectedDate,
+        data: convertDateToString(selectedDate),
       };
-
       http
         .post<ISchedule>("atendimento", body)
         .then((response) => {
