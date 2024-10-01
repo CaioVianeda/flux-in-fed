@@ -4,13 +4,16 @@ import style from "./style.module.css";
 import http from "../../../../../service/http";
 import { Avatar, Tooltip } from "@mui/material";
 import { Check, Close, DoneAll } from "@mui/icons-material";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { schedulesState } from "../../../../../state/atom";
 
 interface Props {
   schedule: ISchedule;
-  setSchedules: React.Dispatch<React.SetStateAction<ISchedule[]>>;
 }
 
-const ServiceCard = ({ schedule, setSchedules }: Props) => {
+const ServiceCard = ({ schedule}: Props) => {
+
+  const setSchedules = useSetRecoilState(schedulesState);
 
   function selectBackgroundColor(schedule: ISchedule): String{
     if (schedule.finalizado) {

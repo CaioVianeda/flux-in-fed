@@ -2,14 +2,14 @@ import { Dispatch, SetStateAction } from "react";
 import style from "./style.module.css";
 import Calendar from "./Calendar";
 import { useRecoilState } from "recoil";
-import { serviceFilterState } from "../../../../state/atom";
-import { IServiceFilter } from "../../../../shared/interfaces/IServiceFilter";
+import { schedulesFilterState } from "../../../../state/atom";
+import { IScheduleFilter } from "../../../../shared/interfaces/IScheduleFilter";
 
 const FilterMenu = () => {
-  const [filter, setFilter] = useRecoilState(serviceFilterState);
+  const [filter, setFilter] = useRecoilState(schedulesFilterState);
 
   const onChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newFilter: IServiceFilter = {
+    const newFilter: IScheduleFilter = {
       date: filter.date,
       status: filter.status,
     };

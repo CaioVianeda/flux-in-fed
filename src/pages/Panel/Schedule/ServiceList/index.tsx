@@ -5,13 +5,15 @@ import ServiceCard from "./ServiceCard";
 import style from "./style.module.css";
 import SchedulerBarber from "../SchedulerBarber";
 import PerfilCard from "../../../../components/PerfilCard";
-import { useRecoilValue } from "recoil";
-import { employeeState, serviceFilterState } from "../../../../state/atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { employeeState, schedulesFilterState, schedulesState } from "../../../../state/atom";
+import useSchedules from "../../../../state/hooks/useSchedules";
 
 const ServiceList = () => {
   const employee = useRecoilValue(employeeState);
-  const filter = useRecoilValue(serviceFilterState);
-  const [schedules, setSchedules] = useState<ISchedule[]>([]);
+  const filter = useRecoilValue(schedulesFilterState);
+  const schedules = useSchedules();
+  const setSchedules = useSetRecoilState(schedulesState);
   const [selectedHour, setSelectedHour] = useState<Date | null>(null);
   const [openModal, setOpenModal] = useState<Boolean>(false);
 
@@ -72,21 +74,6 @@ const ServiceList = () => {
     setOpenModal(true);
   }
 
-  function filterSchedulesByTopics(schedules: ISchedule[]): ISchedule[] {
-    switch (filter.status) {
-      case "confirmed":
-        return schedules.filter((schedule) => schedule.confirmado);
-      case "waitingConfirmation":
-        return schedules.filter((schedule) => !schedule.confirmado);
-      case "finished":
-        return schedules.filter((schedule) => schedule.finalizado);
-      case "canceled":
-        return schedules.filter((schedule) => schedule);
-      default:
-        return schedules;
-    }
-  }
-
   return (
     <>
       <div className={style.header}>
@@ -115,7 +102,7 @@ const ServiceList = () => {
                 </p>
               </div>
               <div className={style["container__service--card"]}>
-                {filterSchedulesByTopics(schedules).find(
+                {schedules.find(
                   (schedule) =>
                     new Date(schedule.data).getHours() === hour.getHours() &&
                     new Date(schedule.data).getMinutes() === hour.getMinutes()
@@ -131,7 +118,6 @@ const ServiceList = () => {
                             hour.getMinutes()
                       )!
                     }
-                    setSchedules={setSchedules}
                   />
                 ) : (
                   <div

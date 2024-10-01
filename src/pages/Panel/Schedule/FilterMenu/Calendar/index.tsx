@@ -9,12 +9,12 @@ import style from "./styles.module.css";
 import {useState } from "react";
 import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 import { useRecoilState } from "recoil";
-import { serviceFilterState } from "../../../../../state/atom";
+import { schedulesFilterState } from "../../../../../state/atom";
 import { monthNames } from "../../../../../utils/constants/constants";
 
 const Calendar = () => {
 
-  const [filter, setFilter] = useRecoilState(serviceFilterState);
+  const [filter, setFilter] = useRecoilState(schedulesFilterState);
   const [calendarDate, setCalendarDate] = useState(new Date());
   const firstDayOfMonth = startOfMonth(calendarDate);
   const lastDayOfMonth = endOfMonth(calendarDate);

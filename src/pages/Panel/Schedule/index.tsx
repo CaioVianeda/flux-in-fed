@@ -4,11 +4,11 @@ import ServiceList from "./ServiceList";
 import { dayNames, monthNames } from "../../../utils/constants/constants";
 import SearchText from "../../../components/SeachText";
 import { useRecoilValue } from "recoil";
-import { serviceFilterState } from "../../../state/atom";
+import { schedulesFilterState } from "../../../state/atom";
 
 const Schedule = () => {
 
-  const filter = useRecoilValue(serviceFilterState);
+  const filter = useRecoilValue(schedulesFilterState);
   
   return (
     <div id={style.container}>
