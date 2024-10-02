@@ -44,8 +44,6 @@ const Panel = () => {
       <NavBar />
       <div className={style["container__section"]}>
         <Header
-          barber={`${employee.nome}`}
-          barberShop={`${establishment.nome}`}
           pageName={
             location.pathname === "/panel/schedule" ? "Calendario" : "Clientes"
           }

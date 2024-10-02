@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 import ClientCard from "./ClientCard";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import http from "../../../service/http";
 import { IClient } from "../../../shared/interfaces/IClient";
 import SearchText from "../../../components/SeachText";
@@ -26,4 +26,4 @@ const Clients = () => {
   );
 };
 
-export default Clients;
+export default memo(Clients);

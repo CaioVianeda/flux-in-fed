@@ -6,8 +6,6 @@ import { useRecoilValue } from "recoil";
 import { employeeState, establishmentState } from "../../state/atom";
 
 interface Props {
-  employee: string;
-  establishment: string;
   pageName: string;
 }
 

@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import http from "../../../../service/http";
 import ServiceCard from "./ServiceCard";
 import style from "./style.module.css";
 import SchedulerBarber from "../SchedulerBarber";
 import PerfilCard from "../../../../components/PerfilCard";
 import { useRecoilValue } from "recoil";
-import { employeeState, schedulesFilterState, schedulesState } from "../../../../state/atom";
+import { employeeState, schedulesFilterState } from "../../../../state/atom";
 import useSchedules from "../../../../state/hooks/useSchedules";
 import useLoadSchedules from "../../../../state/hooks/useLoadSchedules";
 
@@ -145,4 +145,4 @@ const ServiceList = () => {
   );
 };
 
-export default ServiceList;
+export default memo(ServiceList);
