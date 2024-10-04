@@ -8,6 +8,7 @@ import { useRecoilValue } from "recoil";
 import { employeeState, schedulesFilterState } from "../../../../state/atom";
 import useSchedules from "../../../../state/hooks/useSchedules";
 import useLoadSchedules from "../../../../state/hooks/useLoadSchedules";
+import ServiceListCards from "../ServiceListCards";
 
 const ServiceList = () => {
   const employee = useRecoilValue(employeeState);
@@ -47,6 +48,37 @@ const ServiceList = () => {
     return date > now;
   }
 
+  function isToday(date: Date): Boolean {
+
+    const today = new Date();
+    const todayDate = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+
+    const dateWithoutTime = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    );
+
+    return todayDate.getTime() === dateWithoutTime.getTime();
+  }
+
+  function hasSchedulingOnTime(time: Date): Boolean {
+    if (
+      schedules.find(
+        (schedule) =>
+          new Date(schedule.data).getHours() === time.getHours() &&
+          new Date(schedule.data).getMinutes() === time.getMinutes()
+      )
+    ) {
+      return true;
+    }
+    return false;
+  }
+
   useEffect(() => {
     const startOfDay = new Date(filter.date);
     startOfDay.setHours(0, 0, 0, 0);
@@ -66,7 +98,6 @@ const ServiceList = () => {
       .catch((erro) => {
         console.log(erro);
       });
-
   }, [filter.date]);
 
   function handleOpenModal(hour: Date) {
@@ -74,75 +105,77 @@ const ServiceList = () => {
     setOpenModal(true);
   }
 
-  return (
-    <>
-      <div className={style.header}>
-        {/*TODO ajustar api para trazer nome do estabelecimento */}
-        <PerfilCard
-          mainInformation={employee.nome}
-          secondInformation={"Silva's"}
-        />
-      </div>
-      <div id={style["container--services-list"]}>
-        {generateHalfHourInterval(filter.date).map((hour) => {
-          return (
-            <div className={style.row} key={hour.getTime()}>
-              <div className={style.hour}>
-                <p className={style["hour-text"]}>
-                  {`${
-                    hour.getHours() < 10
-                      ? "0" + hour.getHours()
-                      : hour.getHours()
-                  }`}
-                  {`:${
-                    hour.getMinutes() < 10
-                      ? "0" + hour.getMinutes()
-                      : hour.getMinutes()
-                  }h`}
-                </p>
-              </div>
-              <div className={style["container__service--card"]}>
-                {schedules.find(
-                  (schedule) =>
-                    new Date(schedule.data).getHours() === hour.getHours() &&
-                    new Date(schedule.data).getMinutes() === hour.getMinutes()
-                ) ? (
-                  //TODO ajustar carregamento
-                  <ServiceCard
-                    schedule={
-                      schedules.find(
-                        (schedule) =>
-                          new Date(schedule.data).getHours() ===
-                            hour.getHours() &&
-                          new Date(schedule.data).getMinutes() ===
-                            hour.getMinutes()
-                      )!
-                    }
-                  />
-                ) : (
-                  <div
-                    className={style.card}
-                    style={{
-                      cursor: isFutureDate(hour) ? "pointer" : "default",
-                    }}
-                    onClick={() => isFutureDate(hour) && handleOpenModal(hour)}
-                  ></div>
-                )}
-              </div>
-            </div>
-          );
-        })}
-
-        {openModal && selectedHour && (
-          <SchedulerBarber
-            selectedDate={selectedHour}
-            selectedEmployee={employee}
-            setOpenModal={setOpenModal}
+  if (isFutureDate(filter.date) || isToday(filter.date)) {
+    return (
+      <>
+        <div className={style.header}>
+          {/*TODO ajustar api para trazer nome do estabelecimento */}
+          <PerfilCard
+            mainInformation={employee.nome}
+            secondInformation={"Silva's"}
           />
-        )}
-      </div>
-    </>
-  );
+        </div>
+        <div id={style["container--services-list"]}>
+          {generateHalfHourInterval(filter.date).map((hour) => {
+            if (isFutureDate(hour) || hasSchedulingOnTime(hour)) {
+              return (
+                <div className={style.row} key={hour.getTime()}>
+                  <div className={style.hour}>
+                    <p className={style["hour-text"]}>
+                      {`${
+                        hour.getHours() < 10
+                          ? "0" + hour.getHours()
+                          : hour.getHours()
+                      }`}
+                      {`:${
+                        hour.getMinutes() < 10
+                          ? "0" + hour.getMinutes()
+                          : hour.getMinutes()
+                      }h`}
+                    </p>
+                  </div>
+                  <div className={style["container__service--card"]}>
+                    {hasSchedulingOnTime(hour) ? (
+                      //TODO ajustar carregamento
+                      <ServiceCard
+                        schedule={
+                          schedules.find(
+                            (schedule) =>
+                              new Date(schedule.data).getHours() ===
+                                hour.getHours() &&
+                              new Date(schedule.data).getMinutes() ===
+                                hour.getMinutes()
+                          )!
+                        }
+                      />
+                    ) : (
+                      <div
+                        className={style.card}
+                        style={{
+                          cursor: isFutureDate(hour) ? "pointer" : "default",
+                        }}
+                        onClick={() =>
+                          isFutureDate(hour) && handleOpenModal(hour)
+                        }
+                      />
+                    )}
+                  </div>
+                </div>
+              );
+            }
+          })}
+
+          {openModal && selectedHour && (
+            <SchedulerBarber
+              selectedDate={selectedHour}
+              selectedEmployee={employee}
+              setOpenModal={setOpenModal}
+            />
+          )}
+        </div>
+      </>
+    );
+  } else return <ServiceListCards />;
 };
 
 export default memo(ServiceList);
