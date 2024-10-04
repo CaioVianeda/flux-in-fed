@@ -1,37 +1,33 @@
-import styled from "styled-components";
 import "./App.css";
 import GlobalStyles from "./components/GlobalStyles";
-import Scheduling from "./pages/Scheduling";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 //@ts-ignore
 import ScheduleProvider from "./context/ScheduleContext";
-import Schedule from "./pages/Panel/Schedule";
-import Clients from "./pages/Panel/Clients";
-import Panel from "./pages/Panel";
-import Configuration from "./pages/Configuration";
-import ManageServices from "./pages/Configuration/ManageServices";
-import ManageEmployees from "./pages/Configuration/ManageEmployees";
 import { RecoilRoot } from "recoil";
-import { CssBaseline } from "@mui/material";
+import { lazy, Suspense } from "react";
 
-const BackgroundApp = styled.div`
-  width: 100%;
-  min-height: 100vh;
-`;
+const Panel = lazy(() => import("./pages/Panel"));
+const Clients = lazy(() => import("./pages/Panel/Clients"));
+const Schedule = lazy(() => import("./pages/Panel/Schedule"));
+const Configuration = lazy(() => import("./pages/Configuration"));
+const ManageServices = lazy(() => import("./pages/Configuration/ManageServices"));
+const ManageEmployees = lazy(() => import("./pages/Configuration/ManageEmployees"));
 
 function AppRoutes() {
   return (
-    <BackgroundApp>
-      <GlobalStyles/>
-      <RecoilRoot>
-        <BrowserRouter>
+    <RecoilRoot>
+       <GlobalStyles />
+      <BrowserRouter>
+     
+      {/* Criar Fallback */}
+        <Suspense fallback={<p>Carregando...</p>}>
+          
           <ScheduleProvider>
             <Routes>
               <Route path="/panel" element={<Panel />}>
                 <Route path="clients" element={<Clients />} />
                 <Route path="schedule" element={<Schedule />} />
               </Route>
-              <Route path="/agendar" element={<Scheduling />} />
               <Route path="/configure" element={<Configuration />}>
                 <Route path="my-account" element={<>Minha conta</>} />
                 <Route path="customize" element={<>Configurações Gerais</>} />
@@ -41,9 +37,9 @@ function AppRoutes() {
               <Route path="*" element={<h1> Pagina não encontrada</h1>} />
             </Routes>
           </ScheduleProvider>
-        </BrowserRouter>
-      </RecoilRoot>
-    </BackgroundApp>
+        </Suspense>
+      </BrowserRouter>
+    </RecoilRoot>
   );
 }
 

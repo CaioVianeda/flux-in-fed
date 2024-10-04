@@ -14,7 +14,7 @@ const Clients = () => {
     .then((response) => {
       setClients(response.data);
     })
-  })
+  }, []);
 
   return (
     <Container sx={{p: '20px', display: "flex", flexDirection: 'column',gap: '10px'}}>
