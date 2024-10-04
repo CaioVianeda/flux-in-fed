@@ -1,10 +1,10 @@
 import style from "./style.module.css";
 import FilterMenu from "./FilterMenu";
-import ServiceList from "./ServiceList";
 import { dayNames, monthNames } from "../../../utils/constants/constants";
 import SearchText from "../../../components/SeachText";
 import { useRecoilValue } from "recoil";
 import { schedulesFilterState } from "../../../state/atom";
+import ScheduleList from "./ScheduleList";
 
 const Schedule = () => {
 
@@ -21,7 +21,7 @@ const Schedule = () => {
           })`}</p>
           <SearchText />
         </div>
-        <ServiceList />
+        <ScheduleList/>
       </div>
       <FilterMenu />
     </div>

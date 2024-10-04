@@ -1,7 +1,7 @@
 import ScheduleCard from "./SchedulingCard";
 import style from './style.module.css'
 import { useRecoilValue } from "recoil";
-import { schedulesState } from "../../../../state/atom";
+import { schedulesState } from "../../../../../state/atom";
 
 const ServiceListCards = () => {
 

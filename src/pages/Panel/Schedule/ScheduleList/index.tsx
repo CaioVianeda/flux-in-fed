@@ -1,6 +1,5 @@
 import { memo, useEffect, useState } from "react";
 import http from "../../../../service/http";
-import ServiceCard from "./ServiceCard";
 import style from "./style.module.css";
 import SchedulerBarber from "../SchedulerBarber";
 import PerfilCard from "../../../../components/PerfilCard";
@@ -8,9 +7,10 @@ import { useRecoilValue } from "recoil";
 import { employeeState, schedulesFilterState } from "../../../../state/atom";
 import useSchedules from "../../../../state/hooks/useSchedules";
 import useLoadSchedules from "../../../../state/hooks/useLoadSchedules";
-import ServiceListCards from "../ServiceListCards";
+import ServiceListCards from "./ServiceListCards";
+import ServiceList from "./ServiceList";
 
-const ServiceList = () => {
+const ScheduleList = () => {
   const employee = useRecoilValue(employeeState);
   const filter = useRecoilValue(schedulesFilterState);
   const schedules = useSchedules();
@@ -105,7 +105,7 @@ const ServiceList = () => {
     setOpenModal(true);
   }
 
-  if (isFutureDate(filter.date) || isToday(filter.date)) {
+ 
     return (
       <>
         <div className={style.header}>
@@ -116,66 +116,18 @@ const ServiceList = () => {
           />
         </div>
         <div id={style["container--services-list"]}>
-          {generateHalfHourInterval(filter.date).map((hour) => {
-            if (isFutureDate(hour) || hasSchedulingOnTime(hour)) {
-              return (
-                <div className={style.row} key={hour.getTime()}>
-                  <div className={style.hour}>
-                    <p className={style["hour-text"]}>
-                      {`${
-                        hour.getHours() < 10
-                          ? "0" + hour.getHours()
-                          : hour.getHours()
-                      }`}
-                      {`:${
-                        hour.getMinutes() < 10
-                          ? "0" + hour.getMinutes()
-                          : hour.getMinutes()
-                      }h`}
-                    </p>
-                  </div>
-                  <div className={style["container__service--card"]}>
-                    {hasSchedulingOnTime(hour) ? (
-                      //TODO ajustar carregamento
-                      <ServiceCard
-                        schedule={
-                          schedules.find(
-                            (schedule) =>
-                              new Date(schedule.data).getHours() ===
-                                hour.getHours() &&
-                              new Date(schedule.data).getMinutes() ===
-                                hour.getMinutes()
-                          )!
-                        }
-                      />
-                    ) : (
-                      <div
-                        className={style.card}
-                        style={{
-                          cursor: isFutureDate(hour) ? "pointer" : "default",
-                        }}
-                        onClick={() =>
-                          isFutureDate(hour) && handleOpenModal(hour)
-                        }
-                      />
-                    )}
-                  </div>
-                </div>
-              );
-            }
-          })}
-
-          {openModal && selectedHour && (
-            <SchedulerBarber
-              selectedDate={selectedHour}
-              selectedEmployee={employee}
-              setOpenModal={setOpenModal}
-            />
-          )}
+          {isToday(filter.date) || isFutureDate(filter.date) ? <ServiceList handleOpenModal={handleOpenModal}/> : <ServiceListCards/>} 
         </div>
+
+        {openModal && selectedHour && (
+          <SchedulerBarber
+            selectedDate={selectedHour}
+            selectedEmployee={employee}
+            setOpenModal={setOpenModal}
+          />
+        )}
       </>
     );
-  } else return <ServiceListCards />;
 };
 
-export default memo(ServiceList);
+export default ScheduleList;

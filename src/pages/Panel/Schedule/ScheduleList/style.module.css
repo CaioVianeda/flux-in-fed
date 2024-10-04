@@ -1,0 +1,13 @@
+#container--services-list{
+    background-color: #eeeeee;    
+    max-height: 75vh;
+    overflow-y: auto;
+}
+
+.header{
+    display: flex;
+    background-color: #ffffff;
+    margin-bottom: 3px;
+    padding: 10px 20px;
+    min-height: 50px;
+}

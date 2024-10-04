@@ -1,7 +1,7 @@
 import Avatar from '@mui/material/Avatar';
 import style from './style.module.css'
 import { MoreVert } from '@mui/icons-material';
-import { ISchedule } from '../../../../../shared/interfaces/ISchedule';
+import { ISchedule } from '../../../../../../shared/interfaces/ISchedule';
 
 interface Props{
     scheduling: ISchedule
