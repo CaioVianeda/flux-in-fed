@@ -6,7 +6,7 @@ import {
   isSameDay,
 } from "date-fns";
 import style from "./styles.module.css";
-import {useState } from "react";
+import {memo, useState } from "react";
 import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 import { useRecoilState } from "recoil";
 import { schedulesFilterState } from "../../../../../state/atom";
@@ -93,4 +93,4 @@ const Calendar = () => {
   );
 };
 
-export default Calendar;
+export default memo( Calendar);

@@ -18,10 +18,8 @@ function AppRoutes() {
     <RecoilRoot>
        <GlobalStyles />
       <BrowserRouter>
-     
       {/* Criar Fallback */}
         <Suspense fallback={<p>Carregando...</p>}>
-          
           <ScheduleProvider>
             <Routes>
               <Route path="/panel" element={<Panel />}>

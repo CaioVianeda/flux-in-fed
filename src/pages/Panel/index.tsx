@@ -3,7 +3,7 @@ import NavBar from "../../components/NavBar";
 import { Outlet, useLocation } from "react-router-dom";
 
 import style from "./style.module.css";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import http from "../../service/http";
 import { IBarberShop } from "../../shared/interfaces/IBarberShop";
 import { useRecoilState } from "recoil";
@@ -54,4 +54,4 @@ const Panel = () => {
   );
 };
 
-export default Panel;
+export default memo(Panel) ;

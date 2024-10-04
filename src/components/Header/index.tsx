@@ -4,6 +4,7 @@ import PerfilCard from "../PerfilCard";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useRecoilValue } from "recoil";
 import { employeeState, establishmentState } from "../../state/atom";
+import { memo } from "react";
 
 interface Props {
   pageName: string;
@@ -29,4 +30,4 @@ const Header = ({ pageName }: Props) => {
   );
 };
 
-export default Header;
+export default  Header;
