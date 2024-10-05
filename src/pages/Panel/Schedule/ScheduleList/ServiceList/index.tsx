@@ -3,6 +3,7 @@ import style from "./style.module.css";
 import { useRecoilValue } from "recoil";
 import { schedulesFilterState } from "../../../../../state/atom";
 import useSchedules from "../../../../../state/hooks/useSchedules";
+import useFilteredSchedules from "../../../../../state/hooks/useFilteredSchedules";
 
 interface Props{
   handleOpenModal: (date:Date) => void
@@ -11,6 +12,7 @@ interface Props{
 const ServiceList = ({handleOpenModal}: Props) => {
   const filter = useRecoilValue(schedulesFilterState);
   const schedules = useSchedules();
+  const filteredSchedules = useFilteredSchedules();
 
   function generateHalfHourInterval(date: Date) {
     const timeSlot = [];
@@ -46,10 +48,25 @@ const ServiceList = ({handleOpenModal}: Props) => {
     return false;
   }
 
+  function hasSchedulingFilteredOnTime(time: Date): Boolean {
+    if (
+      filteredSchedules.find(
+        (schedule) =>
+          new Date(schedule.data).getHours() === time.getHours() &&
+          new Date(schedule.data).getMinutes() === time.getMinutes()
+      )
+    ) {
+      return true;
+    }
+    return false;
+  }
+
     return (
       <>
-        {generateHalfHourInterval(filter.date).map((hour) => {
-          return (
+        {generateHalfHourInterval(filter.date)
+        .map((hour) => {
+          if(hasSchedulingFilteredOnTime(hour) || !hasSchedulingOnTime(hour))
+           return (
             <div className={style.row} key={hour.getTime()}>
               <div className={style.hour}>
                 <p className={style["hour-text"]}>
@@ -66,7 +83,7 @@ const ServiceList = ({handleOpenModal}: Props) => {
                 </p>
               </div>
               <div className={style["container__service--card"]}>
-                {hasSchedulingOnTime(hour) ? (
+                {hasSchedulingFilteredOnTime(hour) ? (
                   //TODO ajustar carregamento
                   <ServiceCard
                     schedule={

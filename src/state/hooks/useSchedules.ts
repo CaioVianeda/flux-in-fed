@@ -1,8 +1,8 @@
 import { useRecoilValue } from "recoil"
-import { filteredSchedulesState } from "./selectors";
+import { schedulesState } from "../atom";
 
 const useSchedules = () => {
-    return useRecoilValue(filteredSchedulesState);   
+    return useRecoilValue(schedulesState);   
 }
 
 export default useSchedules;
