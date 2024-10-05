@@ -9,10 +9,12 @@ import PerfilCard from "../../../../../components/PerfilCard";
 import { Close } from "@mui/icons-material";
 
 interface Props {
-  setSelectedClient: React.Dispatch<React.SetStateAction<IClient | undefined>>;
+  selectedClient: IClient,
+  setSelectedClient: React.Dispatch<React.SetStateAction<IClient>>;
+  
 }
 
-const ClientForm = ({ setSelectedClient }: Props) => {
+const ClientForm = ({ selectedClient,setSelectedClient }: Props) => {
   const [clients, setClients] = useState<IClient[]>([]);
   const [client, setClient] = useState<IClient>({
     id: "",
@@ -29,7 +31,7 @@ const ClientForm = ({ setSelectedClient }: Props) => {
   });
 
   const handleChangeName = (e: ChangeEvent<HTMLInputElement>) => {
-    setClient((prevState) => ({
+    setSelectedClient((prevState) => ({
       ...prevState,
       nome: e.target.value,
     }));
@@ -45,7 +47,7 @@ const ClientForm = ({ setSelectedClient }: Props) => {
   };
 
   const handleChangeTelephone = (e: ChangeEvent<HTMLInputElement>) => {
-    setClient((prevState) => ({
+    setSelectedClient((prevState) => ({
       ...prevState,
       telefone: formatPhoneNumber(e.target.value),
     }));
@@ -57,17 +59,18 @@ const ClientForm = ({ setSelectedClient }: Props) => {
       });
 
       if (clientFinded) {
-        setClient(clientFinded);
+        setSelectedClient(clientFinded);
         setSelectedClient(clientFinded);
       } else {
-        setClient((prevState) => ({
+        setSelectedClient((prevState) => ({
           ...prevState,
           nome: "",
         }));
       }
     }
   };
-
+  
+  //TODO criar endpoint para verificar se há telefone cadastrado
   useEffect(() => {
     http
       .get<IClient[]>("/clientes")
@@ -89,7 +92,7 @@ const ClientForm = ({ setSelectedClient }: Props) => {
             label="Telefone*"
             variant="standard"
             type="tel"
-            value={client.telefone}
+            value={selectedClient.telefone}
             name="telefone"
             size="small"
             slotProps={{
@@ -100,7 +103,7 @@ const ClientForm = ({ setSelectedClient }: Props) => {
             }}
             onChange={handleChangeTelephone}
           />
-          {client.id === "" ? (
+          {selectedClient.id === "" ? (
             <Autocomplete
               sx={{ width: "300px" }}
               options={options.sort(
@@ -155,7 +158,7 @@ const ClientForm = ({ setSelectedClient }: Props) => {
               label="Nome"
               variant="standard"
               type="text"
-              value={client.nome}
+              value={selectedClient.nome}
               name="nome"
               size="small"
               slotProps={{

@@ -25,7 +25,11 @@ const SchedulerBarber = ({
   selectedDate,
   setOpenModal,
 }: Props) => {
-  const [selectedClient, setSelectedClient] = useState<IClient>();
+  const [selectedClient, setSelectedClient] = useState<IClient>({
+    id: "",
+    nome: "",
+    telefone: "",
+  });
   const [selectedServices, setSelectedServices] = useState<IService[]>([]);
   const addSchedule = useAddSchedule();
 
@@ -45,26 +49,72 @@ const SchedulerBarber = ({
     return format(selectedDate, "yyyy-MM-dd'T'HH:mm:ss");
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    if (checkFields() && selectedClient) {
-      const body: IToSchedule = {
-        clienteId: Number(selectedClient.id),
-        agendaId: Number(selectedEmployee.id),
-        procedimentosId: selectedServices.map((service) => service.id),
-        data: convertDateToString(selectedDate),
-      };
-      http
-        .post<ISchedule>("atendimento", body)
-        .then((response) => {
-          alert(`Agendamento feito!`);
-          addSchedule(response.data);
-        })
-        .catch((error) =>
-          console.log(`Erro ao solicitar atendimento: ${error}`)
-        );
+  const formatPhoneNumber = (input: string): string => {
+    const cleaned = input.replace(/\D/g, "");
 
-      setOpenModal(false);
+    if (cleaned.length !== 11) {
+      throw new Error("Número de telefone inválido");
+    }
+
+    const ddd = cleaned.slice(0, 2);
+    const firstPart = cleaned.slice(2, 7);
+    const secondPart = cleaned.slice(7);
+
+    return `(${ddd}) ${firstPart}-${secondPart}`;
+  };
+
+  const createClient = async (client: IClient) => {
+    const body = {
+      nome: client.nome,
+      telefone: formatPhoneNumber(client.telefone),
+    };
+
+    try {
+      const response = await http.post<IClient>("clientes", body);
+      setSelectedClient(response.data);
+
+      return response.data;
+    } catch (erro) {
+      console.log(erro);
+    }
+  };
+
+  const handleClient = async (): Promise<number> => {
+    if (!selectedClient) {
+      throw new Error("Cliente indefinido!");
+    }
+
+    if (selectedClient.id === "") {
+      const createdClient = await createClient(selectedClient);
+      if (!createdClient || !createdClient.id) {
+        throw new Error("Cliente criado é inválido!");
+      }
+
+      return Number(createdClient.id);
+    }
+
+    return Number(selectedClient.id);
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (checkFields() && selectedClient) {
+      try {
+        const clienteId = await handleClient();
+        const body: IToSchedule = {
+          clienteId: clienteId,
+          agendaId: Number(selectedEmployee.id),
+          procedimentosId: selectedServices.map((service) => service.id),
+          data: convertDateToString(selectedDate),
+        };
+        const response = await http.post<ISchedule>("atendimento", body);
+        alert(`Agendamento feito!`);
+        addSchedule(response.data);
+        setOpenModal(false);
+      } catch (error) {
+        console.log(`Erro ao solicitar atendimento: ${error}`);
+      }
     }
   };
 
@@ -81,7 +131,10 @@ const SchedulerBarber = ({
         </div>
         <div className={style.body}>
           <SelectBarber />
-          <ClientForm setSelectedClient={setSelectedClient} />
+          <ClientForm
+            selectedClient={selectedClient}
+            setSelectedClient={setSelectedClient}
+          />
           <ServiceForm
             selectedServices={selectedServices}
             setSelectedServices={setSelectedServices}
