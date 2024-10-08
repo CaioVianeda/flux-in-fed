@@ -64,36 +64,36 @@ const SchedulerBarber = ({
   };
 
   const createClient = async (client: IClient) => {
+
+    if(client.nome === ''){
+      throw new Error("Nome do cliente não foi preenchido!")
+    }
     const body = {
       nome: client.nome,
       telefone: formatPhoneNumber(client.telefone),
     };
 
-    try {
-      const response = await http.post<IClient>("clientes", body);
-      setSelectedClient(response.data);
-
-      return response.data;
-    } catch (erro) {
-      console.log(erro);
+    const response = await http.post<IClient>("clientes", body);
+    setSelectedClient(response.data);
+    if (!response.data || !response.data.id) {
+      throw new Error("Erro ao criar o cliente!");
     }
+    return response.data;
   };
 
   const handleClient = async (): Promise<number> => {
+    let clientId = Number(selectedClient.id);
+
     if (!selectedClient) {
       throw new Error("Cliente indefinido!");
     }
 
     if (selectedClient.id === "") {
       const createdClient = await createClient(selectedClient);
-      if (!createdClient || !createdClient.id) {
-        throw new Error("Cliente criado é inválido!");
-      }
-
-      return Number(createdClient.id);
+      clientId = Number(createdClient.id);
     }
 
-    return Number(selectedClient.id);
+    return clientId;
   };
 
   const handleSubmit = async (event: React.FormEvent) => {

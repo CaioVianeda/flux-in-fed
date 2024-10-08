@@ -16,11 +16,6 @@ interface Props {
 
 const ClientForm = ({ selectedClient,setSelectedClient }: Props) => {
   const [clients, setClients] = useState<IClient[]>([]);
-  const [client, setClient] = useState<IClient>({
-    id: "",
-    nome: "",
-    telefone: "",
-  });
 
   const options = clients.map((client) => {
     const firstLetter = client.nome[0].toUpperCase();
@@ -55,11 +50,10 @@ const ClientForm = ({ selectedClient,setSelectedClient }: Props) => {
     if (e.target.value.length === 16) {
       //TODO ajustar para buscar na API
       const clientFinded = clients.find((client) => {
-        return client.telefone === e.target.value.replace(/\D/g, '');
+        return client.telefone.replace(/\D/g, '') === e.target.value.replace(/\D/g, '');
       });
 
       if (clientFinded) {
-        setSelectedClient(clientFinded);
         setSelectedClient(clientFinded);
       } else {
         setSelectedClient((prevState) => ({
@@ -82,7 +76,7 @@ const ClientForm = ({ selectedClient,setSelectedClient }: Props) => {
       });
   }, []);
 
-  if (client.id === "") {
+  if (selectedClient.id === "") {
     return (
       <div id={style.container}>
         <p className={style.title}>Cliente</p>
@@ -120,7 +114,7 @@ const ClientForm = ({ selectedClient,setSelectedClient }: Props) => {
                   label="Nome*"
                   variant="standard"
                   type="text"
-                  value={client.nome}
+                  value={selectedClient.nome}
                   name="nome"
                   size="small"
                   slotProps={{
@@ -133,7 +127,7 @@ const ClientForm = ({ selectedClient,setSelectedClient }: Props) => {
               )}
               onChange={(event, value) => {
                 if (value && typeof value !== "string") {
-                  setClient({
+                  setSelectedClient({
                     id: value.id,
                     nome: value.nome,
                     telefone: value.telefone,
@@ -178,11 +172,11 @@ const ClientForm = ({ selectedClient,setSelectedClient }: Props) => {
       <div id={style.container}>
         <p className={style.title}>Cliente</p>
         <div className={style["container__client-card"]}>
-          <PerfilCard mainInformation={client.nome} secondInformation={formatPhoneNumber(client.telefone)} />
+          <PerfilCard mainInformation={selectedClient.nome} secondInformation={formatPhoneNumber(selectedClient.telefone)} />
           <div
             className={style.button}
             onClick={() => {
-              setClient({
+              setSelectedClient({
                 id: "",
                 nome: "",
                 telefone: "",
