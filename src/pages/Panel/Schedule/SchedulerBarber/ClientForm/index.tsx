@@ -1,14 +1,13 @@
 import TextField from "@mui/material/TextField";
 
 import style from "./style.module.css";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect } from "react";
 import { Autocomplete } from "@mui/material";
-import http from "../../../../../service/http";
 import { IClient } from "../../../../../shared/interfaces/IClient";
 import PerfilCard from "../../../../../components/PerfilCard";
 import { Close } from "@mui/icons-material";
-import { useRecoilState } from "recoil";
-import { clientsState } from "../../../../../state/atom";
+import { useLoadClients } from "../../../../../state/hooks/useClients/useLoadClients";
+import { useClientsList } from "../../../../../state/hooks/useClients/useClientsList";
 
 interface Props {
   selectedClient: IClient;
@@ -16,18 +15,11 @@ interface Props {
 }
 
 const ClientForm = ({ selectedClient, setSelectedClient }: Props) => {
-  // const [clients, setClients] = useState<IClient[]>([]);
-  const [clients, setClients] = useRecoilState(clientsState);
+  const clients = useClientsList();
+  const loadClients = useLoadClients();
 
   useEffect(() => {
-    http
-      .get<IClient[]>("/clientes")
-      .then((response) => {
-        setClients(response.data);
-      })
-      .catch((error) => {
-        console.log("Erro ao carregar os clientes: " + error);
-      });
+    loadClients();
   }, []);
 
   const options = clients.map((client) => {

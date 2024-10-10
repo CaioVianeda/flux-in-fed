@@ -1,26 +1,25 @@
 import { Container } from "@mui/material";
 import ClientCard from "./ClientCard";
-import { memo, useEffect, useState } from "react";
-import http from "../../../service/http";
-import { IClient } from "../../../shared/interfaces/IClient";
+import { memo, useEffect } from "react";
 import SearchText from "../../../components/SeachText";
+import { useLoadClients } from "../../../state/hooks/useClients/useLoadClients";
+import { useClientsList } from "../../../state/hooks/useClients/useClientsList";
 
 const Clients = () => {
-  
-  const [clients, setClients] = useState<IClient[]>();
+  const clients = useClientsList();
+  const loadClients = useLoadClients();
 
-  useEffect(()=>{
-    http.get("/clientes")
-    .then((response) => {
-      setClients(response.data);
-    })
+  useEffect(() => {
+    loadClients();
   }, []);
 
   return (
-    <Container sx={{p: '20px', display: "flex", flexDirection: 'column',gap: '10px'}}>
-      <SearchText/>
+    <Container
+      sx={{ p: "20px", display: "flex", flexDirection: "column", gap: "10px" }}
+    >
+      <SearchText />
       {clients?.map((client) => {
-        return <ClientCard client={client} key={client.id}/>
+        return <ClientCard client={client} key={client.id} />;
       })}
     </Container>
   );

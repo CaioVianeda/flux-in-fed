@@ -1,4 +1,4 @@
-import { useRecoilValue } from "recoil"
+import { useRecoilState, useRecoilValue } from "recoil"
 import { clientsState } from "../../atom"
 
 export const useClientsList = () => {
