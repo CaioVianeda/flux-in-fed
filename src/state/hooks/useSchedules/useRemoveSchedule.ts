@@ -1,6 +1,6 @@
 import { useSetRecoilState } from "recoil";
-import { ISchedule } from "../../shared/interfaces/ISchedule";
-import { schedulesState } from "../atom";
+import { ISchedule } from "../../../shared/interfaces/ISchedule";
+import { schedulesState } from "../../atom";
 
 const useRemoveSchedule = () => {
 

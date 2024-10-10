@@ -2,8 +2,8 @@ import ServiceCard from "./ServiceCard";
 import style from "./style.module.css";
 import { useRecoilValue } from "recoil";
 import { schedulesFilterState } from "../../../../../state/atom";
-import useSchedules from "../../../../../state/hooks/useSchedules";
-import useFilteredSchedules from "../../../../../state/hooks/useFilteredSchedules";
+import useSchedules from "../../../../../state/hooks/useSchedules/useSchedules";
+import useFilteredSchedules from "../../../../../state/hooks/useSchedules/useFilteredSchedules";
 
 interface Props{
   handleOpenModal: (date:Date) => void

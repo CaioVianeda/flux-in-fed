@@ -5,8 +5,8 @@ import SchedulerBarber from "../SchedulerBarber";
 import PerfilCard from "../../../../components/PerfilCard";
 import { useRecoilValue } from "recoil";
 import { employeeState, schedulesFilterState } from "../../../../state/atom";
-import useSchedules from "../../../../state/hooks/useSchedules";
-import useLoadSchedules from "../../../../state/hooks/useLoadSchedules";
+import useSchedules from "../../../../state/hooks/useSchedules/useSchedules";
+import useLoadSchedules from "../../../../state/hooks/useSchedules/useLoadSchedules";
 import ServiceListCards from "./ServiceListCards";
 import ServiceList from "./ServiceList";
 

@@ -3,8 +3,8 @@ import style from "./style.module.css";
 import http from "../../../../../../service/http";
 import { Avatar, Tooltip } from "@mui/material";
 import { Check, Close, Delete, DoneAll } from "@mui/icons-material";
-import useUpdateSchedules from "../../../../../../state/hooks/useUpdateSchedules";
-import useRemoveSchedule from "../../../../../../state/hooks/useRemoveSchedule";
+import useUpdateSchedules from "../../../../../../state/hooks/useSchedules/useUpdateSchedules";
+import useRemoveSchedule from "../../../../../../state/hooks/useSchedules/useRemoveSchedule";
 
 interface Props {
   schedule: ISchedule;

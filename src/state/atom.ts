@@ -27,12 +27,12 @@ export const establishmentState = atom<IBarberShop>({
 });
 
 export const schedulesState = atom<ISchedule[]>({
-  key: 'servicesState',
+  key: 'schedulesState',
   default: []
 })
 
 export const schedulesFilterState = atom<IScheduleFilter>({
-  key: 'serviceFilterState',
+  key: 'schedulesFilterState',
   default: {date: new Date(), status: null}
 })
 
