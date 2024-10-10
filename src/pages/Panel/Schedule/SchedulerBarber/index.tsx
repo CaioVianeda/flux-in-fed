@@ -109,8 +109,6 @@ const SchedulerBarber = ({
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-   
-
     if (checkFields() && selectedClient) {
       const newSchedule: IToSchedule = {
         clienteId: await handleClient(),

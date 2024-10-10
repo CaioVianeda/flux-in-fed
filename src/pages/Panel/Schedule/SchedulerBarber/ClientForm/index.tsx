@@ -7,15 +7,28 @@ import http from "../../../../../service/http";
 import { IClient } from "../../../../../shared/interfaces/IClient";
 import PerfilCard from "../../../../../components/PerfilCard";
 import { Close } from "@mui/icons-material";
+import { useRecoilState } from "recoil";
+import { clientsState } from "../../../../../state/atom";
 
 interface Props {
-  selectedClient: IClient,
+  selectedClient: IClient;
   setSelectedClient: React.Dispatch<React.SetStateAction<IClient>>;
-  
 }
 
-const ClientForm = ({ selectedClient,setSelectedClient }: Props) => {
-  const [clients, setClients] = useState<IClient[]>([]);
+const ClientForm = ({ selectedClient, setSelectedClient }: Props) => {
+  // const [clients, setClients] = useState<IClient[]>([]);
+  const [clients, setClients] = useRecoilState(clientsState);
+
+  useEffect(() => {
+    http
+      .get<IClient[]>("/clientes")
+      .then((response) => {
+        setClients(response.data);
+      })
+      .catch((error) => {
+        console.log("Erro ao carregar os clientes: " + error);
+      });
+  }, []);
 
   const options = clients.map((client) => {
     const firstLetter = client.nome[0].toUpperCase();
@@ -26,17 +39,18 @@ const ClientForm = ({ selectedClient,setSelectedClient }: Props) => {
   });
 
   const handleChangeName = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
     setSelectedClient((prevState) => ({
       ...prevState,
       nome: e.target.value,
     }));
   };
 
-  const formatPhoneNumber = (input:String) => {
-    const cleaned = input.replace(/\D/g, '');
+  const formatPhoneNumber = (input: String) => {
+    const cleaned = input.replace(/\D/g, "");
     const match = cleaned.match(/^(\d{2})(\d)?(\d{4})(\d{4})$/);
     if (match) {
-      return `(${match[1]}) ${match[2] || ''} ${match[3]}-${match[4]}`;
+      return `(${match[1]}) ${match[2] || ""} ${match[3]}-${match[4]}`;
     }
     return cleaned;
   };
@@ -50,31 +64,19 @@ const ClientForm = ({ selectedClient,setSelectedClient }: Props) => {
     if (e.target.value.length === 16) {
       //TODO ajustar para buscar na API
       const clientFinded = clients.find((client) => {
-        return client.telefone.replace(/\D/g, '') === e.target.value.replace(/\D/g, '');
+        return (
+          client.telefone.replace(/\D/g, "") ===
+          e.target.value.replace(/\D/g, "")
+        );
       });
 
       if (clientFinded) {
         setSelectedClient(clientFinded);
-      } else {
-        setSelectedClient((prevState) => ({
-          ...prevState,
-          nome: "",
-        }));
       }
     }
   };
-  
+
   //TODO criar endpoint para verificar se há telefone cadastrado
-  useEffect(() => {
-    http
-      .get<IClient[]>("/clientes")
-      .then((response) => {
-        setClients(response.data);
-      })
-      .catch((error) => {
-        console.log("Erro ao carregar os clientes: " + error);
-      });
-  }, []);
 
   if (selectedClient.id === "") {
     return (
@@ -172,7 +174,10 @@ const ClientForm = ({ selectedClient,setSelectedClient }: Props) => {
       <div id={style.container}>
         <p className={style.title}>Cliente</p>
         <div className={style["container__client-card"]}>
-          <PerfilCard mainInformation={selectedClient.nome} secondInformation={formatPhoneNumber(selectedClient.telefone)} />
+          <PerfilCard
+            mainInformation={selectedClient.nome}
+            secondInformation={formatPhoneNumber(selectedClient.telefone)}
+          />
           <div
             className={style.button}
             onClick={() => {
