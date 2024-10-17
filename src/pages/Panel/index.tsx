@@ -18,7 +18,7 @@ const Panel = () => {
   useEffect(() => {
     setLoading(true);
     http
-      .get("/barbeiros/3")
+      .get("/barbeiros/2")
       .then((response) => {
         setEmployee(response.data);
       })

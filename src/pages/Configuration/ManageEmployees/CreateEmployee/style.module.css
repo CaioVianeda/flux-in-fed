@@ -1,9 +1,12 @@
 .container__new_employee {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    padding: 0px 10px;
-    align-items: flex-start;
-    gap: 10px;
-    
+    align-items: center;
+    gap: 20px;
   }
+
+.add_employee{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

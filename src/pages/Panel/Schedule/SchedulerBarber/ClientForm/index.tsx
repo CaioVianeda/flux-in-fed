@@ -88,6 +88,7 @@ const ClientForm = ({ selectedClient, setSelectedClient }: Props) => {
               inputLabel: {
                 style: { fontFamily: "nunito", fontSize: "14px" },
               },
+              htmlInput: {maxLength: 16}
             }}
             onChange={handleChangeTelephone}
           />
@@ -121,11 +122,6 @@ const ClientForm = ({ selectedClient, setSelectedClient }: Props) => {
               )}
               onChange={(event, value) => {
                 if (value && typeof value !== "string") {
-                  setSelectedClient({
-                    id: value.id,
-                    nome: value.nome,
-                    telefone: value.telefone,
-                  });
                   setSelectedClient({
                     id: value.id,
                     nome: value.nome,

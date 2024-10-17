@@ -3,7 +3,6 @@ import { IBarber } from "../shared/interfaces/IBarber";
 import { IBarberShop } from "../shared/interfaces/IBarberShop";
 import { IScheduleFilter } from "../shared/interfaces/IScheduleFilter";
 import { IClient } from "../shared/interfaces/IClient";
-import { IService } from "../shared/interfaces/IService";
 import { ISchedule } from "../shared/interfaces/ISchedule";
 
 export const employeeState = atom<IBarber>({

@@ -7,23 +7,23 @@
 }
 
 #employees {
-  /* width: 800px; */
   padding: 5px;
   background-color: #fff;
   border: 8px;
+  padding: 20px;
 }
 
 #title {
   color: #999999;
-  margin: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  margin: 15px 10px;
 }
 
 #employees__container {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 450px;
-  margin-bottom: 20px;
 }
 
 .employees__employee {
@@ -34,12 +34,40 @@
   border-bottom: 1px solid #f3f3f3;
 }
 
-.employees__employee_info {
+.employees__employee_infos {
   font-weight: bold;
   display: flex;
   width: 100%;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
+}
+
+.employees__employee_info{ 
+  display: flex;
+  flex: 1;
+}
+
+.employees__employee_info_title{
+  font-weight: 500;
+  display: flex;
+  flex: 1;
+  color: #999999;
+}
+
+.name{ 
+}
+
+.email{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.telephone{
+  display: flex;
+  justify-content: flex-end;
+  width: 300px;
 }
 
 .employees__employee_button {
