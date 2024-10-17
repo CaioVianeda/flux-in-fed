@@ -9,9 +9,7 @@ import { IBarber } from "../../../../shared/interfaces/IBarber";
 import { IService } from "../../../../shared/interfaces/IService";
 import { IClient } from "../../../../shared/interfaces/IClient";
 import { IToSchedule } from "../../../../shared/interfaces/IToSchedule";
-import http from "../../../../service/http";
 import useAddSchedule from "../../../../state/hooks/useSchedules/useAddSchedule";
-import { ISchedule } from "../../../../shared/interfaces/ISchedule";
 import { format } from "date-fns";
 import { useAddClient } from "../../../../state/hooks/useClients/useAddClient";
 
@@ -40,7 +38,7 @@ const SchedulerBarber = ({
       alert("Digite o telefone do Cliente!");
       return false;
     }
-    else if(selectedClient.telefone.length !== 16){
+    else if(selectedClient.telefone.replace(/\D/g, "").length !== 11){
       alert("Digite um telefone válido!");
       return false;
     }

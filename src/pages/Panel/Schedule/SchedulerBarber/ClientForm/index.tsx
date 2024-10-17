@@ -31,7 +31,6 @@ const ClientForm = ({ selectedClient, setSelectedClient }: Props) => {
   });
 
   const handleChangeName = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setSelectedClient((prevState) => ({
       ...prevState,
       nome: e.target.value,
@@ -53,7 +52,7 @@ const ClientForm = ({ selectedClient, setSelectedClient }: Props) => {
       telefone: formatPhoneNumber(e.target.value),
     }));
 
-    if (e.target.value.length === 16) {
+    if (e.target.value.replace(/\D/g, "").length === 11) {
       //TODO ajustar para buscar na API
       const clientFinded = clients.find((client) => {
         return (

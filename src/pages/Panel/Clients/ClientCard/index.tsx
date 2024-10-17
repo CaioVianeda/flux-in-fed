@@ -23,7 +23,7 @@ const ClientCard = ({client}:Props) => {
         <p>{`${client.nome.toUpperCase()}`}</p>
       </div>
       <div className={style.telephone}>
-        <p style={{fontWeight: 600}}>(41) 98420-6429</p>
+        <p style={{fontWeight: 600}}>{client.telefone}</p>
       </div>
       <div className={style.more}>
         <div className={style.button__more}>
