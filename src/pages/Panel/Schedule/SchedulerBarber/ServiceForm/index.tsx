@@ -4,18 +4,22 @@ import style from "./style.module.css";
 import http from "../../../../../service/http";
 import { IService } from "../../../../../shared/interfaces/IService";
 interface Props {
-  selectedServices: IService[],
+  selectedServices: IService[];
   setSelectedServices: Dispatch<SetStateAction<IService[]>>;
 }
 
-const ServiceForm = ({ selectedServices,setSelectedServices }: Props) => {
-  
+const ServiceForm = ({ selectedServices, setSelectedServices }: Props) => {
   const [services, setServices] = useState<IService[]>([]);
-  
+
   useEffect(() => {
-    http.get<IService[]>("/procedimentos").then((response) => {
-     setServices(response.data);
-    }).catch((error) => {console.log("Não foi possível carregar o serviços: " + error)});
+    http
+      .get<IService[]>("/procedimentos")
+      .then((response) => {
+        setServices(response.data);
+      })
+      .catch((error) => {
+        console.log("Não foi possível carregar o serviços: " + error);
+      });
   }, []);
 
   const handleServicesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,14 +32,13 @@ const ServiceForm = ({ selectedServices,setSelectedServices }: Props) => {
       }
     });
   };
-
-  const totalPriceServices =(services: IService[]): Number =>{
+  const totalPriceServices = (services: IService[]): Number => {
     let total = 0;
-     services.forEach ((service) =>{
-        total += service.preco;
-     })
-     return total;
-  }
+    services.forEach((service) => {
+      total += service.preco;
+    });
+    return total;
+  };
 
   return (
     <div className={style.select_services}>
@@ -50,24 +53,31 @@ const ServiceForm = ({ selectedServices,setSelectedServices }: Props) => {
         <p className={style.title}>Serviços</p>
         <div className={style["select_service__options-container"]}>
           {services.map((service) => {
-            return (
-              <label htmlFor={`${service.nome}`} className={style.select_service__option} key={service.id}>
-                <input
-                  id={`${service.nome}`}
-                  type="checkbox"
-                  value={JSON.stringify(service)}
-                  onChange={handleServicesChange}
-                />
-                <div className={style.select_service__option_info}>
-                  <p>{service.nome}</p>
-                  <p>R$ {service.preco},00</p>
-                </div>
-              </label>
-            );
+            if (service.ativo) {
+               return (
+                <label
+                  htmlFor={`${service.nome}`}
+                  className={style.select_service__option}
+                  key={service.id}
+                >
+                  <input
+                    id={`${service.nome}`}
+                    type="checkbox"
+                    value={JSON.stringify(service)}
+                    onChange={handleServicesChange}
+                  />
+                  <div className={style.select_service__option_info}>
+                    <p>{service.nome}</p>
+                    <p>R$ {service.preco},00</p>
+                  </div>
+                </label>
+              );
+            }
           })}
           <div className={style["card-total"]}>
-          <p>Total</p>
-          <p>{`R$${totalPriceServices(selectedServices)},00`}</p></div>
+            <p>Total</p>
+            <p>{`R$${totalPriceServices(selectedServices)},00`}</p>
+          </div>
         </div>
       </form>
     </div>

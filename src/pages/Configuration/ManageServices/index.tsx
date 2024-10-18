@@ -124,30 +124,33 @@ const ManageServices = () => {
           <div id={style["service__options-container"]}>
             {services &&
               services.map((service) => {
-                return (
-                  <div className={style.service__option} key={service.id}>
-                    <div className={style.service__option_info}>
-                      <p>{service.nome}</p>
-                      <p>R$ {service.preco},00</p>
-                    </div>
-                    <div
-                      className={style.service__option_button}
-                      onClick={() => setNewService(service)}
-                    >
-                      <Edit
-                        fontSize="small"
-                        style={{ cursor: "pointer", marginLeft: "15px" }}
-                      />
-                      <div
-                        onClick={() => {
-                          handleDeleteService(service.id);
-                        }}
-                      >
-                        <Close fontSize="small" style={{ cursor: "pointer" }} />
+                if (service.ativo) {
+                  return (
+                    <div className={style.service__option} key={service.id}>
+                      <div className={style.service__option_info}>
+                        <p>{service.nome}</p>
+                        <p>R$ {service.preco},00</p>
+                      </div>
+                      <div className={style.service__option_button}>
+                        <Edit
+                          fontSize="small"
+                          style={{ cursor: "pointer", marginLeft: "15px" }}
+                          onClick={() => setNewService(service)}
+                        />
+                        <div
+                          onClick={() => {
+                            handleDeleteService(service.id);
+                          }}
+                        >
+                          <Close
+                            fontSize="small"
+                            style={{ cursor: "pointer" }}
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
+                  );
+                }
               })}
             <div className={style.add_service__container}>
               <TextField

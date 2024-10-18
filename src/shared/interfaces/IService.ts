@@ -1,5 +1,6 @@
 export interface IService{
     id: number,
     nome: String,
-    preco: number
+    preco: number,
+    ativo?: Boolean
 }
