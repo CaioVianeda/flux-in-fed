@@ -28,10 +28,6 @@ const Configuration = () => {
           <Link to={'manage-employees'}><p className={`${styles["section__option"]} ${location.pathname === '/configure/manage-employees' && styles["section__option-active"]}`}>Funcionários</p></Link>
         </section>
         <section>
-          <p className={styles["section__title"]}>Sistema</p>
-          <Link to={'customize'}><p className={`${styles["section__option"]} ${location.pathname === '/configure/customize' && styles["section__option-active"]}`}>Configurações Gerais</p></Link>
-        </section>
-        <section>
           <Link to={'/panel'}><p className={`${styles["section__option"]} ${styles["exit"]}`}>Sair</p></Link>
         </section>
       </div>

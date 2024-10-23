@@ -36,14 +36,14 @@ section{
 }
 
 .section__option-active{
-   color: #00c1af;
+   color: var(--button-primary);
 }
 
 .section__option:hover{
-    color: #f29f3b;
+    color: var(--background-primary);
 }
 
 .exit{
-    color: #f25b5b
+    color: #f25b5b;
 }
 

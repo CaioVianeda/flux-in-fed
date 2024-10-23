@@ -1,8 +1,6 @@
 import "./App.css";
 import GlobalStyles from "./components/GlobalStyles";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-//@ts-ignore
-import ScheduleProvider from "./context/ScheduleContext";
 import { RecoilRoot } from "recoil";
 import { lazy, Suspense } from "react";
 
@@ -20,7 +18,6 @@ function AppRoutes() {
       <BrowserRouter>
       {/* Criar Fallback */}
         <Suspense fallback={<p>Carregando...</p>}>
-          <ScheduleProvider>
             <Routes>
               <Route path="/panel" element={<Panel />}>
                 <Route path="clients" element={<Clients />} />
@@ -34,7 +31,6 @@ function AppRoutes() {
               </Route>
               <Route path="*" element={<h1> Pagina não encontrada</h1>} />
             </Routes>
-          </ScheduleProvider>
         </Suspense>
       </BrowserRouter>
     </RecoilRoot>

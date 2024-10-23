@@ -2,6 +2,12 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
 
+:root {
+  --background-primary: #155e63; 
+  --background-secondary: #eae7e7; 
+  --button-primary: #1e868d;  
+}
+
  /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
 /* Document

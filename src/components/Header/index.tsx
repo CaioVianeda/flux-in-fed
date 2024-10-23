@@ -4,7 +4,6 @@ import PerfilCard from "../PerfilCard";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useRecoilValue } from "recoil";
 import { employeeState, establishmentState } from "../../state/atom";
-import { memo } from "react";
 
 interface Props {
   pageName: string;
@@ -17,7 +16,7 @@ const Header = ({ pageName }: Props) => {
 
   return (
     <header>
-      <PerfilCard mainInformation={employee.nome} secondInformation={establishment.nome} />
+      <PerfilCard mainInformation={employee.nome.split(' ')[0]} secondInformation={establishment.nome} />
       <div className={style.title}>{pageName}</div>
       <div className={style.options}>
         <Link to={"/configure"}>

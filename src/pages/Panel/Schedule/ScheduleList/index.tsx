@@ -9,6 +9,7 @@ import useSchedules from "../../../../state/hooks/useSchedules/useSchedules";
 import useLoadSchedules from "../../../../state/hooks/useSchedules/useLoadSchedules";
 import ServiceListCards from "./ServiceListCards";
 import ServiceList from "./ServiceList";
+import { dayNames, monthNames } from "../../../../utils/constants/constants";
 
 const ScheduleList = () => {
   const employee = useRecoilValue(employeeState);
@@ -17,21 +18,6 @@ const ScheduleList = () => {
   const loadSchedules = useLoadSchedules();
   const [selectedHour, setSelectedHour] = useState<Date | null>(null);
   const [openModal, setOpenModal] = useState<Boolean>(false);
-
-  function generateHalfHourInterval(date: Date) {
-    const timeSlot = [];
-    let current = new Date(date);
-    current.setHours(8, 0, 0, 0);
-
-    let finalTime = new Date(date);
-    finalTime.setHours(18, 0, 0, 0);
-
-    while (current <= finalTime) {
-      timeSlot.push(new Date(current));
-      current.setMinutes(current.getMinutes() + 30);
-    }
-    return timeSlot;
-  }
 
   function formatDateToLocalDateTime(date: Date) {
     const year = date.getFullYear();
@@ -43,40 +29,20 @@ const ScheduleList = () => {
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
   }
 
-  function isFutureDate(date: Date) {
-    const now = new Date();
-    return date > now;
-  }
-
-  function isToday(date: Date): Boolean {
-
+  function isTodayOrFuture(date: Date): Boolean {
     const today = new Date();
     const todayDate = new Date(
       today.getFullYear(),
       today.getMonth(),
       today.getDate()
     );
-
     const dateWithoutTime = new Date(
       date.getFullYear(),
       date.getMonth(),
       date.getDate()
     );
 
-    return todayDate.getTime() === dateWithoutTime.getTime();
-  }
-
-  function hasSchedulingOnTime(time: Date): Boolean {
-    if (
-      schedules.find(
-        (schedule) =>
-          new Date(schedule.data).getHours() === time.getHours() &&
-          new Date(schedule.data).getMinutes() === time.getMinutes()
-      )
-    ) {
-      return true;
-    }
-    return false;
+    return todayDate.getTime() === dateWithoutTime.getTime() || date > todayDate;
   }
 
   useEffect(() => {
@@ -105,29 +71,38 @@ const ScheduleList = () => {
     setOpenModal(true);
   }
 
- 
-    return (
-      <>
-        <div className={style.header}>
-          {/*TODO ajustar api para trazer nome do estabelecimento */}
-          <PerfilCard
-            mainInformation={employee.nome}
-            secondInformation={"Silva's"}
-          />
-        </div>
-        <div id={style["container--services-list"]}>
-          {isToday(filter.date) || isFutureDate(filter.date) ? <ServiceList handleOpenModal={handleOpenModal}/> : <ServiceListCards/>} 
-        </div>
-
-        {openModal && selectedHour && (
-          <SchedulerBarber
-            selectedDate={selectedHour}
-            selectedEmployee={employee}
-            setOpenModal={setOpenModal}
-          />
+  return (
+    <>
+      <div id={style.header}>
+        {/*TODO ajustar api para trazer nome do estabelecimento */}
+        <PerfilCard
+          mainInformation={employee.nome}
+          secondInformation={"Silva's"}
+        />
+        <p id={style.date}>{`${filter.date
+          .getDate()
+          .toString()
+          .padStart(2, "0")} - ${monthNames[filter.date.getMonth()]} (${
+          dayNames[filter.date.getDay()]
+        })`}</p>
+      </div>
+      <div id={style["container--services-list"]}>
+        {isTodayOrFuture(filter.date) ? (
+          <ServiceList handleOpenModal={handleOpenModal} />
+        ) : (
+          <ServiceListCards />
         )}
-      </>
-    );
+      </div>
+
+      {openModal && selectedHour && (
+        <SchedulerBarber
+          selectedDate={selectedHour}
+          selectedEmployee={employee}
+          setOpenModal={setOpenModal}
+        />
+      )}
+    </>
+  );
 };
 
 export default ScheduleList;

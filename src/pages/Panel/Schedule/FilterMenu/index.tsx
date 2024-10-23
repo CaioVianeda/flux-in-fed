@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import style from "./style.module.css";
 import Calendar from "./Calendar";
 import { useRecoilState } from "recoil";
@@ -25,7 +24,7 @@ const FilterMenu = () => {
     <div id={style["filter-menu"]}>
       <Calendar />
       <div className={style.filter}>
-        <p className={style.filter__title}>Titulo</p>
+        <p className={style.filter__title}>Filtro</p>
         <span>
           <input
             id="confirmed"
@@ -37,30 +36,12 @@ const FilterMenu = () => {
         </span>
         <span>
           <input
-            id="waitingConfirmation"
-            type="checkbox"
-            checked={filter.status === "waitingConfirmation"}
-            onChange={onChangeFilter}
-          />
-          <label htmlFor="waitingConfirmation">Aguardando Confirmação</label>
-        </span>
-        <span>
-          <input
             id="finished"
             type="checkbox"
             checked={filter.status === "finished"}
             onChange={onChangeFilter}
           />
           <label htmlFor="finished">Finalizado</label>
-        </span>
-        <span>
-          <input
-            id="canceled"
-            type="checkbox"
-            checked={filter.status === "canceled"}
-            onChange={onChangeFilter}
-          />
-          <label htmlFor="canceled">Cancelado</label>
         </span>
       </div>
     </div>

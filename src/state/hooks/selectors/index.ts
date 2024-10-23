@@ -9,13 +9,9 @@ export const filteredSchedulesState = selector({
 
         switch (filter.status) {
             case "confirmed":
-              return schedules.filter((schedule) => schedule.confirmado);
-            case "waitingConfirmation":
-              return schedules.filter((schedule) => !schedule.confirmado);
+              return schedules.filter((schedule) => schedule.confirmado && !schedule.finalizado);
             case "finished":
-              return schedules.filter((schedule) => schedule.finalizado);
-            case "canceled":
-              return schedules.filter((schedule) => schedule);
+              return schedules.filter((schedule) => schedule.finalizado );
             default:
               return schedules;
           }

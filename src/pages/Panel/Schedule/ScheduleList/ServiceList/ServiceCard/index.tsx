@@ -79,32 +79,11 @@ const ServiceCard = ({ schedule }: Props) => {
           <Tooltip title="Cancelar">
             <span
               className={style.buttons}
-              onClick={() => confirmSchedule(schedule.id)}
+              onClick={() => deleteSchedule(schedule.id)}
             >
-              <Close />
+              <Delete/>
             </span>
           </Tooltip>
-        )}
-        {!schedule.confirmado && (
-          <>
-           <Tooltip title="Excluir">
-              <span
-                className={style.buttons}
-                onClick={() => deleteSchedule(schedule.id)}
-              >
-                <Delete/>
-              </span>
-            </Tooltip>
-            
-            <Tooltip title="Confirmar">
-              <span
-                className={style.buttons}
-                onClick={() => confirmSchedule(schedule.id)}
-              >
-                <Check />
-              </span>
-            </Tooltip>
-          </>
         )}
         {!schedule.finalizado && schedule.confirmado && (
           <Tooltip title="Finalizar">
@@ -113,6 +92,16 @@ const ServiceCard = ({ schedule }: Props) => {
               onClick={() => finishSchedule(schedule.id)}
             >
               <DoneAll />
+            </span>
+          </Tooltip>
+        )}
+        {schedule.finalizado && (
+            <Tooltip title="Cancelar">
+            <span
+              className={style.buttons}
+              onClick={() => deleteSchedule(schedule.id)}
+            >
+              <Delete/>
             </span>
           </Tooltip>
         )}

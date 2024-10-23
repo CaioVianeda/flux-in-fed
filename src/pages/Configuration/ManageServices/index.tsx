@@ -74,6 +74,7 @@ const ManageServices = () => {
 
   const handleDeleteService = (id: Number) => {
     http.delete(`/procedimentos/${id}`);
+    setNewService({ id: 0, nome: "", preco: 0 });
     setServices(services.filter((service) => service.id !== id));
   };
 
@@ -111,15 +112,8 @@ const ManageServices = () => {
 
   return (
     <div id={style.container}>
-      <div className={style.services}>
-        <form
-          style={{
-            maxWidth: "450px",
-            padding: "5px",
-            backgroundColor: "#fff",
-            borderRadius: "8px",
-          }}
-        >
+      <div id={style.services}>
+        
           <p id={style.title}>Serviços</p>
           <div id={style["service__options-container"]}>
             {services &&
@@ -195,7 +189,6 @@ const ManageServices = () => {
               </div>
             </div>
           </div>
-        </form>
       </div>
     </div>
   );

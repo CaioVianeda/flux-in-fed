@@ -11,7 +11,7 @@
 }
 
 .container__form{
-    background-color: #f3f3f3;
+    background-color: var(--background-secondary);
     min-width: 800px;
     width: 55%;
     height: 90%;
@@ -29,7 +29,7 @@
     justify-content: flex-end;
     align-items: center;
     padding: 15px;
-    background-color: #f19f3b;
+    background-color: var(--background-primary);
     max-width: 100%;
     height: 45px;
 }
@@ -51,7 +51,6 @@
     justify-content: center;
     padding: 10px;
     background-color: green;
-    max-width: 100%;
 }
 
 .body{
@@ -59,7 +58,6 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    /* height: 100%; */
     max-height: 70vh;
     padding: 15px;
     gap: 20px;

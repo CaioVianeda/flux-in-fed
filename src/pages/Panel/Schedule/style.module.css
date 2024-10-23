@@ -8,28 +8,5 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-}
-
-#container__services__header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 80px;
-    margin: 0 25px;
-
-}
-
-.date{
-    font-size: 20px;
-    font-weight: bold;
-}
-
-#container__services__card{
-    display: flex;
-    flex-wrap: wrap;
-}
-
-table{
-    width: 100%;
-    background-color: #fff;
+    margin-top: 25px;
 }
