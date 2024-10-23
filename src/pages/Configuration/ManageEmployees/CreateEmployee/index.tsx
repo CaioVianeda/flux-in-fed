@@ -2,13 +2,15 @@ import { TextField } from "@mui/material";
 import style from "./style.module.css";
 import { Add } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import useCreateEmployee from "../../../../state/hooks/useEmployees/useCreateEmployee";
+import useCreateEmployee from "../../../../state/hooks/useEmployee/useCreateEmployee";
 import { IBarber as IEmployee } from "../../../../shared/interfaces/IBarber";
-import useUpdateEmployee from "../../../../state/hooks/useEmployees/useUpdateEmployee";
+import useUpdateEmployee from "../../../../state/hooks/useEmployee/useUpdateEmployee";
+import { useSetEmployeesList } from "../../../../state/hooks/useEmployee/useSetEmployeesList";
+import { useRecoilValue } from "recoil";
+import { establishmentState } from "../../../../state/atom";
 
 interface Props {
   setCreateNewEmployee: React.Dispatch<React.SetStateAction<Boolean>>;
-  setEmployees: React.Dispatch<React.SetStateAction<IEmployee[]>>;
   setSelectedEmployee: React.Dispatch<
     React.SetStateAction<IEmployee | undefined>
   >;
@@ -17,15 +19,17 @@ interface Props {
 
 const CreateEmployee = ({
   setCreateNewEmployee,
-  setEmployees,
   setSelectedEmployee,
   employee,
 }: Props) => {
   const [name, setName] = useState<string>(employee ? employee.nome : "");
-  const [telephone, setTelephone] = useState<string>(employee ? employee.telefone : "");
+  const [telephone, setTelephone] = useState<string>(
+    employee ? employee.telefone : ""
+  );
   const [email, setEmail] = useState<string>(employee ? employee.email : "");
   const createEmployee = useCreateEmployee();
   const updateEmployee = useUpdateEmployee();
+  const estabelishment = useRecoilValue(establishmentState);
 
   useEffect(() => {
     setName(employee ? employee.nome : "");
@@ -76,22 +80,15 @@ const CreateEmployee = ({
   const onCreateEmployee = async () => {
     let newEmployee = {
       nome: name,
+      idBarbearia: estabelishment.id,
       telefone: telephone,
       email: email,
     };
 
-    if (employee === undefined) {
-      const createdEmployee = await createEmployee(newEmployee, 1);
-      setEmployees((prev) => [...prev, createdEmployee]);
+    if (employee === undefined) {await createEmployee(newEmployee, 1);
       setCreateNewEmployee(false);
     } else {
-      const updatedEmployee = await updateEmployee(
-        newEmployee,
-        Number(employee.id)
-      );
-      setEmployees((prev) =>
-        prev.map((item) => (item.id === employee.id ? updatedEmployee : item))
-      );
+      await updateEmployee(newEmployee, Number(employee.id));
       setCreateNewEmployee(false);
       setSelectedEmployee(undefined);
     }

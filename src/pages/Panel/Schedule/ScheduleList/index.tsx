@@ -42,7 +42,9 @@ const ScheduleList = () => {
       date.getDate()
     );
 
-    return todayDate.getTime() === dateWithoutTime.getTime() || date > todayDate;
+    return (
+      todayDate.getTime() === dateWithoutTime.getTime() || date > todayDate
+    );
   }
 
   useEffect(() => {
@@ -55,15 +57,16 @@ const ScheduleList = () => {
       dataInicial: formatDateToLocalDateTime(startOfDay),
       dataFinal: formatDateToLocalDateTime(endOfDay),
     };
-
-    http
-      .post(`/atendimento/${employee.id}/filtrar`, body)
-      .then((response) => {
-        loadSchedules(response.data);
-      })
-      .catch((erro) => {
-        console.log(erro);
-      });
+    if (employee.id !== "0") {
+      http
+        .post(`/atendimento/${employee.id}/filtrar`, body)
+        .then((response) => {
+          loadSchedules(response.data);
+        })
+        .catch((erro) => {
+          console.log(erro);
+        });
+    }
   }, [filter.date]);
 
   function handleOpenModal(hour: Date) {

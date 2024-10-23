@@ -16,6 +16,11 @@ export const employeeState = atom<IBarber>({
   },
 });
 
+export const employeesListState = atom<IBarber[]>({
+  key: "employeesListState",
+  default: []
+});
+
 export const establishmentState = atom<IBarberShop>({
   key: "establishmentState",
   default: {

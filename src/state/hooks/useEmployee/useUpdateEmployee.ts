@@ -1,11 +1,8 @@
+import { useRecoilState, useSetRecoilState } from "recoil";
 import http from "../../../service/http";
 import { IBarber  as IEmployee} from "../../../shared/interfaces/IBarber"
+import { employeesListState } from "../../atom";
 
-interface newInfosEmployee {
-    nome: string,
-    telefone:string,
-    email: string,
-}
 
 const formatPhoneNumber = (input: string): string => {
     const cleaned = input.replace(/\D/g, "");
@@ -23,9 +20,11 @@ const formatPhoneNumber = (input: string): string => {
 
 
 const useUpdateEmployee = () => {
-    return async (newInfosEmployee: newInfosEmployee, employeeID: number): Promise<IEmployee> => {
+  const [employeesList,setEmployeesList] = useRecoilState(employeesListState);
+    return async (newInfosEmployee: IEmployee, employeeID: number): Promise<IEmployee> => {
         newInfosEmployee.telefone = formatPhoneNumber(newInfosEmployee.telefone);
         const response = await http.put<IEmployee>(`/barbeiros/${employeeID}`, newInfosEmployee);
+        setEmployeesList(employeesList.map((employee) => {if(Number(employee.id) === employeeID) { return newInfosEmployee} else return employee }))
         return response.data;
     }
 }

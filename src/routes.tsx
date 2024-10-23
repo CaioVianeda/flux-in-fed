@@ -9,6 +9,7 @@ const Clients = lazy(() => import("./pages/Panel/Clients"));
 const Schedule = lazy(() => import("./pages/Panel/Schedule"));
 const Configuration = lazy(() => import("./pages/Configuration"));
 const ManageServices = lazy(() => import("./pages/Configuration/ManageServices"));
+const ManageAccount = lazy(() => import("./pages/Configuration/ManageAccount"))
 const ManageEmployees = lazy(() => import("./pages/Configuration/ManageEmployees"));
 
 function AppRoutes() {
@@ -24,7 +25,7 @@ function AppRoutes() {
                 <Route path="clients" element={<Clients />} />
               </Route>
               <Route path="/configure" element={<Configuration />}>
-                <Route index element={<>Minha conta</>} />
+                <Route index element={<ManageAccount/>} />
                 <Route path="manage-services" element={<ManageServices />} />
                 <Route path="manage-employees" element={<ManageEmployees />} />
               </Route>

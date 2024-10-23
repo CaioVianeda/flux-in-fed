@@ -4,10 +4,14 @@ import http from "../../../service/http";
 import { IBarber as IEmployee } from "../../../shared/interfaces/IBarber";
 import { Add, Edit } from "@mui/icons-material";
 import CreateEmployee from "./CreateEmployee";
+import { useEmployeesList } from "../../../state/hooks/useEmployee/useEmployeesList";
+import { useSetEmployeesList } from "../../../state/hooks/useEmployee/useSetEmployeesList";
 
 const ManageEmployees = () => {
   const [selectedEmployee, setSelectedEmployee] = useState<IEmployee| undefined >();
-  const [employees, setEmployees] = useState<IEmployee[]>([]);
+  // const [employees, setEmployees] = useState<IEmployee[]>([]);
+  const employees = useEmployeesList();
+  const setEmployees = useSetEmployeesList();
   const [createNewEmployee, setCreateNewEmployee] = useState<Boolean>(false);
 
   useEffect(() => {
@@ -17,7 +21,6 @@ const ManageEmployees = () => {
   }, []);
 
   const onEditEmployee = (employee: IEmployee) => {
-    setCreateNewEmployee(false);
     setCreateNewEmployee(true);
     setSelectedEmployee(employee);
   }
@@ -84,7 +87,6 @@ const ManageEmployees = () => {
           ) : (
             <CreateEmployee
               setCreateNewEmployee={setCreateNewEmployee}
-              setEmployees={setEmployees}
               setSelectedEmployee={setSelectedEmployee}
               employee={selectedEmployee}
             />

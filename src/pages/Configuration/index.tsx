@@ -19,7 +19,7 @@ const Configuration = () => {
     <div id={styles["container-menu"]}>
       <div id={styles.menu}>
         <section>
-          <PerfilCard mainInformation={employee.nome} secondInformation={establishment.nome}/>
+          <PerfilCard mainInformation={employee.nome} secondInformation={establishment.nome} image="../../../public/images/employee/employee.jpg"/>
         </section>
         <section>
           <p className={styles["section__title"]}>Configurações da Conta</p>
