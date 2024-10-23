@@ -20,12 +20,11 @@ function AppRoutes() {
         <Suspense fallback={<p>Carregando...</p>}>
             <Routes>
               <Route path="/panel" element={<Panel />}>
+                <Route index element={<Schedule />} />
                 <Route path="clients" element={<Clients />} />
-                <Route path="schedule" element={<Schedule />} />
               </Route>
               <Route path="/configure" element={<Configuration />}>
-                <Route path="my-account" element={<>Minha conta</>} />
-                <Route path="customize" element={<>Configurações Gerais</>} />
+                <Route index element={<>Minha conta</>} />
                 <Route path="manage-services" element={<ManageServices />} />
                 <Route path="manage-employees" element={<ManageEmployees />} />
               </Route>

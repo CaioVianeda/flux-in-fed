@@ -48,6 +48,8 @@ const ManageServices = () => {
     preco: 0,
   });
 
+  const formatterPrice = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'});
+
   useEffect(() => {
     http.get<IService[]>("/procedimentos").then((response) => {
       setServices(response.data);
@@ -123,7 +125,7 @@ const ManageServices = () => {
                     <div className={style.service__option} key={service.id}>
                       <div className={style.service__option_info}>
                         <p>{service.nome}</p>
-                        <p>R$ {service.preco},00</p>
+                        <p>{formatterPrice.format(service.preco)}</p>
                       </div>
                       <div className={style.service__option_button}>
                         <Edit

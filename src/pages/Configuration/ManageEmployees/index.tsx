@@ -1,19 +1,26 @@
 import { useEffect, useState } from "react";
 import style from "./style.module.css";
 import http from "../../../service/http";
-import { IBarber } from "../../../shared/interfaces/IBarber";
+import { IBarber as IEmployee } from "../../../shared/interfaces/IBarber";
 import { Add, Edit } from "@mui/icons-material";
 import CreateEmployee from "./CreateEmployee";
 
 const ManageEmployees = () => {
-  const [employees, setEmployees] = useState<IBarber[]>([]);
+  const [selectedEmployee, setSelectedEmployee] = useState<IEmployee| undefined >();
+  const [employees, setEmployees] = useState<IEmployee[]>([]);
   const [createNewEmployee, setCreateNewEmployee] = useState<Boolean>(false);
 
   useEffect(() => {
-    http.get<IBarber[]>("/barbeiros").then((response) => {
+    http.get<IEmployee[]>("/barbeiros").then((response) => {
       setEmployees(response.data);
     });
   }, []);
+
+  const onEditEmployee = (employee: IEmployee) => {
+    setCreateNewEmployee(false);
+    setCreateNewEmployee(true);
+    setSelectedEmployee(employee);
+  }
 
   return (
     <div id={style.container}>
@@ -57,7 +64,7 @@ const ManageEmployees = () => {
                       {employee.telefone}
                     </div>
                   </div>
-                  <div className={style.employees__employee_button}>
+                  <div className={style.employees__employee_button} onClick={() => onEditEmployee(employee)}>
                     <Edit
                       fontSize="small"
                       style={{ cursor: "pointer", marginLeft: "15px" }}
@@ -78,6 +85,8 @@ const ManageEmployees = () => {
             <CreateEmployee
               setCreateNewEmployee={setCreateNewEmployee}
               setEmployees={setEmployees}
+              setSelectedEmployee={setSelectedEmployee}
+              employee={selectedEmployee}
             />
           )}
         </div>

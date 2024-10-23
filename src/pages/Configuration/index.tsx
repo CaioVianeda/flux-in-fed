@@ -11,6 +11,10 @@ const Configuration = () => {
   const employee = useRecoilValue(employeeState);
   const establishment = useRecoilValue(establishmentState)
 
+  const isThisPage = (path : string):boolean =>{
+    return location.pathname === path;
+  }
+
   return (
     <div id={styles["container-menu"]}>
       <div id={styles.menu}>
@@ -19,7 +23,7 @@ const Configuration = () => {
         </section>
         <section>
           <p className={styles["section__title"]}>Configurações da Conta</p>
-          <Link to={'my-account'}><p className={`${styles["section__option"]} ${location.pathname === '/configure/my-account' && styles["section__option-active"]}`}>Minha Conta</p></Link>
+          <Link to={''}><p className={`${styles["section__option"]} ${isThisPage('/configure') && styles["section__option-active"]}`}>Minha Conta</p></Link>
     
         </section>
         <section>

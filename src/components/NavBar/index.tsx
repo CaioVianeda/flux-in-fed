@@ -9,20 +9,23 @@ import logo from '../../assets/fluxin-logo.png'
 
 const NavBar = () => {
   const location = useLocation();
+  const isThisPage = (path : string):boolean =>{
+    return location.pathname === path;
+  }
 
   return (
 
     <nav>
       <img src={logo} width={70} alt="Logo da FluxIn"/>
       <Link
-        to={"schedule"}
+        to={""}
         className={style["button__page-navigation"]}
         style={{
-          color: location.pathname === "/panel/schedule" ? "#fff" : "#000",
+          color: isThisPage("/panel") ? "#fff" : "#000",
         }}
       >
         <img
-          src={ location.pathname === "/panel/schedule" ? iconScheduleActive : iconSchedule}
+          src={ isThisPage("/panel")  ? iconScheduleActive : iconSchedule}
           width={35}
         />
         <p className={style.title}>Agenda</p> 
@@ -31,11 +34,11 @@ const NavBar = () => {
         to={"clients"}
         className={style["button__page-navigation"]}
         style={{
-          color: location.pathname === "/panel/clients" ? "#fff" : "#000",
+          color: isThisPage("/panel/clients")  ? "#fff" : "#000",
         }}
       >
         <img
-          src={location.pathname === "/panel/clients" ? iconClientActive : iconClient}
+          src={isThisPage("/panel/clients") ? iconClientActive : iconClient}
           width={35}
         />
         <p className={style.title}>Clientes</p>

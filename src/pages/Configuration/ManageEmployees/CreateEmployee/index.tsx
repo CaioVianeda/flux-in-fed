@@ -1,20 +1,37 @@
 import { TextField } from "@mui/material";
 import style from "./style.module.css";
 import { Add } from "@mui/icons-material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useCreateEmployee from "../../../../state/hooks/useEmployees/useCreateEmployee";
-import { IBarber } from "../../../../shared/interfaces/IBarber";
+import { IBarber as IEmployee } from "../../../../shared/interfaces/IBarber";
+import useUpdateEmployee from "../../../../state/hooks/useEmployees/useUpdateEmployee";
 
 interface Props {
   setCreateNewEmployee: React.Dispatch<React.SetStateAction<Boolean>>;
-  setEmployees: React.Dispatch<React.SetStateAction<IBarber[]>>;
+  setEmployees: React.Dispatch<React.SetStateAction<IEmployee[]>>;
+  setSelectedEmployee: React.Dispatch<
+    React.SetStateAction<IEmployee | undefined>
+  >;
+  employee?: IEmployee;
 }
 
-const CreateEmployee = ({ setCreateNewEmployee, setEmployees }: Props) => {
-  const [name, setName] = useState("");
-  const [telephone, setTelephone] = useState("");
-  const [email, setEmail] = useState("");
+const CreateEmployee = ({
+  setCreateNewEmployee,
+  setEmployees,
+  setSelectedEmployee,
+  employee,
+}: Props) => {
+  const [name, setName] = useState<string>(employee ? employee.nome : "");
+  const [telephone, setTelephone] = useState<string>(employee ? employee.telefone : "");
+  const [email, setEmail] = useState<string>(employee ? employee.email : "");
   const createEmployee = useCreateEmployee();
+  const updateEmployee = useUpdateEmployee();
+
+  useEffect(() => {
+    setName(employee ? employee.nome : "");
+    setTelephone(employee ? employee.telefone : "");
+    setEmail(employee ? employee.email : "");
+  }, [employee]);
 
   const formatTelephoneNumber = (input: String) => {
     const cleaned = input.replace(/\D/g, "");
@@ -43,7 +60,7 @@ const CreateEmployee = ({ setCreateNewEmployee, setEmployees }: Props) => {
     } else if (telephone === "") {
       alert("Digite o telefone do funcionário!");
       return false;
-    } else if (telephone.length !== 16) {
+    } else if (telephone.replace(/\D/g, "").length !== 11) {
       alert("Digite um telefone válido!");
       return false;
     } else if (email === "") {
@@ -63,9 +80,21 @@ const CreateEmployee = ({ setCreateNewEmployee, setEmployees }: Props) => {
       email: email,
     };
 
-    const createdEmployee = await createEmployee(newEmployee, 1);
-    setCreateNewEmployee(false);
-    setEmployees((prev) => [...prev, createdEmployee]);
+    if (employee === undefined) {
+      const createdEmployee = await createEmployee(newEmployee, 1);
+      setEmployees((prev) => [...prev, createdEmployee]);
+      setCreateNewEmployee(false);
+    } else {
+      const updatedEmployee = await updateEmployee(
+        newEmployee,
+        Number(employee.id)
+      );
+      setEmployees((prev) =>
+        prev.map((item) => (item.id === employee.id ? updatedEmployee : item))
+      );
+      setCreateNewEmployee(false);
+      setSelectedEmployee(undefined);
+    }
   };
 
   return (
