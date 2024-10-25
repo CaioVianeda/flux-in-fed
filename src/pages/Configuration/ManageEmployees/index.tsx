@@ -9,7 +9,6 @@ import { useSetEmployeesList } from "../../../state/hooks/useEmployee/useSetEmpl
 
 const ManageEmployees = () => {
   const [selectedEmployee, setSelectedEmployee] = useState<IEmployee| undefined >();
-  // const [employees, setEmployees] = useState<IEmployee[]>([]);
   const employees = useEmployeesList();
   const setEmployees = useSetEmployeesList();
   const [createNewEmployee, setCreateNewEmployee] = useState<Boolean>(false);

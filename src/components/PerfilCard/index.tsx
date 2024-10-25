@@ -11,7 +11,7 @@ interface Props{
 const PerfilCard = ({image, mainInformation,secondInformation}: Props) => {
   return (
     <div className={style.info}>
-      <Avatar alt="Foto do Funcionário" sx={{width: 40, height: 40, border: image ? "solid 1px #1e868d" : "none"}} src={image}/>
+      <Avatar alt="Foto do Funcionário" sx={{width: 45, height: 45, border: image ? "solid 1px #1e868d" : "none"}} src={image}/>
       <div className={style.name}>
         <div className={style["main__information"]}>{mainInformation}</div>
         <div className={style["second__information"]}>{secondInformation}</div>

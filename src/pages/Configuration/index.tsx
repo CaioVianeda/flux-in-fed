@@ -31,7 +31,7 @@ const Configuration = () => {
           <Link to={'manage-services'}><p className={`${styles["section__option"]} ${location.pathname === '/configure/manage-services' && styles["section__option-active"]}`}>Atendimentos</p></Link>
           <Link to={'manage-employees'}><p className={`${styles["section__option"]} ${location.pathname === '/configure/manage-employees' && styles["section__option-active"]}`}>Funcionários</p></Link>
         </section>
-        <section>
+        <section> 
           <Link to={'/panel'}><p className={`${styles["section__option"]} ${styles["exit"]}`}>Sair</p></Link>
         </section>
       </div>
