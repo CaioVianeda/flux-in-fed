@@ -20,7 +20,7 @@ const Header = ({ pageName }: Props) => {
       <div className={style.title}>{pageName}</div>
       <div className={style.options}>
         <Link to={"/configure"}>
-          <span className={style["button-inner"]}>
+          <span id={style["button-inner"]}>
             <SettingsIcon/>
           </span>
         </Link>

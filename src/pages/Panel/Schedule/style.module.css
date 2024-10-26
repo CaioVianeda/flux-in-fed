@@ -4,7 +4,7 @@
     justify-content: space-between
 }
 
-#container__services{
+#container #services{
     display: flex;
     flex-direction: column;
     width: 100%;

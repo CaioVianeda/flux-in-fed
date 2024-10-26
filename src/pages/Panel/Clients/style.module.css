@@ -1,0 +1,8 @@
+#clientList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 1040px;
+  max-height: 80vh;
+  overflow-y: auto;
+}

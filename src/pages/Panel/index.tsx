@@ -3,18 +3,19 @@ import NavBar from "../../components/NavBar";
 import { Outlet, useLocation } from "react-router-dom";
 
 import style from "./style.module.css";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect } from "react";
 import http from "../../service/http";
 import { IBarberShop } from "../../shared/interfaces/IBarberShop";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import {  useSetRecoilState } from "recoil";
 import { employeeState, establishmentState } from "../../state/atom";
 import { useEmployee } from "../../state/hooks/useEmployee/useEmployee";
+import { pagesTitle } from "../../utils/constants/constants";
 
 const Panel = () => {
   const location = useLocation();
   const employee = useEmployee();
   const setEmployee = useSetRecoilState(employeeState)
-  const [establishment, setEstablishment] = useRecoilState(establishmentState);
+  const setEstablishment = useSetRecoilState(establishmentState);
 
   useEffect(() => {
     http
@@ -33,17 +34,17 @@ const Panel = () => {
   }, [employee]);
 
   return (
-    <main id={style["container__main"]}>
+    <div id={style["container__main"]}>
       <NavBar />
-      <div className={style["container__section"]}>
+      <div id={style["container__section"]}>
         <Header
           pageName={
-            location.pathname === "/panel" ? "Calendario" : "Clientes"
+            pagesTitle[`${location.pathname}`]
           }
         />
         <Outlet />
       </div>
-    </main>
+    </div>
   );
 };
 

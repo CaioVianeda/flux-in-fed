@@ -1,78 +1,43 @@
-import { memo, useEffect, useState } from "react";
-import http from "../../../../service/http";
+import { useEffect, useState } from "react";
 import style from "./style.module.css";
 import SchedulerBarber from "../SchedulerBarber";
 import PerfilCard from "../../../../components/PerfilCard";
 import { useRecoilValue } from "recoil";
-import { employeeState, schedulesFilterState } from "../../../../state/atom";
-import useSchedules from "../../../../state/hooks/useSchedules/useSchedules";
+import { schedulesFilterState } from "../../../../state/atom";
 import useLoadSchedules from "../../../../state/hooks/useSchedules/useLoadSchedules";
 import ServiceListCards from "./ServiceListCards";
 import ServiceList from "./ServiceList";
 import { dayNames, monthNames } from "../../../../utils/constants/constants";
+import { useEmployee } from "../../../../state/hooks/useEmployee/useEmployee";
 
 const ScheduleList = () => {
-  const employee = useRecoilValue(employeeState);
+  const employee = useEmployee();
   const filter = useRecoilValue(schedulesFilterState);
-  const schedules = useSchedules();
   const loadSchedules = useLoadSchedules();
   const [selectedHour, setSelectedHour] = useState<Date | null>(null);
   const [openModal, setOpenModal] = useState<Boolean>(false);
 
-  function formatDateToLocalDateTime(date: Date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const seconds = String(date.getSeconds()).padStart(2, "0");
-    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-  }
-
-  function isTodayOrFuture(date: Date): Boolean {
+  const isTodayOrFuture = (date: Date): Boolean => {
     const today = new Date();
-    const todayDate = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate()
-    );
-    const dateWithoutTime = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate()
-    );
-
-    return (
-      todayDate.getTime() === dateWithoutTime.getTime() || date > todayDate
-    );
+    today.setHours(0, 0, 0, 0);
+    date.setHours(0, 0, 0, 0);
+    return date >= today;
   }
 
-  useEffect(() => {
-    const startOfDay = new Date(filter.date);
-    startOfDay.setHours(0, 0, 0, 0);
-    const endOfDay = new Date(filter.date);
-    endOfDay.setHours(23, 59, 59, 999);
-
-    const body = {
-      dataInicial: formatDateToLocalDateTime(startOfDay),
-      dataFinal: formatDateToLocalDateTime(endOfDay),
-    };
-    if (employee.id !== "0") {
-      http
-        .post(`/atendimento/${employee.id}/filtrar`, body)
-        .then((response) => {
-          loadSchedules(response.data);
-        })
-        .catch((erro) => {
-          console.log(erro);
-        });
-    }
-  }, [filter.date]);
-
-  function handleOpenModal(hour: Date) {
+  const handleOpenModal = (hour: Date) => {
     setSelectedHour(hour);
     setOpenModal(true);
   }
+
+  useEffect(() => {
+    const fromDate = new Date(filter.date);
+    fromDate.setHours(0, 0, 0, 0);
+    const toDate = new Date(filter.date);
+    toDate.setHours(23, 59, 59, 999);
+    if (employee.id !== "0") {
+      loadSchedules(employee, fromDate, toDate);
+    }
+  }, [filter.date, employee, loadSchedules]);
 
   return (
     <>
@@ -89,7 +54,7 @@ const ScheduleList = () => {
           dayNames[filter.date.getDay()]
         })`}</p>
       </div>
-      <div id={style["container--services-list"]}>
+      <div id={style.container__servicesList}>
         {isTodayOrFuture(filter.date) ? (
           <ServiceList handleOpenModal={handleOpenModal} />
         ) : (

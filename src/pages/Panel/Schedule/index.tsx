@@ -5,7 +5,7 @@ import ScheduleList from "./ScheduleList";
 const Schedule = () => {
   return (
     <div id={style.container}>
-      <div id={style.container__services}>
+      <div id={style.services}>
         <ScheduleList />
       </div>
       <FilterMenu />

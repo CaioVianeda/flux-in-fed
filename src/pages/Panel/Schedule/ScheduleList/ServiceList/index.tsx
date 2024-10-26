@@ -4,17 +4,24 @@ import { useRecoilValue } from "recoil";
 import { schedulesFilterState } from "../../../../../state/atom";
 import useSchedules from "../../../../../state/hooks/useSchedules/useSchedules";
 import useFilteredSchedules from "../../../../../state/hooks/useSchedules/useFilteredSchedules";
+import { useEffect, useState } from "react";
 
-interface Props{
-  handleOpenModal: (date:Date) => void
+interface Props {
+  handleOpenModal: (date: Date) => void;
 }
 
-const ServiceList = ({handleOpenModal}: Props) => {
+function convertDurationToMinutes(duration: string) {
+  const [hours, minutes, seconds] = duration.split(':').map(Number);
+  return hours * 60 + minutes + Math.floor(seconds / 60); // Considera os segundos como minutos
+}
+
+const ServiceList = ({ handleOpenModal }: Props) => {
   const filter = useRecoilValue(schedulesFilterState);
   const schedules = useSchedules();
   const filteredSchedules = useFilteredSchedules();
+  const [timesSlots, setTimesSlots] = useState<Date[]>([]);
 
-  function generateHalfHourInterval(date: Date) {
+  const generateTimeSlots = (date: Date, interval: number): Date[] => {
     const timeSlot = [];
     let current = new Date(date);
     current.setHours(8, 0, 0, 0);
@@ -24,9 +31,25 @@ const ServiceList = ({handleOpenModal}: Props) => {
 
     while (current <= finalTime) {
       timeSlot.push(new Date(current));
-      current.setMinutes(current.getMinutes() + 30);
+      current.setMinutes(current.getMinutes() + interval);
     }
-    return timeSlot;
+    return handleTimeSlots(timeSlot);
+  };
+
+  const handleTimeSlots = (timesSlots: Date[]): Date[] => {
+
+    let newTimesSlots = timesSlots;
+    console.log(schedules);
+    schedules.forEach((schedule) => {
+      const fromDate  = new Date(schedule.data);
+      const toDate = new Date(fromDate.getTime());
+      toDate.setMinutes(toDate.getMinutes() + convertDurationToMinutes(schedule.duracao));
+      newTimesSlots = newTimesSlots.filter((date) => {
+        return date <= fromDate || date >= toDate
+      })
+    })
+    console.log(newTimesSlots)
+    return newTimesSlots;
   }
 
   function isFutureDate(date: Date) {
@@ -34,65 +57,53 @@ const ServiceList = ({handleOpenModal}: Props) => {
     return date > now;
   }
 
-
   function hasSchedulingOnTime(time: Date): Boolean {
-    if (
-      schedules.find(
-        (schedule) =>
-          new Date(schedule.data).getHours() === time.getHours() &&
-          new Date(schedule.data).getMinutes() === time.getMinutes()
-      )
-    ) {
-      return true;
-    }
-    return false;
+
+    return schedules.find(
+      (schedule) =>
+        new Date(schedule.data).getHours() === time.getHours() &&
+        new Date(schedule.data).getMinutes() === time.getMinutes()
+    )
+      ? true
+      : false;
   }
 
   function hasSchedulingFilteredOnTime(time: Date): Boolean {
-    if (
-      filteredSchedules.find(
-        (schedule) =>
-          new Date(schedule.data).getHours() === time.getHours() &&
-          new Date(schedule.data).getMinutes() === time.getMinutes()
-      )
-    ) {
-      return true;
-    }
-    return false;
+    return filteredSchedules.find(
+      (schedule) =>
+        new Date(schedule.data).getHours() === time.getHours() &&
+        new Date(schedule.data).getMinutes() === time.getMinutes()
+    )
+      ? true
+      : false;
   }
 
-    return (
-      <>
-        {generateHalfHourInterval(filter.date)
-        .map((hour) => {
-          if(hasSchedulingFilteredOnTime(hour) || !hasSchedulingOnTime(hour))
-           return (
-            <div className={style.row} key={hour.getTime()}>
+  useEffect(() => {
+    setTimesSlots(generateTimeSlots(filter.date, 30))
+  }, [filter.date, schedules])
+
+  return (
+    <>
+      {timesSlots.map((time) => {
+        if (hasSchedulingFilteredOnTime(time) || !hasSchedulingOnTime(time))
+          return (
+            <div className={style.row} key={time.getTime()}>
               <div className={style.hour}>
                 <p className={style["hour-text"]}>
-                  {`${
-                    hour.getHours() < 10
-                      ? "0" + hour.getHours()
-                      : hour.getHours()
-                  }`}
-                  {`:${
-                    hour.getMinutes() < 10
-                      ? "0" + hour.getMinutes()
-                      : hour.getMinutes()
-                  }h`}
+                  {`${time.getHours().toString().padStart(2, "0")}`}
+                  {`:${time.getMinutes().toString().padStart(2, "0")}h`}
                 </p>
               </div>
               <div className={style["container__service--card"]}>
-                {hasSchedulingFilteredOnTime(hour) ? (
-                  //TODO ajustar carregamento
+                {hasSchedulingFilteredOnTime(time) ? (
                   <ServiceCard
                     schedule={
                       schedules.find(
                         (schedule) =>
                           new Date(schedule.data).getHours() ===
-                            hour.getHours() &&
+                            time.getHours() &&
                           new Date(schedule.data).getMinutes() ===
-                            hour.getMinutes()
+                            time.getMinutes()
                       )!
                     }
                   />
@@ -100,17 +111,19 @@ const ServiceList = ({handleOpenModal}: Props) => {
                   <div
                     className={style.card}
                     style={{
-                      cursor: isFutureDate(hour) ? "pointer" : "default",
+                      cursor: isFutureDate(time) ? "pointer" : "default",
                     }}
-                    onClick={() => { isFutureDate(hour) && handleOpenModal(hour)}}
+                    onClick={() => {
+                      isFutureDate(time) && handleOpenModal(time);
+                    }}
                   />
                 )}
               </div>
             </div>
           );
-        })}
-      </>
-    );
+      })}
+    </>
+  );
 };
 
 export default ServiceList;

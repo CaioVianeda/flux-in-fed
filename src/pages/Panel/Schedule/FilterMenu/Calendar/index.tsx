@@ -71,7 +71,7 @@ const Calendar = () => {
 
       <div className={style.days}>
 
-        <div className={style.week}>D</div>
+        <div className={style.week}>D</div> 
         <div className={style.week}>S</div>
         <div className={style.week}>T</div>
         <div className={style.week}>Q</div>

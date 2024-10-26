@@ -26,7 +26,7 @@ const ClientCard = ({client}:Props) => {
         <p style={{fontWeight: 600}}>{client.telefone}</p>
       </div>
       <div className={style.more}>
-        <div className={style.button__more}>
+        <div className={style.button} onClick={() => {alert("Implementar opções!")}}>
             <MoreVert/>
         </div>
       </div>

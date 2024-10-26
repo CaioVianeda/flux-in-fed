@@ -26,9 +26,10 @@ header {
   justify-content: flex-end;
 }
 
-.button-inner{
+#button-inner{
   display: flex;
   justify-content: center;
+  align-items: center;
   height: 45px;
   background: #fff;
   width: 45px;

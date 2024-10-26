@@ -8,3 +8,11 @@ export const dayNames: string[] = [
     'Domingo', 'Segunda', 'Terça', 'Quarta', 
     'Quinta', 'Sexta', 'Sábado'
 ];
+
+type PageTitles = {
+    [key: string]: string
+}
+export const pagesTitle: PageTitles = {
+    '/panel': 'Calendario',
+    '/panel/clients': 'Clientes',
+};
