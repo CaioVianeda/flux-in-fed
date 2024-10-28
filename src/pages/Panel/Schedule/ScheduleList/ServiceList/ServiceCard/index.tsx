@@ -2,7 +2,7 @@ import { ISchedule } from "../../../../../../shared/interfaces/ISchedule";
 import style from "./style.module.css";
 import http from "../../../../../../service/http";
 import { Avatar, Tooltip } from "@mui/material";
-import { Check, Close, Delete, DoneAll } from "@mui/icons-material";
+import { Delete, DoneAll } from "@mui/icons-material";
 import useUpdateSchedules from "../../../../../../state/hooks/useSchedules/useUpdateSchedules";
 import useRemoveSchedule from "../../../../../../state/hooks/useSchedules/useRemoveSchedule";
 
@@ -16,14 +16,11 @@ const ServiceCard = ({ schedule }: Props) => {
 
   function selectBackgroundColor(schedule: ISchedule): String {
     if (schedule.finalizado) {
-      return "#00c120";
+      return "finished";
     }
     if (schedule.confirmado && !schedule.finalizado) {
-      return "#ffd447";
-    }
-    if (!schedule.confirmado) {
-      return "#BB0000";
-    } else return "#fff";
+      return "confirmed";
+    } else return '';
   }
 
   function showDateOfSchedule(date: Date) {
@@ -41,15 +38,6 @@ const ServiceCard = ({ schedule }: Props) => {
       .catch((erro) => console.log(erro));
   }
 
-  async function confirmSchedule(id: number) {
-    await http
-      .put(`/atendimento/${id}/confirmar`)
-      .then((response) => {
-        updateSchedule(response.data);
-      })
-      .catch((erro) => console.log(erro));
-  }
-
   async function deleteSchedule(id: number){
     await http.delete(`/atendimento/${id}`).then((response) => {
       removeSchedule(id);
@@ -60,8 +48,7 @@ const ServiceCard = ({ schedule }: Props) => {
   return (
     <div
       key={schedule.id}
-      className={style["service-card"]}
-      style={{ backgroundColor: `${selectBackgroundColor(schedule)}` }}
+      className={`${style["service-card"]} ${style[`${selectBackgroundColor(schedule)}`]}` }
     >
       <div className={style.info}>
         <Avatar />
@@ -76,16 +63,16 @@ const ServiceCard = ({ schedule }: Props) => {
       </div>
       <div id={style["service-card__button-container"]}>
         {schedule.confirmado && !schedule.finalizado && (
-          <Tooltip title="Cancelar">
+          <Tooltip title="Excluir">
             <span
-              className={style.buttons}
+              className={`${style.buttons}`}
               onClick={() => deleteSchedule(schedule.id)}
             >
               <Delete/>
             </span>
           </Tooltip>
         )}
-        {!schedule.finalizado && schedule.confirmado && (
+        {!schedule.finalizado  && (
           <Tooltip title="Finalizar">
             <span
               className={style.buttons}
@@ -96,7 +83,7 @@ const ServiceCard = ({ schedule }: Props) => {
           </Tooltip>
         )}
         {schedule.finalizado && (
-            <Tooltip title="Cancelar">
+            <Tooltip title="Excluir">
             <span
               className={style.buttons}
               onClick={() => deleteSchedule(schedule.id)}

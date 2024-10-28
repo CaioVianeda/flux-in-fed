@@ -17,7 +17,6 @@
 .text-info{
     font-size: 12px;
     margin: 5px;
-    color: #FFF;
 }
 
 #service-card__button-container{
@@ -31,9 +30,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #F3F3F3;
     height: 30px;
     width: 30px;
     border-radius: 50%;
     cursor: pointer;
+}
+
+.buttons:hover{
+    background-color: var(--button-primary);
+}
+
+.finished{
+    background-color: var(--button-primary);
+    color: var(--text-secondary);
+}
+
+.confirmed{
+    background-color: var(--background-primary);
+    color: var(--background-secondary);
 }

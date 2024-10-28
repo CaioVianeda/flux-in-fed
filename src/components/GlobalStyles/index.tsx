@@ -5,6 +5,8 @@ const GlobalStyles = createGlobalStyle`
 :root {
   --background-primary: #155e63; 
   --background-secondary: #eae7e7; 
+  --text-primary: #ffffff; 
+  --text-secondary: #f9f8eb; 
   --button-primary: #1e868d;  
 }
 

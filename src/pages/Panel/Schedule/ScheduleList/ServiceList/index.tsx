@@ -11,7 +11,7 @@ interface Props {
 }
 
 function convertDurationToMinutes(duration: string) {
-  const [hours, minutes, seconds] = duration.split(':').map(Number);
+  const [hours, minutes, seconds] = duration.split(":").map(Number);
   return hours * 60 + minutes + Math.floor(seconds / 60); // Considera os segundos como minutos
 }
 
@@ -37,50 +37,47 @@ const ServiceList = ({ handleOpenModal }: Props) => {
   };
 
   const handleTimeSlots = (timesSlots: Date[]): Date[] => {
-
     let newTimesSlots = timesSlots;
     console.log(schedules);
     schedules.forEach((schedule) => {
-      const fromDate  = new Date(schedule.data);
+      const fromDate = new Date(schedule.data);
       const toDate = new Date(fromDate.getTime());
-      toDate.setMinutes(toDate.getMinutes() + convertDurationToMinutes(schedule.duracao));
+      toDate.setMinutes(
+        toDate.getMinutes() + convertDurationToMinutes(schedule.duracao)
+      );
       newTimesSlots = newTimesSlots.filter((date) => {
-        return date <= fromDate || date >= toDate
-      })
-    })
-    console.log(newTimesSlots)
+        return date <= fromDate || date >= toDate;
+      });
+    });
+    console.log(newTimesSlots);
     return newTimesSlots;
-  }
+  };
 
-  function isFutureDate(date: Date) {
-    const now = new Date();
-    return date > now;
-  }
+  const isFutureDate = (date: Date) => date > new Date();
 
-  function hasSchedulingOnTime(time: Date): Boolean {
+  const hasSchedulingOnTime = (time: Date) => {
+    return schedules.some((schedule) => {
+      const scheduleDate = new Date(schedule.data);
+      return (
+        scheduleDate.getHours() === time.getHours() &&
+        scheduleDate.getMinutes() === time.getMinutes()
+      );
+    });
+  };
 
-    return schedules.find(
-      (schedule) =>
-        new Date(schedule.data).getHours() === time.getHours() &&
-        new Date(schedule.data).getMinutes() === time.getMinutes()
-    )
-      ? true
-      : false;
-  }
-
-  function hasSchedulingFilteredOnTime(time: Date): Boolean {
-    return filteredSchedules.find(
-      (schedule) =>
-        new Date(schedule.data).getHours() === time.getHours() &&
-        new Date(schedule.data).getMinutes() === time.getMinutes()
-    )
-      ? true
-      : false;
-  }
+  const hasSchedulingFilteredOnTime = (time: Date) => {
+    return filteredSchedules.some((schedule) => {
+      const scheduleDate = new Date(schedule.data);
+      return (
+        scheduleDate.getHours() === time.getHours() &&
+        scheduleDate.getMinutes() === time.getMinutes()
+      );
+    });
+  };
 
   useEffect(() => {
-    setTimesSlots(generateTimeSlots(filter.date, 30))
-  }, [filter.date, schedules])
+    setTimesSlots(generateTimeSlots(filter.date, 30));
+  }, [filter.date, schedules]);
 
   return (
     <>
@@ -94,7 +91,7 @@ const ServiceList = ({ handleOpenModal }: Props) => {
                   {`:${time.getMinutes().toString().padStart(2, "0")}h`}
                 </p>
               </div>
-              <div className={style["container__service--card"]}>
+              <div className={style["container__service_card"]}>
                 {hasSchedulingFilteredOnTime(time) ? (
                   <ServiceCard
                     schedule={
