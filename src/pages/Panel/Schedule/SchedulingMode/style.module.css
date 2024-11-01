@@ -50,7 +50,8 @@
     align-items: center;
     justify-content: center;
     padding: 10px;
-    background-color: green;
+    color: var(--text-primary);
+    background-color: var(--button-primary);
 }
 
 .body{

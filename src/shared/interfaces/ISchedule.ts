@@ -7,7 +7,7 @@ export interface ISchedule {
   nomeBarbeiro: string;
   procedimentos: IService[];
   total: number;
-  data: string;
+  data: string | Date;
   duracao: string;
   finalizado: boolean;
   confirmado: boolean;

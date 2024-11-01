@@ -4,6 +4,7 @@ import { IBarberShop } from "../shared/interfaces/IBarberShop";
 import { IScheduleFilter } from "../shared/interfaces/IScheduleFilter";
 import { IClient } from "../shared/interfaces/IClient";
 import { ISchedule } from "../shared/interfaces/ISchedule";
+import { IService } from "../shared/interfaces/IService";
 
 export const employeeState = atom<IBarber>({
   key: "employeeState",
@@ -42,5 +43,10 @@ export const schedulesFilterState = atom<IScheduleFilter>({
 
 export const clientsState = atom<IClient[]>({
   key: 'clientsState',
+  default: []
+})
+
+export const servicesState = atom<IService[]>({
+  key: 'servicesState',
   default: []
 })

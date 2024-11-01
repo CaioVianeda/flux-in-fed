@@ -1,10 +1,9 @@
 import { ISchedule } from "../../../../../../shared/interfaces/ISchedule";
 import style from "./style.module.css";
-import http from "../../../../../../service/http";
 import { Avatar, Tooltip } from "@mui/material";
 import { Delete, DoneAll } from "@mui/icons-material";
-import useUpdateSchedules from "../../../../../../state/hooks/useSchedules/useUpdateSchedules";
-import useRemoveSchedule from "../../../../../../state/hooks/useSchedules/useRemoveSchedule";
+import useUpdateSchedules from "../../../../../../state/hooks/schedules/useUpdateSchedules";
+import useRemoveSchedule from "../../../../../../state/hooks/schedules/useRemoveSchedule";
 
 interface Props {
   schedule: ISchedule;
@@ -12,49 +11,52 @@ interface Props {
 
 const ServiceCard = ({ schedule }: Props) => {
   const updateSchedule = useUpdateSchedules();
-  const removeSchedule = useRemoveSchedule();
+  const deleteSchedule = useRemoveSchedule();
 
-  function selectBackgroundColor(schedule: ISchedule): String {
+  const selectBackgroundColor = (schedule: ISchedule): String => {
     if (schedule.finalizado) {
       return "finished";
     }
     if (schedule.confirmado && !schedule.finalizado) {
       return "confirmed";
-    } else return '';
-  }
+    } else return "";
+  };
 
-  function showDateOfSchedule(date: Date) {
+  const addTimeToDate = (date: Date, duration: string) => {
+    const [hours, minutes, seconds] = duration.split(":").map(Number);
+    const newDate = new Date(date);
+    newDate.setHours(newDate.getHours() + hours);
+    newDate.setMinutes(newDate.getMinutes() + minutes);
+    newDate.setSeconds(newDate.getSeconds() + seconds);
+    return newDate;
+  };
+
+  const showTimeOfSchedule = (date: Date, duration: string) => {
+    const scheduleTimeEnd = addTimeToDate(date, duration);
     return `${date.getHours()}:${
       date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
+    }h - ${scheduleTimeEnd.getHours()}:${
+      scheduleTimeEnd.getMinutes() < 10
+        ? "0" + scheduleTimeEnd.getMinutes()
+        : scheduleTimeEnd.getMinutes()
     }h`;
-  }
-
-  async function finishSchedule(id: number) {
-    await http
-      .put<ISchedule>(`/atendimento/${id}/finalizar`)
-      .then((response) => {
-        updateSchedule(response.data);
-      })
-      .catch((erro) => console.log(erro));
-  }
-
-  async function deleteSchedule(id: number){
-    await http.delete(`/atendimento/${id}`).then((response) => {
-      removeSchedule(id);
-      alert("Atendimento removido com sucesso!");
-    }).catch((erro) => console.log(erro));
-  }
+  };
 
   return (
     <div
       key={schedule.id}
-      className={`${style["service-card"]} ${style[`${selectBackgroundColor(schedule)}`]}` }
+      className={`${style["service-card"]} ${
+        style[`${selectBackgroundColor(schedule)}`]
+      }`}
     >
       <div className={style.info}>
         <Avatar />
         <div>
           <p style={{ fontWeight: 300 }} className={style["text-info"]}>
-            {showDateOfSchedule(new Date(schedule.data))}
+            {`${showTimeOfSchedule(
+              new Date(schedule.data),
+              schedule.duracao
+            )} `}
           </p>
           <p style={{ fontWeight: 700 }} className={style["text-info"]}>
             {schedule.nomeCliente}
@@ -68,27 +70,27 @@ const ServiceCard = ({ schedule }: Props) => {
               className={`${style.buttons}`}
               onClick={() => deleteSchedule(schedule.id)}
             >
-              <Delete/>
+              <Delete />
             </span>
           </Tooltip>
         )}
-        {!schedule.finalizado  && (
+        {!schedule.finalizado && (
           <Tooltip title="Finalizar">
             <span
               className={style.buttons}
-              onClick={() => finishSchedule(schedule.id)}
+              onClick={() => updateSchedule(schedule)}
             >
               <DoneAll />
             </span>
           </Tooltip>
         )}
         {schedule.finalizado && (
-            <Tooltip title="Excluir">
+          <Tooltip title="Excluir">
             <span
               className={style.buttons}
               onClick={() => deleteSchedule(schedule.id)}
             >
-              <Delete/>
+              <Delete />
             </span>
           </Tooltip>
         )}

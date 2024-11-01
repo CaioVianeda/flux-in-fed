@@ -2,8 +2,8 @@ import { Container } from "@mui/material";
 import ClientCard from "./ClientCard";
 import { memo, useEffect } from "react";
 import SearchText from "../../../components/SeachText";
-import { useLoadClients } from "../../../state/hooks/useClients/useLoadClients";
-import { useClientsList } from "../../../state/hooks/useClients/useClientsList";
+import { useLoadClients } from "../../../state/hooks/clients/useLoadClients";
+import { useClientsList } from "../../../state/hooks/clients/useClientsList";
 import style from './style.module.css'
 
 const Clients = () => {

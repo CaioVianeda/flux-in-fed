@@ -1,6 +1,5 @@
-import { useRecoilValue, useSetRecoilState } from "recoil"
-import { employeesListState, employeeState } from "../../atom"
-import { useEffect } from "react";
+import { useSetRecoilState } from "recoil"
+import { employeesListState} from "../../atom"
 import { IBarber as IEmployee } from "../../../shared/interfaces/IBarber";
 
 

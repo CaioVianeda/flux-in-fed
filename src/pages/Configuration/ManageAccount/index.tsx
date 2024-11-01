@@ -1,21 +1,20 @@
 import { Avatar } from "@mui/material";
-import { useEmployee } from "../../../state/hooks/useEmployee/useEmployee";
 import style from "./style.module.css";
-import { useRecoilValue } from "recoil";
-import { establishmentState } from "../../../state/atom";
+import { useEstablishment } from "../../../state/hooks/establishment/useEstablishment";
+import { useEmployee } from "../../../state/hooks/employee/useEmployee";
 
 const ManageAccount = () => {
   const employee = useEmployee();
-  const establish = useRecoilValue(establishmentState);
+  const establish = useEstablishment();
   return (
     <div id={style.container}>
       <div id={style.informations}>
         <div id={style.informations__header}>
           <Avatar
             sx={{ width: 80, height: 80 }}
-            src="../../../../public/images/employee/employee.jpg"
+            src="../../../../images/employee/employee.jpg"
           />
-          <div >
+          <div>
             <p>
               <b>Nome:</b> {employee.nome}
             </p>
@@ -26,10 +25,12 @@ const ManageAccount = () => {
         </div>
         <div id={style.informations__body}>
           <p>
-            <b>Email:</b> {`${employee.email}`}
+            <b>Email:</b>
+            {`${employee.email}`}
           </p>
           <p>
-            <b>Telefone:</b> {`${employee.telefone}`}
+            <b>Telefone:</b>
+            {`${employee.telefone}`}
           </p>
         </div>
       </div>

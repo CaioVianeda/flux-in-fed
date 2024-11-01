@@ -1,4 +1,4 @@
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import http from "../../../service/http";
 import { IBarber  as IEmployee} from "../../../shared/interfaces/IBarber"
 import { employeesListState } from "../../atom";

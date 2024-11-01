@@ -1,22 +1,19 @@
 import { useEffect, useState } from "react";
 import style from "./style.module.css";
-import http from "../../../service/http";
 import { IBarber as IEmployee } from "../../../shared/interfaces/IBarber";
 import { Add, Edit } from "@mui/icons-material";
 import CreateEmployee from "./CreateEmployee";
-import { useEmployeesList } from "../../../state/hooks/useEmployee/useEmployeesList";
-import { useSetEmployeesList } from "../../../state/hooks/useEmployee/useSetEmployeesList";
+import { useEmployeesList } from "../../../state/hooks/employee/useEmployeesList";
+import { useLoadEmployeesList } from "../../../state/hooks/employee/useLoadEmployeesList";
 
 const ManageEmployees = () => {
   const [selectedEmployee, setSelectedEmployee] = useState<IEmployee| undefined >();
   const employees = useEmployeesList();
-  const setEmployees = useSetEmployeesList();
+  const loadEmployees = useLoadEmployeesList()
   const [createNewEmployee, setCreateNewEmployee] = useState<Boolean>(false);
 
   useEffect(() => {
-    http.get<IEmployee[]>("/barbeiros").then((response) => {
-      setEmployees(response.data);
-    });
+   loadEmployees();
   }, []);
 
   const onEditEmployee = (employee: IEmployee) => {
@@ -39,9 +36,7 @@ const ManageEmployees = () => {
             <div className={`${style.employees__employee_info_title}` }style={{justifyContent: "center"}} >
               Telefone
             </div>
-            <div className={style.employees__employee_button}>
-            
-            </div>
+            <div className={style.employees__employee_button}/>
           </div>
         </div>
         <div id={style["employees__container"]}>

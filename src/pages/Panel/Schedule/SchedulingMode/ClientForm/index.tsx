@@ -6,8 +6,8 @@ import { Autocomplete } from "@mui/material";
 import { IClient } from "../../../../../shared/interfaces/IClient";
 import PerfilCard from "../../../../../components/PerfilCard";
 import { Close } from "@mui/icons-material";
-import { useLoadClients } from "../../../../../state/hooks/useClients/useLoadClients";
-import { useClientsList } from "../../../../../state/hooks/useClients/useClientsList";
+import { useLoadClients } from "../../../../../state/hooks/clients/useLoadClients";
+import { useClientsList } from "../../../../../state/hooks/clients/useClientsList";
 
 interface Props {
   selectedClient: IClient;

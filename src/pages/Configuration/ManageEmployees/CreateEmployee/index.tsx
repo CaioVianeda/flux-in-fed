@@ -2,12 +2,11 @@ import { TextField } from "@mui/material";
 import style from "./style.module.css";
 import { Add } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import useCreateEmployee from "../../../../state/hooks/useEmployee/useCreateEmployee";
 import { IBarber as IEmployee } from "../../../../shared/interfaces/IBarber";
-import useUpdateEmployee from "../../../../state/hooks/useEmployee/useUpdateEmployee";
-import { useSetEmployeesList } from "../../../../state/hooks/useEmployee/useSetEmployeesList";
 import { useRecoilValue } from "recoil";
 import { establishmentState } from "../../../../state/atom";
+import useUpdateEmployee from "../../../../state/hooks/employee/useUpdateEmployee";
+import useCreateEmployee from "../../../../state/hooks/employee/useCreateEmployee";
 
 interface Props {
   setCreateNewEmployee: React.Dispatch<React.SetStateAction<Boolean>>;
@@ -85,7 +84,8 @@ const CreateEmployee = ({
       email: email,
     };
 
-    if (employee === undefined) {await createEmployee(newEmployee, 1);
+    if (employee === undefined) {
+      await createEmployee(newEmployee, 1);
       setCreateNewEmployee(false);
     } else {
       await updateEmployee(newEmployee, Number(employee.id));

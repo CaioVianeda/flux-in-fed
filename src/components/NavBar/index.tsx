@@ -1,11 +1,7 @@
-
-import iconSchedule from "../../assets/icon-schedule.png";
-import iconScheduleActive from "../../assets/icon-schedule-active.png";
-import iconClient from "../../assets/icon-clients.png";
-import iconClientActive from "../../assets/icon-clients-active.png";
 import style from "./style.module.css";
 import { Link, useLocation } from "react-router-dom";
 import logo from '../../assets/fluxin-logo.png'
+import { CalendarMonth, Delete, People } from "@mui/icons-material";
 
 const NavBar = () => {
   const location = useLocation();
@@ -21,26 +17,20 @@ const NavBar = () => {
         to={""}
         className={style["button__page-navigation"]}
         style={{
-          color: isThisPage("/panel") ? "#fff" : "#000",
+          color: isThisPage("/panel") ? "#f9f8eb" : "#000",
         }}
       >
-        <img
-          src={ isThisPage("/panel")  ? iconScheduleActive : iconSchedule}
-          width={35}
-        />
+        <CalendarMonth sx={{width: 40, height: 40}}/>
         <p className={style.title}>Agenda</p> 
       </Link>
       <Link
         to={"clients"}
         className={style["button__page-navigation"]}
         style={{
-          color: isThisPage("/panel/clients")  ? "#fff" : "#000",
+          color: isThisPage("/panel/clients")  ? "#f9f8eb" : "#000",
         }}
       >
-        <img
-          src={isThisPage("/panel/clients") ? iconClientActive : iconClient}
-          width={35}
-        />
+        <People sx={{width: 40, height: 40}}/>
         <p className={style.title}>Clientes</p>
       </Link>
     </nav>

@@ -5,21 +5,21 @@ import ServiceForm from "./ServiceForm";
 import SelectBarber from "./SelectBarber";
 import ClientForm from "./ClientForm";
 import TimeForm from "./TimeForm";
-import { IBarber } from "../../../../shared/interfaces/IBarber";
+import { IBarber as IEmployee} from "../../../../shared/interfaces/IBarber";
 import { IService } from "../../../../shared/interfaces/IService";
 import { IClient } from "../../../../shared/interfaces/IClient";
 import { IToSchedule } from "../../../../shared/interfaces/IToSchedule";
-import useAddSchedule from "../../../../state/hooks/useSchedules/useAddSchedule";
+import useAddSchedule from "../../../../state/hooks/schedules/useAddSchedule";
 import { format } from "date-fns";
-import { useAddClient } from "../../../../state/hooks/useClients/useAddClient";
+import { useAddClient } from "../../../../state/hooks/clients/useAddClient";
 
 interface Props {
-  selectedEmployee: IBarber;
+  selectedEmployee: IEmployee;
   selectedDate: Date;
   setOpenModal: React.Dispatch<React.SetStateAction<Boolean>>;
 }
 
-const SchedulerBarber = ({
+const SchedulingMode = ({
   selectedEmployee,
   selectedDate,
   setOpenModal,
@@ -34,62 +34,30 @@ const SchedulerBarber = ({
   const addClient = useAddClient();
 
   const checkFields = (): boolean => {
-    if (selectedClient.telefone === '' || selectedClient.telefone === undefined) {
+    if (
+      selectedClient.telefone === "" ||
+      selectedClient.telefone === undefined
+    ) {
       alert("Digite o telefone do Cliente!");
       return false;
-    }
-    else if(selectedClient.telefone.replace(/\D/g, "").length !== 11){
+    } else if (selectedClient.telefone.replace(/\D/g, "").length !== 11) {
       alert("Digite um telefone válido!");
       return false;
-    }
-    else if (selectedClient.nome === '' || selectedClient.nome === undefined) {
+    } else if (
+      selectedClient.nome === "" ||
+      selectedClient.nome === undefined
+    ) {
       alert("Digite o nome ou selecione um cliente!");
       return false;
-    }else if (selectedServices.length === 0) {
+    } else if (selectedServices.length === 0) {
       alert("Selecione pelo menos um serviço!");
       return false;
     }
     return true;
   };
 
-  const convertDateToString = (date: Date) => {
-    const selectedDate = new Date(date);
-    return format(selectedDate, "yyyy-MM-dd'T'HH:mm:ss");
-  };
-  //   const cleaned = input.replace(/\D/g, "");
-
-  //   if (cleaned.length !== 11) {
-  //     throw new Error("Número de telefone inválido");
-  //   }
-
-  //   const ddd = cleaned.slice(0, 2);
-  //   const firstPart = cleaned.slice(2, 7);
-  //   const secondPart = cleaned.slice(7);
-
-  //   return `(${ddd}) ${firstPart}-${secondPart}`;
-  // };
-
-  // const createClient = async (client: IClient) => {
-
-  //   if(client.nome === ''){
-  //     throw new Error("Nome do cliente não foi preenchido!")
-  //   }
-  //   const body = {
-  //     nome: client.nome,
-  //     telefone: formatPhoneNumber(client.telefone),
-  //   };
-
-  //   const response = await http.post<IClient>("clientes", body);
-  //   setSelectedClient(response.data);
-  //   if (!response.data || !response.data.id) {
-  //     throw new Error("Erro ao criar o cliente!");
-  //   }
-  //   return response.data;
-  // };
-
   const handleClient = async (): Promise<number> => {
     let clientId = Number(selectedClient.id);
-
     if (!selectedClient) {
       throw new Error("Cliente indefinido!");
     }
@@ -106,19 +74,25 @@ const SchedulerBarber = ({
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    if (checkFields() && selectedClient) {
-      const newSchedule: IToSchedule = {
-        clienteId: await handleClient(),
-        agendaId: Number(selectedEmployee.id),
-        procedimentosId: selectedServices.map((service) => service.id),
-        data: convertDateToString(selectedDate),
-      };
-
-      addSchedule(newSchedule);
-      alert(`Agendamento feito!`);
-      setOpenModal(false);
+    try{
+      if (checkFields() && selectedClient) {
+        const newSchedule: IToSchedule = {
+          clienteId: await handleClient(),
+          agendaId: Number(selectedEmployee.id),
+          procedimentosId: selectedServices.map((service) => service.id),
+          data: selectedDate,
+        };
+        await addSchedule(newSchedule);
+        setOpenModal(false);
+      }
+      else {
+        throw new Error("Algo inesperado aconteceu!")
+      }
     }
+    catch (erro) {
+      alert("Algo deu errado, tente novamente!");
+    }
+   
   };
 
   return (
@@ -130,7 +104,7 @@ const SchedulerBarber = ({
               <Close color="action" sx={{ width: "18px" }} />
             </div>
           </div>
-          <div className={style.header__status}>Agendado</div>
+          <div className={style.header__status}>Agendar</div>
         </div>
         <div className={style.body}>
           <SelectBarber />
@@ -152,4 +126,4 @@ const SchedulerBarber = ({
   );
 };
 
-export default SchedulerBarber;
+export default SchedulingMode;

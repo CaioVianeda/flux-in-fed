@@ -7,15 +7,17 @@ import { memo, useEffect } from "react";
 import http from "../../service/http";
 import { IBarberShop } from "../../shared/interfaces/IBarberShop";
 import {  useSetRecoilState } from "recoil";
-import { employeeState, establishmentState } from "../../state/atom";
-import { useEmployee } from "../../state/hooks/useEmployee/useEmployee";
+import { employeeState } from "../../state/atom";
+import { useEmployee } from "../../state/hooks/employee/useEmployee";
 import { pagesTitle } from "../../utils/constants/constants";
+import { useEstablishment } from "../../state/hooks/establishment/useEstablishment";
+import { useSetEstablishment } from "../../state/hooks/establishment/useSetEstablishment";
 
 const Panel = () => {
   const location = useLocation();
   const employee = useEmployee();
   const setEmployee = useSetRecoilState(employeeState)
-  const setEstablishment = useSetRecoilState(establishmentState);
+  const setEstablishment = useSetEstablishment();
 
   useEffect(() => {
     http

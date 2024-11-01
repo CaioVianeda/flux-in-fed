@@ -1,15 +1,14 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-
 import styles from "./style.module.css";
 import PerfilCard from "../../components/PerfilCard";
-import { useRecoilValue } from "recoil";
-import { employeeState, establishmentState } from "../../state/atom";
+import { useEmployee } from "../../state/hooks/employee/useEmployee";
+import { useEstablishment } from "../../state/hooks/establishment/useEstablishment";
 
 const Configuration = () => {
 
   const location = useLocation();
-  const employee = useRecoilValue(employeeState);
-  const establishment = useRecoilValue(establishmentState)
+  const employee = useEmployee()
+  const establishment = useEstablishment();
 
   const isThisPage = (path : string):boolean =>{
     return location.pathname === path;
@@ -24,7 +23,6 @@ const Configuration = () => {
         <section>
           <p className={styles["section__title"]}>Configurações da Conta</p>
           <Link to={''}><p className={`${styles["section__option"]} ${isThisPage('/configure') && styles["section__option-active"]}`}>Minha Conta</p></Link>
-    
         </section>
         <section>
           <p className={styles["section__title"]}>Administração</p>

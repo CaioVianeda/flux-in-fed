@@ -2,17 +2,12 @@ import ServiceCard from "./ServiceCard";
 import style from "./style.module.css";
 import { useRecoilValue } from "recoil";
 import { schedulesFilterState } from "../../../../../state/atom";
-import useSchedules from "../../../../../state/hooks/useSchedules/useSchedules";
-import useFilteredSchedules from "../../../../../state/hooks/useSchedules/useFilteredSchedules";
+import useSchedules from "../../../../../state/hooks/schedules/useSchedules";
+import useFilteredSchedules from "../../../../../state/hooks/schedules/useFilteredSchedules";
 import { useEffect, useState } from "react";
 
 interface Props {
   handleOpenModal: (date: Date) => void;
-}
-
-function convertDurationToMinutes(duration: string) {
-  const [hours, minutes, seconds] = duration.split(":").map(Number);
-  return hours * 60 + minutes + Math.floor(seconds / 60); // Considera os segundos como minutos
 }
 
 const ServiceList = ({ handleOpenModal }: Props) => {
@@ -38,7 +33,6 @@ const ServiceList = ({ handleOpenModal }: Props) => {
 
   const handleTimeSlots = (timesSlots: Date[]): Date[] => {
     let newTimesSlots = timesSlots;
-    console.log(schedules);
     schedules.forEach((schedule) => {
       const fromDate = new Date(schedule.data);
       const toDate = new Date(fromDate.getTime());
@@ -49,8 +43,12 @@ const ServiceList = ({ handleOpenModal }: Props) => {
         return date <= fromDate || date >= toDate;
       });
     });
-    console.log(newTimesSlots);
     return newTimesSlots;
+  };
+
+  const convertDurationToMinutes = (duration: string) => {
+    const [hours, minutes, seconds] = duration.split(":").map(Number);
+    return hours * 60 + minutes + Math.floor(seconds / 60);
   };
 
   const isFutureDate = (date: Date) => date > new Date();
@@ -82,7 +80,10 @@ const ServiceList = ({ handleOpenModal }: Props) => {
   return (
     <>
       {timesSlots.map((time) => {
-        if (hasSchedulingFilteredOnTime(time) || !hasSchedulingOnTime(time))
+        const isFiltered = hasSchedulingFilteredOnTime(time);
+        const isAvailable = !hasSchedulingOnTime(time) && isFutureDate(time);
+
+        if (isFiltered || isAvailable)
           return (
             <div className={style.row} key={time.getTime()}>
               <div className={style.hour}>
@@ -92,7 +93,7 @@ const ServiceList = ({ handleOpenModal }: Props) => {
                 </p>
               </div>
               <div className={style["container__service_card"]}>
-                {hasSchedulingFilteredOnTime(time) ? (
+                {isFiltered ? (
                   <ServiceCard
                     schedule={
                       schedules.find(
@@ -107,11 +108,8 @@ const ServiceList = ({ handleOpenModal }: Props) => {
                 ) : (
                   <div
                     className={style.card}
-                    style={{
-                      cursor: isFutureDate(time) ? "pointer" : "default",
-                    }}
                     onClick={() => {
-                      isFutureDate(time) && handleOpenModal(time);
+                      handleOpenModal(time);
                     }}
                   />
                 )}

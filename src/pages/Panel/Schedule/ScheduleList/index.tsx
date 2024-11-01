@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import style from "./style.module.css";
-import SchedulerBarber from "../SchedulerBarber";
+import SchedulerBarber from "../SchedulingMode";
 import PerfilCard from "../../../../components/PerfilCard";
 import { useRecoilValue } from "recoil";
 import { schedulesFilterState } from "../../../../state/atom";
-import useLoadSchedules from "../../../../state/hooks/useSchedules/useLoadSchedules";
+import useLoadSchedules from "../../../../state/hooks/schedules/useLoadSchedules";
 import ServiceListCards from "./ServiceListCards";
 import ServiceList from "./ServiceList";
 import { dayNames, monthNames } from "../../../../utils/constants/constants";
-import { useEmployee } from "../../../../state/hooks/useEmployee/useEmployee";
+import { useEmployee } from "../../../../state/hooks/employee/useEmployee";
 
 const ScheduleList = () => {
   const employee = useEmployee();

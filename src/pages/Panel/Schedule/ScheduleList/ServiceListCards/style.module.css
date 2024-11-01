@@ -1,8 +1,9 @@
-#scheduling-list-cards{
+#scheduled_list_cards{
     display: flex;
     flex-direction: column;
     gap: 15px;
     justify-content: center;
     align-items: flex-start;
     padding: 20px;
+    border-radius: 0px 0px 10px 10px;
 }
