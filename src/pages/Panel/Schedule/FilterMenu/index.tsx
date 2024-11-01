@@ -1,23 +1,20 @@
 import style from "./style.module.css";
 import Calendar from "./Calendar";
-import { useRecoilState } from "recoil";
-import { schedulesFilterState } from "../../../../state/atom";
-import { IScheduleFilter } from "../../../../shared/interfaces/IScheduleFilter";
+import { useFilter } from "../../../../state/hooks/schedules/filter/useFilter";
+import { useSetFilter } from "../../../../state/hooks/schedules/filter/useSetFilter";
 
 const FilterMenu = () => {
-  const [filter, setFilter] = useRecoilState(schedulesFilterState);
+  const filter = useFilter();
+  const setFilter = useSetFilter();
 
   const onChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newFilter: IScheduleFilter = {
+    setFilter({...filter,
       date: filter.date,
-      status: filter.status,
-    };
-    if (filter.status !== event.target.id) {
-      newFilter.status = event.target.id;
-    } else {
-      newFilter.status = null;
-    }
-    setFilter(newFilter);
+      status: filter.status !== event.target.id ? event.target.id : null});
+  };
+
+  const onChangeInterval = (interval: number) => {
+    setFilter({ ...filter, scheduleMinuteInterval: interval });
   };
 
   return (
@@ -25,6 +22,8 @@ const FilterMenu = () => {
       <Calendar />
       <div className={style.filter}>
         <p className={style.filter__title}>Filtro</p>
+        <button onClick={() => onChangeInterval(30)}>30</button>
+        <button onClick={() => onChangeInterval(15)}>15</button>
         <span>
           <input
             id="confirmed"

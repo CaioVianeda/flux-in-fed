@@ -3,15 +3,16 @@ import style from "./style.module.css";
 import { useRecoilValue } from "recoil";
 import { schedulesFilterState } from "../../../../../state/atom";
 import useSchedules from "../../../../../state/hooks/schedules/useSchedules";
-import useFilteredSchedules from "../../../../../state/hooks/schedules/useFilteredSchedules";
+import useFilteredSchedules from "../../../../../state/hooks/schedules/filter/useFilteredSchedules";
 import { useEffect, useState } from "react";
+import { useFilter } from "../../../../../state/hooks/schedules/filter/useFilter";
 
 interface Props {
   handleOpenModal: (date: Date) => void;
 }
 
 const ServiceList = ({ handleOpenModal }: Props) => {
-  const filter = useRecoilValue(schedulesFilterState);
+  const filter = useFilter();
   const schedules = useSchedules();
   const filteredSchedules = useFilteredSchedules();
   const [timesSlots, setTimesSlots] = useState<Date[]>([]);
@@ -74,7 +75,7 @@ const ServiceList = ({ handleOpenModal }: Props) => {
   };
 
   useEffect(() => {
-    setTimesSlots(generateTimeSlots(filter.date, 30));
+    setTimesSlots(generateTimeSlots(filter.date, filter.scheduleMinuteInterval));
   }, [filter.date, schedules]);
 
   return (

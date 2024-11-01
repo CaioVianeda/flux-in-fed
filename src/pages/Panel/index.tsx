@@ -1,39 +1,18 @@
 import Header from "../../components/Header";
 import NavBar from "../../components/NavBar";
 import { Outlet, useLocation } from "react-router-dom";
-
 import style from "./style.module.css";
 import { memo, useEffect } from "react";
-import http from "../../service/http";
-import { IBarberShop } from "../../shared/interfaces/IBarberShop";
-import {  useSetRecoilState } from "recoil";
-import { employeeState } from "../../state/atom";
-import { useEmployee } from "../../state/hooks/employee/useEmployee";
 import { pagesTitle } from "../../utils/constants/constants";
-import { useEstablishment } from "../../state/hooks/establishment/useEstablishment";
-import { useSetEstablishment } from "../../state/hooks/establishment/useSetEstablishment";
+import { useLoadEmployee } from "../../state/hooks/employee/useLoadSetEmployee";
 
 const Panel = () => {
   const location = useLocation();
-  const employee = useEmployee();
-  const setEmployee = useSetRecoilState(employeeState)
-  const setEstablishment = useSetEstablishment();
+  const loadEmployee = useLoadEmployee();
 
   useEffect(() => {
-    http
-      .get("/barbeiros/1")
-      .then((response) => {
-        setEmployee(response.data);
-      });
+    loadEmployee(1);
   }, []);
-
-  useEffect(() => {
-    if (employee.id !== '0') {
-      http.get<IBarberShop>(`/barbearias/${employee.idBarbearia}`).then((response) => {
-        setEstablishment(response.data);
-      });
-    }
-  }, [employee]);
 
   return (
     <div id={style["container__main"]}>

@@ -38,7 +38,7 @@ export const schedulesState = atom<ISchedule[]>({
 
 export const schedulesFilterState = atom<IScheduleFilter>({
   key: 'schedulesFilterState',
-  default: {date: new Date(), status: null}
+  default: {date: new Date(), status: null, scheduleMinuteInterval: 30}
 })
 
 export const clientsState = atom<IClient[]>({
