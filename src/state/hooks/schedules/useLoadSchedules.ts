@@ -1,11 +1,11 @@
-import { useSetRecoilState } from "recoil";
-import { schedulesState } from "../../atom";
 import { ISchedule } from "../../../shared/interfaces/ISchedule";
-import { IBarber as IEmployee} from "../../../shared/interfaces/IBarber";
 import http from "../../../service/http";
+import { useEmployee } from "../employee/useEmployee";
+import { useSetSchedules } from "./useSetSchedules";
 
 const useLoadSchedules = () => {
-  const setSchedules = useSetRecoilState(schedulesState);
+  const employee = useEmployee();
+  const setSchedules = useSetSchedules();
 
   function formatDateToLocalDateTime(date: Date) {
     const year = date.getFullYear();
@@ -17,22 +17,23 @@ const useLoadSchedules = () => {
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
   }
 
-  return (employee: IEmployee, fromDate: Date, toDate: Date) => {
-
+  return (fromDate: Date, toDate: Date) => {
     const body = {
       dataInicial: formatDateToLocalDateTime(fromDate),
       dataFinal: formatDateToLocalDateTime(toDate),
     };
-    
-      http
-        .post<ISchedule[]>(`/atendimento/${employee.id}/filtrar`, body)
-        .then((response) => {
-          return setSchedules(response.data);
-        })
-        .catch((erro) => {
-          console.log(erro);
-        });
-
+    if(employee.id === '0' || employee.id === null){
+      setSchedules([]);
+    } else{
+    http
+      .post<ISchedule[]>(`/atendimento/${employee.id}/filtrar`, body)
+      .then((response) => {
+        return setSchedules(response.data);
+      })
+      .catch((error) => {
+        alert("Erro inesperado, entre em contato com o desenvolvedor.");
+        console.log(error);
+      });}
   };
 };
 

@@ -5,6 +5,7 @@ import { useSetEmployee } from "./useSetEmployee";
 export const useLoadEmployee = () => {
   const setEmployee = useSetEmployee();
   const loadEstablishment = useLoadEstablishment();
+
   return async (id: Number) => {
     await http
       .get(`/barbeiros/${id}`)

@@ -2,17 +2,16 @@ import { useEffect, useState } from "react";
 import style from "./style.module.css";
 import SchedulerBarber from "../SchedulingMode";
 import PerfilCard from "../../../../components/PerfilCard";
-import { useRecoilValue } from "recoil";
-import { schedulesFilterState } from "../../../../state/atom";
 import useLoadSchedules from "../../../../state/hooks/schedules/useLoadSchedules";
 import ServiceListCards from "./ServiceListCards";
 import ServiceList from "./ServiceList";
 import { dayNames, monthNames } from "../../../../utils/constants/constants";
 import { useEmployee } from "../../../../state/hooks/employee/useEmployee";
+import { useFilter } from "../../../../state/hooks/schedules/filter/useFilter";
 
 const ScheduleList = () => {
   const employee = useEmployee();
-  const filter = useRecoilValue(schedulesFilterState);
+  const filter = useFilter();
   const loadSchedules = useLoadSchedules();
   const [selectedHour, setSelectedHour] = useState<Date | null>(null);
   const [openModal, setOpenModal] = useState<Boolean>(false);
@@ -22,22 +21,20 @@ const ScheduleList = () => {
     today.setHours(0, 0, 0, 0);
     date.setHours(0, 0, 0, 0);
     return date >= today;
-  }
+  };
 
   const handleOpenModal = (hour: Date) => {
     setSelectedHour(hour);
     setOpenModal(true);
-  }
+  };
 
   useEffect(() => {
     const fromDate = new Date(filter.date);
     fromDate.setHours(0, 0, 0, 0);
     const toDate = new Date(filter.date);
     toDate.setHours(23, 59, 59, 999);
-    if (employee.id !== "0") {
-      loadSchedules(employee, fromDate, toDate);
-    }
-  }, [filter.date, employee, loadSchedules]);
+    loadSchedules(fromDate, toDate);
+  }, [filter.date, loadSchedules]);
 
   return (
     <>

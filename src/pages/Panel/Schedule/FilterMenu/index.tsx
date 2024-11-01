@@ -8,9 +8,10 @@ const FilterMenu = () => {
   const setFilter = useSetFilter();
 
   const onChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFilter({...filter,
-      date: filter.date,
-      status: filter.status !== event.target.id ? event.target.id : null});
+    setFilter({
+      ...filter,
+      status: filter.status !== event.target.id ? event.target.id : null,
+    });
   };
 
   const onChangeInterval = (interval: number) => {
@@ -21,9 +22,10 @@ const FilterMenu = () => {
     <div id={style["filter-menu"]}>
       <Calendar />
       <div className={style.filter}>
-        <p className={style.filter__title}>Filtro</p>
+        <p className={style.filter__title}>Intervalo da Agenda</p>
         <button onClick={() => onChangeInterval(30)}>30</button>
         <button onClick={() => onChangeInterval(15)}>15</button>
+        <p className={style.filter__title}>Filtro</p>
         <span>
           <input
             id="confirmed"

@@ -4,7 +4,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import style from "./style.module.css";
 import { memo, useEffect } from "react";
 import { pagesTitle } from "../../utils/constants/constants";
-import { useLoadEmployee } from "../../state/hooks/employee/useLoadSetEmployee";
+import { useLoadEmployee } from "../../state/hooks/employee/useLoadEmployee";
 
 const Panel = () => {
   const location = useLocation();
